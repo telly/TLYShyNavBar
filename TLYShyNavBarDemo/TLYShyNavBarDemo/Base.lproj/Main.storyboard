@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="XGk-6h-chh">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="ufC-wZ-h7g">
+            <objects>
+                <viewController id="vXZ-lx-hvc" customClass="TLYViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
+                        <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d0u-JZ-WMw">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sample" translatesAutoresizingMaskIntoConstraints="NO" id="RWp-Z1-nNI">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="800"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <connections>
+                                    <outlet property="delegate" destination="vXZ-lx-hvc" id="kxr-NG-k4Q"/>
+                                </connections>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="d0u-JZ-WMw" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="Q0J-kA-HLh"/>
+                            <constraint firstItem="d0u-JZ-WMw" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="-64" id="Unf-GQ-Oe7"/>
+                            <constraint firstAttribute="trailing" secondItem="d0u-JZ-WMw" secondAttribute="trailing" id="fQI-qM-aeE"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="bottom" secondItem="d0u-JZ-WMw" secondAttribute="bottom" id="x7m-de-P1d"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="vR6-NW-SQ1"/>
+                    <connections>
+                        <outlet property="imageView" destination="RWp-Z1-nNI" id="6fW-pD-yc1"/>
+                        <outlet property="scrollView" destination="d0u-JZ-WMw" id="BVu-7c-4oX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="397" y="-204"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="77F-I9-Peg">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="XGk-6h-chh" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="k3v-VM-xiB">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="myR-Px-RqD"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aBF-PB-KsZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-167" y="-204"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="sample" width="320" height="800"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

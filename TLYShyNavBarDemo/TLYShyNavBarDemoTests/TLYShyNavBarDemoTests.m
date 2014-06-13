@@ -1,6 +1,6 @@
 //
-//  TLYShyNavBarTests.m
-//  TLYShyNavBarTests
+//  TLYShyNavBarDemoTests.m
+//  TLYShyNavBarDemoTests
 //
 //  Created by Mazyad Alabduljaleel on 6/12/14.
 //  Copyright (c) 2014 Telly, Inc. All rights reserved.
@@ -8,11 +8,11 @@
 
 #import <XCTest/XCTest.h>
 
-@interface TLYShyNavBarTests : XCTestCase
+@interface TLYShyNavBarDemoTests : XCTestCase
 
 @end
 
-@implementation TLYShyNavBarTests
+@implementation TLYShyNavBarDemoTests
 
 - (void)setUp
 {

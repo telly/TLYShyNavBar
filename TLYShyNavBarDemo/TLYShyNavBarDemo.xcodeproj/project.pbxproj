@@ -1,0 +1,489 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8268F9F01949CC9D004EC0E4 /* UIViewController+ShyNavBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8268F9EF1949CC9D004EC0E4 /* UIViewController+ShyNavBar.m */; };
+		828F57201949C37B009EB8DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828F571F1949C37B009EB8DD /* Foundation.framework */; };
+		828F57221949C37B009EB8DD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828F57211949C37B009EB8DD /* CoreGraphics.framework */; };
+		828F57241949C37B009EB8DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828F57231949C37B009EB8DD /* UIKit.framework */; };
+		828F572A1949C37B009EB8DD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 828F57281949C37B009EB8DD /* InfoPlist.strings */; };
+		828F572C1949C37B009EB8DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 828F572B1949C37B009EB8DD /* main.m */; };
+		828F57301949C37B009EB8DD /* TLYAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 828F572F1949C37B009EB8DD /* TLYAppDelegate.m */; };
+		828F57331949C37B009EB8DD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 828F57311949C37B009EB8DD /* Main.storyboard */; };
+		828F57361949C37B009EB8DD /* TLYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828F57351949C37B009EB8DD /* TLYViewController.m */; };
+		828F57381949C37B009EB8DD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 828F57371949C37B009EB8DD /* Images.xcassets */; };
+		828F573F1949C37B009EB8DD /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828F573E1949C37B009EB8DD /* XCTest.framework */; };
+		828F57401949C37B009EB8DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828F571F1949C37B009EB8DD /* Foundation.framework */; };
+		828F57411949C37B009EB8DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828F57231949C37B009EB8DD /* UIKit.framework */; };
+		828F57491949C37B009EB8DD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 828F57471949C37B009EB8DD /* InfoPlist.strings */; };
+		828F574B1949C37B009EB8DD /* TLYShyNavBarDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 828F574A1949C37B009EB8DD /* TLYShyNavBarDemoTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		828F57421949C37B009EB8DD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 828F57141949C37B009EB8DD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 828F571B1949C37B009EB8DD;
+			remoteInfo = TLYShyNavBarDemo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		8268F9EE1949CC9D004EC0E4 /* UIViewController+ShyNavBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ShyNavBar.h"; sourceTree = "<group>"; };
+		8268F9EF1949CC9D004EC0E4 /* UIViewController+ShyNavBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ShyNavBar.m"; sourceTree = "<group>"; };
+		828F571C1949C37B009EB8DD /* TLYShyNavBarDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TLYShyNavBarDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		828F571F1949C37B009EB8DD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		828F57211949C37B009EB8DD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		828F57231949C37B009EB8DD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		828F57271949C37B009EB8DD /* TLYShyNavBarDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TLYShyNavBarDemo-Info.plist"; sourceTree = "<group>"; };
+		828F57291949C37B009EB8DD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		828F572B1949C37B009EB8DD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		828F572D1949C37B009EB8DD /* TLYShyNavBarDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TLYShyNavBarDemo-Prefix.pch"; sourceTree = "<group>"; };
+		828F572E1949C37B009EB8DD /* TLYAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLYAppDelegate.h; sourceTree = "<group>"; };
+		828F572F1949C37B009EB8DD /* TLYAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TLYAppDelegate.m; sourceTree = "<group>"; };
+		828F57321949C37B009EB8DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		828F57341949C37B009EB8DD /* TLYViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLYViewController.h; sourceTree = "<group>"; };
+		828F57351949C37B009EB8DD /* TLYViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TLYViewController.m; sourceTree = "<group>"; };
+		828F57371949C37B009EB8DD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		828F573D1949C37B009EB8DD /* TLYShyNavBarDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TLYShyNavBarDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		828F573E1949C37B009EB8DD /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		828F57461949C37B009EB8DD /* TLYShyNavBarDemoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TLYShyNavBarDemoTests-Info.plist"; sourceTree = "<group>"; };
+		828F57481949C37B009EB8DD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		828F574A1949C37B009EB8DD /* TLYShyNavBarDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TLYShyNavBarDemoTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		828F57191949C37B009EB8DD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				828F57221949C37B009EB8DD /* CoreGraphics.framework in Frameworks */,
+				828F57241949C37B009EB8DD /* UIKit.framework in Frameworks */,
+				828F57201949C37B009EB8DD /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		828F573A1949C37B009EB8DD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				828F573F1949C37B009EB8DD /* XCTest.framework in Frameworks */,
+				828F57411949C37B009EB8DD /* UIKit.framework in Frameworks */,
+				828F57401949C37B009EB8DD /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		828F57131949C37B009EB8DD = {
+			isa = PBXGroup;
+			children = (
+				828F57541949C381009EB8DD /* TLYShyNavBar */,
+				828F57251949C37B009EB8DD /* TLYShyNavBarDemo */,
+				828F57441949C37B009EB8DD /* TLYShyNavBarDemoTests */,
+				828F571E1949C37B009EB8DD /* Frameworks */,
+				828F571D1949C37B009EB8DD /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		828F571D1949C37B009EB8DD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				828F571C1949C37B009EB8DD /* TLYShyNavBarDemo.app */,
+				828F573D1949C37B009EB8DD /* TLYShyNavBarDemoTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		828F571E1949C37B009EB8DD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				828F571F1949C37B009EB8DD /* Foundation.framework */,
+				828F57211949C37B009EB8DD /* CoreGraphics.framework */,
+				828F57231949C37B009EB8DD /* UIKit.framework */,
+				828F573E1949C37B009EB8DD /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		828F57251949C37B009EB8DD /* TLYShyNavBarDemo */ = {
+			isa = PBXGroup;
+			children = (
+				828F572E1949C37B009EB8DD /* TLYAppDelegate.h */,
+				828F572F1949C37B009EB8DD /* TLYAppDelegate.m */,
+				828F57311949C37B009EB8DD /* Main.storyboard */,
+				828F57341949C37B009EB8DD /* TLYViewController.h */,
+				828F57351949C37B009EB8DD /* TLYViewController.m */,
+				828F57371949C37B009EB8DD /* Images.xcassets */,
+				828F57261949C37B009EB8DD /* Supporting Files */,
+			);
+			path = TLYShyNavBarDemo;
+			sourceTree = "<group>";
+		};
+		828F57261949C37B009EB8DD /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				828F57271949C37B009EB8DD /* TLYShyNavBarDemo-Info.plist */,
+				828F57281949C37B009EB8DD /* InfoPlist.strings */,
+				828F572B1949C37B009EB8DD /* main.m */,
+				828F572D1949C37B009EB8DD /* TLYShyNavBarDemo-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		828F57441949C37B009EB8DD /* TLYShyNavBarDemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				828F574A1949C37B009EB8DD /* TLYShyNavBarDemoTests.m */,
+				828F57451949C37B009EB8DD /* Supporting Files */,
+			);
+			path = TLYShyNavBarDemoTests;
+			sourceTree = "<group>";
+		};
+		828F57451949C37B009EB8DD /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				828F57461949C37B009EB8DD /* TLYShyNavBarDemoTests-Info.plist */,
+				828F57471949C37B009EB8DD /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		828F57541949C381009EB8DD /* TLYShyNavBar */ = {
+			isa = PBXGroup;
+			children = (
+				8268F9EE1949CC9D004EC0E4 /* UIViewController+ShyNavBar.h */,
+				8268F9EF1949CC9D004EC0E4 /* UIViewController+ShyNavBar.m */,
+			);
+			name = TLYShyNavBar;
+			path = ../TLYShyNavBar;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		828F571B1949C37B009EB8DD /* TLYShyNavBarDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 828F574E1949C37B009EB8DD /* Build configuration list for PBXNativeTarget "TLYShyNavBarDemo" */;
+			buildPhases = (
+				828F57181949C37B009EB8DD /* Sources */,
+				828F57191949C37B009EB8DD /* Frameworks */,
+				828F571A1949C37B009EB8DD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TLYShyNavBarDemo;
+			productName = TLYShyNavBarDemo;
+			productReference = 828F571C1949C37B009EB8DD /* TLYShyNavBarDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		828F573C1949C37B009EB8DD /* TLYShyNavBarDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 828F57511949C37B009EB8DD /* Build configuration list for PBXNativeTarget "TLYShyNavBarDemoTests" */;
+			buildPhases = (
+				828F57391949C37B009EB8DD /* Sources */,
+				828F573A1949C37B009EB8DD /* Frameworks */,
+				828F573B1949C37B009EB8DD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				828F57431949C37B009EB8DD /* PBXTargetDependency */,
+			);
+			name = TLYShyNavBarDemoTests;
+			productName = TLYShyNavBarDemoTests;
+			productReference = 828F573D1949C37B009EB8DD /* TLYShyNavBarDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		828F57141949C37B009EB8DD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = TLY;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "Telly, Inc.";
+				TargetAttributes = {
+					828F573C1949C37B009EB8DD = {
+						TestTargetID = 828F571B1949C37B009EB8DD;
+					};
+				};
+			};
+			buildConfigurationList = 828F57171949C37B009EB8DD /* Build configuration list for PBXProject "TLYShyNavBarDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 828F57131949C37B009EB8DD;
+			productRefGroup = 828F571D1949C37B009EB8DD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				828F571B1949C37B009EB8DD /* TLYShyNavBarDemo */,
+				828F573C1949C37B009EB8DD /* TLYShyNavBarDemoTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		828F571A1949C37B009EB8DD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				828F57381949C37B009EB8DD /* Images.xcassets in Resources */,
+				828F572A1949C37B009EB8DD /* InfoPlist.strings in Resources */,
+				828F57331949C37B009EB8DD /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		828F573B1949C37B009EB8DD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				828F57491949C37B009EB8DD /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		828F57181949C37B009EB8DD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				828F57301949C37B009EB8DD /* TLYAppDelegate.m in Sources */,
+				8268F9F01949CC9D004EC0E4 /* UIViewController+ShyNavBar.m in Sources */,
+				828F57361949C37B009EB8DD /* TLYViewController.m in Sources */,
+				828F572C1949C37B009EB8DD /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		828F57391949C37B009EB8DD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				828F574B1949C37B009EB8DD /* TLYShyNavBarDemoTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		828F57431949C37B009EB8DD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 828F571B1949C37B009EB8DD /* TLYShyNavBarDemo */;
+			targetProxy = 828F57421949C37B009EB8DD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		828F57281949C37B009EB8DD /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				828F57291949C37B009EB8DD /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		828F57311949C37B009EB8DD /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				828F57321949C37B009EB8DD /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		828F57471949C37B009EB8DD /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				828F57481949C37B009EB8DD /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		828F574C1949C37B009EB8DD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		828F574D1949C37B009EB8DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		828F574F1949C37B009EB8DD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TLYShyNavBarDemo/TLYShyNavBarDemo-Prefix.pch";
+				INFOPLIST_FILE = "TLYShyNavBarDemo/TLYShyNavBarDemo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		828F57501949C37B009EB8DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TLYShyNavBarDemo/TLYShyNavBarDemo-Prefix.pch";
+				INFOPLIST_FILE = "TLYShyNavBarDemo/TLYShyNavBarDemo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		828F57521949C37B009EB8DD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TLYShyNavBarDemo.app/TLYShyNavBarDemo";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TLYShyNavBarDemo/TLYShyNavBarDemo-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "TLYShyNavBarDemoTests/TLYShyNavBarDemoTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		828F57531949C37B009EB8DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TLYShyNavBarDemo.app/TLYShyNavBarDemo";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TLYShyNavBarDemo/TLYShyNavBarDemo-Prefix.pch";
+				INFOPLIST_FILE = "TLYShyNavBarDemoTests/TLYShyNavBarDemoTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		828F57171949C37B009EB8DD /* Build configuration list for PBXProject "TLYShyNavBarDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				828F574C1949C37B009EB8DD /* Debug */,
+				828F574D1949C37B009EB8DD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		828F574E1949C37B009EB8DD /* Build configuration list for PBXNativeTarget "TLYShyNavBarDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				828F574F1949C37B009EB8DD /* Debug */,
+				828F57501949C37B009EB8DD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		828F57511949C37B009EB8DD /* Build configuration list for PBXNativeTarget "TLYShyNavBarDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				828F57521949C37B009EB8DD /* Debug */,
+				828F57531949C37B009EB8DD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 828F57141949C37B009EB8DD /* Project object */;
+}
