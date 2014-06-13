@@ -8,6 +8,24 @@
 
 #import "TLYViewController.h"
 
+@interface UIBarButtonItem (Telly)
+
++ (UIBarButtonItem *)tly_flexibleSpaceButtonItem;
+
+@end
+
+@implementation UIBarButtonItem (Telly)
+
++ (UIBarButtonItem *)tly_flexibleSpaceButtonItem
+{
+    return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                         target:nil
+                                                         action:nil];
+}
+
+@end
+
+
 @interface TLYViewController ()
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -22,7 +40,6 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         self.title = @"WTFox Say";
-        self.toolbarItems = @[[[UIBarButtonItem alloc] initWithCustomView:[[UISegmentedControl alloc] initWithItems:@[@"One", @"Two"]]]];
     }
     return self;
 }
@@ -31,7 +48,20 @@
 {
     [super viewDidLoad];
     
-    self.navigationController.toolbarHidden = NO;
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 44.f)];
+    toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
+    toolbar.barTintColor = [UIColor whiteColor];
+    toolbar.items = @[[UIBarButtonItem tly_flexibleSpaceButtonItem],
+                      [[UIBarButtonItem alloc] initWithTitle:@"One" style:UIBarButtonItemStyleBordered target:nil action:nil],
+                      [UIBarButtonItem tly_flexibleSpaceButtonItem],
+                      [[UIBarButtonItem alloc] initWithTitle:@"Two" style:UIBarButtonItemStyleBordered target:nil action:nil],
+                      [UIBarButtonItem tly_flexibleSpaceButtonItem]];
+    
+    TLYShyNavBarController *shyController = [TLYShyNavBarController new];
+    shyController.scrollView = self.scrollView;
+    shyController.extensionView = toolbar;
+    
+    self.shyNavBarController = shyController;
 }
 
 - (void)viewDidLayoutSubviews
@@ -43,19 +73,17 @@
 
 #pragma mark - UIScrollViewDelegate methods
 
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    [self tly_scrollViewWillBeginDragging:scrollView];
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    [self tly_scrollViewDidScroll:scrollView];
-}
-
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    [self tly_scrollViewDidEndDragging:scrollView];
+    if (!decelerate)
+    {
+        [self.shyNavBarController scrollViewDidEndScrolling];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [self.shyNavBarController scrollViewDidEndScrolling];
 }
 
 @end

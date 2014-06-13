@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8268F9F01949CC9D004EC0E4 /* UIViewController+ShyNavBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8268F9EF1949CC9D004EC0E4 /* UIViewController+ShyNavBar.m */; };
+		8268F9FF194AE04B004EC0E4 /* TLYShyNavBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8268F9FE194AE04B004EC0E4 /* TLYShyNavBarController.m */; };
 		828F57201949C37B009EB8DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828F571F1949C37B009EB8DD /* Foundation.framework */; };
 		828F57221949C37B009EB8DD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828F57211949C37B009EB8DD /* CoreGraphics.framework */; };
 		828F57241949C37B009EB8DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828F57231949C37B009EB8DD /* UIKit.framework */; };
@@ -35,8 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8268F9EE1949CC9D004EC0E4 /* UIViewController+ShyNavBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ShyNavBar.h"; sourceTree = "<group>"; };
-		8268F9EF1949CC9D004EC0E4 /* UIViewController+ShyNavBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ShyNavBar.m"; sourceTree = "<group>"; };
+		8268F9FD194AE04B004EC0E4 /* TLYShyNavBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYShyNavBarController.h; sourceTree = "<group>"; };
+		8268F9FE194AE04B004EC0E4 /* TLYShyNavBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLYShyNavBarController.m; sourceTree = "<group>"; };
 		828F571C1949C37B009EB8DD /* TLYShyNavBarDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TLYShyNavBarDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		828F571F1949C37B009EB8DD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		828F57211949C37B009EB8DD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -159,8 +159,8 @@
 		828F57541949C381009EB8DD /* TLYShyNavBar */ = {
 			isa = PBXGroup;
 			children = (
-				8268F9EE1949CC9D004EC0E4 /* UIViewController+ShyNavBar.h */,
-				8268F9EF1949CC9D004EC0E4 /* UIViewController+ShyNavBar.m */,
+				8268F9FD194AE04B004EC0E4 /* TLYShyNavBarController.h */,
+				8268F9FE194AE04B004EC0E4 /* TLYShyNavBarController.m */,
 			);
 			name = TLYShyNavBar;
 			path = ../TLYShyNavBar;
@@ -265,8 +265,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				828F57301949C37B009EB8DD /* TLYAppDelegate.m in Sources */,
-				8268F9F01949CC9D004EC0E4 /* UIViewController+ShyNavBar.m in Sources */,
 				828F57361949C37B009EB8DD /* TLYViewController.m in Sources */,
+				8268F9FF194AE04B004EC0E4 /* TLYShyNavBarController.m in Sources */,
 				828F572C1949C37B009EB8DD /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
