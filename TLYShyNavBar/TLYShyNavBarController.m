@@ -18,16 +18,19 @@ static inline CGFloat AACStatusBarHeight()
     return MIN(statusBarSize.width, statusBarSize.height);
 }
 
+static const CGFloat contractionVelocity = 140.f;
 
 @interface TLYShyNavBarController () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, readonly) UINavigationBar *navBar;
 
-/* BAD: This is a cached value. Test when there is an active call, and try to compute this */
-@property (nonatomic) CGPoint initialNavBarCenter;
+@property (nonatomic, readonly) CGPoint expandedNavBarCenter;
+@property (nonatomic, readonly) CGPoint expandedExtensionCenter;
+
 @property (nonatomic) CGFloat previousYOffset;
 
-@property (nonatomic, getter = isContracting) BOOL contracting;
+@property (nonatomic, getter = isNavBarContracting) BOOL navBarContracting;
+@property (nonatomic, getter = isExtensionContracting) BOOL extensionContracting;
 
 @end
 
@@ -52,11 +55,7 @@ static inline CGFloat AACStatusBarHeight()
 
 - (void)setExtensionView:(UIView *)extensionView
 {
-    if (_extensionView.superview == self.viewController.navigationController.view)
-    {
-        [_extensionView removeFromSuperview];
-    }
-    
+    [_extensionView removeFromSuperview];
     _extensionView = extensionView;
 
     CGRect frame = extensionView.frame;
@@ -64,7 +63,13 @@ static inline CGFloat AACStatusBarHeight()
     
     extensionView.frame = frame;
     
-    [self.viewController.navigationController.view addSubview:extensionView];
+    [self.navBar.superview insertSubview:extensionView belowSubview:self.navBar];
+    
+    UIEdgeInsets scrollInsets = self.scrollView.contentInset;
+    scrollInsets.top = CGRectGetHeight(frame) + self.viewController.topLayoutGuide.length;
+    
+    self.scrollView.contentInset = scrollInsets;
+    self.scrollView.scrollIndicatorInsets = scrollInsets;
 }
 
 
@@ -72,7 +77,8 @@ static inline CGFloat AACStatusBarHeight()
 {
     _viewController = viewController;
     
-    self.initialNavBarCenter = self.navBar.center;
+    /* force reload extensionView */
+    self.extensionView = self.extensionView;
 }
 
 - (void)setScrollView:(UIScrollView *)scrollView
@@ -87,57 +93,108 @@ static inline CGFloat AACStatusBarHeight()
     return self.viewController.navigationController.navigationBar;
 }
 
+- (CGPoint)expandedNavBarCenter
+{
+    return CGPointMake(CGRectGetMidX(self.navBar.bounds),
+                       CGRectGetMidY(self.navBar.bounds) + AACStatusBarHeight());
+}
+
+- (CGPoint)expandedExtensionCenter
+{
+    return CGPointMake(CGRectGetMidX(self.extensionView.bounds),
+                       CGRectGetMidY(self.extensionView.bounds) + CGRectGetMaxY(self.navBar.frame));
+}
+
 #pragma mark - Private methods
 
-- (CGFloat)_contractionAmount
+- (CGFloat)_navBarContractionAmount
 {
     return CGRectGetHeight(self.navBar.bounds);
 }
 
+- (CGFloat)_extensionContractionAmount
+{
+    return CGRectGetHeight(self.extensionView.bounds);
+}
+
+- (CGFloat)_updateExtensionViewToState:(BOOL)contract
+{
+    CGFloat newCenterY = (contract
+                          ? self.expandedExtensionCenter.y - [self _extensionContractionAmount]
+                          : self.expandedExtensionCenter.y);
+    
+    return [self _updateView:self.extensionView toYOffset:newCenterY];
+}
+
 - (CGFloat)_updateNavigationBarToState:(BOOL)contract
 {
-    static const CGFloat velocity = 140.f;
-    
     CGFloat newCenterY = (contract
-                          ? self.initialNavBarCenter.y - [self _contractionAmount]
-                          : self.initialNavBarCenter.y);
+                          ? self.expandedNavBarCenter.y - [self _navBarContractionAmount]
+                          : self.expandedNavBarCenter.y);
     
-    CGFloat deltaY = newCenterY - self.navBar.center.y;
+    return [self _updateView:self.navBar toYOffset:newCenterY];
+}
+
+- (CGFloat)_updateView:(UIView *)view toYOffset:(CGFloat)yOffset
+{
+    CGFloat deltaY = yOffset - view.center.y;
+    BOOL isContracting = deltaY < 0;
     
-    [UIView animateWithDuration:fabs(deltaY/velocity)
+    [UIView animateWithDuration:fabs(deltaY/contractionVelocity)
                      animations:^{
-                         self.navBar.center = CGPointMake(self.navBar.center.x, newCenterY);
-                         [self _updateSubviewsAlpha:self.isContracting ? FLT_EPSILON : 1.f];
+                         view.center = CGPointMake(view.center.x, yOffset);
+                         [self _updateSubviewsAlpha:isContracting ? FLT_EPSILON : 1.f];
                      }];
     
     return deltaY;
 }
 
-- (void)_updateNavigationBarWithDeltaY:(CGFloat)deltaY
+- (CGFloat)_updateExtensionViewWithDeltaY:(CGFloat)deltaY
+{
+    CGPoint newCenter = self.extensionView.center;
+    CGFloat newYOffset = newCenter.y - deltaY;
+
+    newCenter.y = MAX(MIN(self.expandedExtensionCenter.y, newYOffset),
+                      self.expandedExtensionCenter.y - [self _extensionContractionAmount]);
+    
+    self.extensionView.center = newCenter;
+    
+    CGFloat newAlpha = 1.f - (self.expandedNavBarCenter.y - newCenter.y) / [self _extensionContractionAmount];
+    newAlpha = MIN(MAX(FLT_EPSILON, newAlpha), 1.f);
+    
+    self.extensionContracting = deltaY > 0;
+
+    CGFloat residualDelta = MIN(MAX(0, newYOffset - self.expandedExtensionCenter.y),
+                                newYOffset - self.expandedExtensionCenter.y + [self _extensionContractionAmount]);
+    
+    return -residualDelta;
+}
+
+- (CGFloat)_updateNavigationBarWithDeltaY:(CGFloat)deltaY
 {
     CGPoint newCenter = self.navBar.center;
-    newCenter.y = MAX(MIN(self.initialNavBarCenter.y, newCenter.y - deltaY),
-                      self.initialNavBarCenter.y - [self _contractionAmount]);
+    CGFloat newYOffset = newCenter.y - deltaY;
+
+    newCenter.y = MAX(MIN(self.expandedNavBarCenter.y, newYOffset),
+                      self.expandedNavBarCenter.y - [self _navBarContractionAmount]);
     
     self.navBar.center = newCenter;
     
-    CGFloat newAlpha = 1.f - (self.initialNavBarCenter.y - newCenter.y) / [self _contractionAmount];
+    CGFloat newAlpha = 1.f - (self.expandedNavBarCenter.y - newCenter.y) / [self _navBarContractionAmount];
     newAlpha = MIN(MAX(FLT_EPSILON, newAlpha), 1.f);
-    
-    NSMutableArray *navItems = [NSMutableArray array];
-    [navItems addObjectsFromArray:self.viewController.navigationItem.leftBarButtonItems];
-    [navItems addObjectsFromArray:self.viewController.navigationItem.rightBarButtonItems];
-    
-    if (self.navBar.topItem.titleView)
-    {
-        [navItems addObject:self.navBar.topItem.titleView];
-    }
     
     [self _updateSubviewsAlpha:newAlpha];
     
-    self.contracting = deltaY > 0;
+    self.navBarContracting = deltaY > 0;
+    
+    CGFloat residualDelta = MIN(MAX(0, newYOffset - self.expandedNavBarCenter.y),
+                                newYOffset - self.expandedNavBarCenter.y + [self _navBarContractionAmount]);
+    
+    return -residualDelta;
 }
 
+// This method is courtesy of GTScrollNavigationBar
+// https://github.com/luugiathuy/GTScrollNavigationBar
 - (void)_updateSubviewsAlpha:(CGFloat)alpha
 {
     for (UIView* view in self.navBar.subviews)
@@ -145,10 +202,10 @@ static inline CGFloat AACStatusBarHeight()
         bool isBackgroundView = view == self.navBar.subviews[0];
         bool isViewHidden = view.hidden || view.alpha < FLT_EPSILON;
         
-        if (isBackgroundView || isViewHidden)
-            continue;
-        
-        view.alpha = alpha;
+        if (!isBackgroundView && !isViewHidden)
+        {
+            view.alpha = alpha;
+        }
     }
 }
 
@@ -172,7 +229,16 @@ static inline CGFloat AACStatusBarHeight()
             deltaY = MAX(0, self.scrollView.contentOffset.y + deltaY + offset);
         }
         
-        [self _updateNavigationBarWithDeltaY:deltaY];
+        if (deltaY > 0)
+        {
+            deltaY = [self _updateExtensionViewWithDeltaY:deltaY];
+            [self _updateNavigationBarWithDeltaY:deltaY];
+        }
+        else
+        {
+            deltaY = [self _updateNavigationBarWithDeltaY:deltaY];
+            [self _updateExtensionViewWithDeltaY:deltaY];
+        }
     }
     
     self.previousYOffset = self.scrollView.contentOffset.y;
@@ -180,7 +246,8 @@ static inline CGFloat AACStatusBarHeight()
 
 - (void)_handleScrollingEnded
 {
-    CGFloat deltaY = [self _updateNavigationBarToState:self.isContracting];
+    CGFloat deltaY = [self _updateExtensionViewToState:self.extensionContracting];
+    deltaY += [self _updateNavigationBarToState:self.navBarContracting];
     
     CGPoint newContentOffset = self.scrollView.contentOffset;
     newContentOffset.y -= deltaY;
