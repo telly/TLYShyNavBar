@@ -62,11 +62,14 @@
 
 - (CGFloat)snap:(BOOL)contract
 {
-    CGFloat deltaY = (contract
-                      ? self.expandedCenterValue.y - self.view.center.y
-                      : self.expandedCenterValue.y - self.contractionAmountValue);
+    CGFloat newYCenter = (contract
+                          ? self.expandedCenterValue.y - self.contractionAmountValue
+                          : self.expandedCenterValue.y);
     
-    return [self updateYOffset:deltaY];
+    CGFloat deltaY = newYCenter - self.view.center.y;
+    [self updateYOffset:deltaY];
+    
+    return deltaY;
 }
 
 - (void)expand

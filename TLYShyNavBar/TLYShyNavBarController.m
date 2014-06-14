@@ -140,7 +140,10 @@ static const CGFloat contractionVelocity = 140.f;
             deltaY = MAX(0, deltaY - self.previousYOffset + end);
         }
         
-        self.isContracting = deltaY < 0;
+        if (fabs(deltaY) > FLT_EPSILON)
+        {
+            self.isContracting = deltaY < 0;
+        }
         
         deltaY = [(self.isContracting ? self.extensionController : self.navBarController) updateYOffset:deltaY];
         [(self.isContracting ? self.navBarController : self.extensionController) updateYOffset:deltaY];
@@ -151,8 +154,11 @@ static const CGFloat contractionVelocity = 140.f;
 
 - (void)_handleScrollingEnded
 {
+    TLYShyViewController *first = (self.isContracting ? self.extensionController : self.navBarController);
+    TLYShyViewController *second = (self.isContracting ? self.navBarController : self.extensionController);
     
-    CGFloat deltaY = 0.f;
+    CGFloat deltaY = [first snap:self.isContracting];
+    deltaY += [second snap:self.isContracting];
     
     CGPoint newContentOffset = self.scrollView.contentOffset;
     newContentOffset.y -= deltaY;
