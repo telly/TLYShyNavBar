@@ -45,6 +45,7 @@ static const CGFloat contractionVelocity = 140.f;
         self.previousYOffset = NAN;
         
         self.navBarController = [[TLYShyViewController alloc] init];
+        self.navBarController.hidesSubviews = YES;
         self.navBarController.expandedCenter = ^(UIView *view)
         {
             return CGPointMake(CGRectGetMidX(view.bounds),
@@ -60,6 +61,7 @@ static const CGFloat contractionVelocity = 140.f;
         self.extensionViewsContainer.backgroundColor = [UIColor clearColor];
         
         self.extensionController = [[TLYShyViewController alloc] init];
+        self.extensionController.hidesAfterContraction = YES;
         self.extensionController.view = self.extensionViewsContainer;
         self.extensionController.contractionAmount = ^(UIView *view)
         {

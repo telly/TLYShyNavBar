@@ -13,6 +13,8 @@
 @property (nonatomic) CGPoint expandedCenterValue;
 @property (nonatomic) CGFloat contractionAmountValue;
 
+@property (nonatomic) CGPoint contractedCenterValue;
+
 @end
 
 @implementation TLYShyViewController
@@ -26,6 +28,11 @@
 - (CGFloat)contractionAmountValue
 {
     return self.contractionAmount(self.view);
+}
+
+- (CGPoint)contractedCenterValue
+{
+    return CGPointMake(self.expandedCenterValue.x, self.expandedCenterValue.y - self.contractionAmountValue);
 }
 
 // This method is courtesy of GTScrollNavigationBar
@@ -47,14 +54,22 @@
 - (CGFloat)updateYOffset:(CGFloat)deltaY
 {
     CGFloat newYOffset = self.view.center.y + deltaY;
-    CGFloat newYCenter = MAX(MIN(self.expandedCenterValue.y, newYOffset), self.expandedCenterValue.y - self.contractionAmountValue);
+    CGFloat newYCenter = MAX(MIN(self.expandedCenterValue.y, newYOffset), self.contractedCenterValue.y);
     
     self.view.center = CGPointMake(self.expandedCenterValue.x, newYCenter);
     
     CGFloat newAlpha = 1.f - (self.expandedCenterValue.y - self.view.center.y) / self.contractionAmountValue;
     newAlpha = MIN(MAX(FLT_EPSILON, newAlpha), 1.f);
     
-    [self _updateSubviewsToAlpha:newAlpha];
+    if (self.hidesSubviews)
+    {
+        [self _updateSubviewsToAlpha:newAlpha];
+    }
+    
+    if (self.hidesAfterContraction)
+    {
+        self.view.hidden = fabs(newYCenter - self.contractedCenterValue.y) < FLT_EPSILON;
+    }
     
     CGFloat residual = newYOffset - newYCenter;
     return residual;
