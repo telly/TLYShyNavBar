@@ -51,15 +51,20 @@
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 44.f)];
     toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
     toolbar.barTintColor = [UIColor whiteColor];
+    toolbar.opaque = YES;
     toolbar.items = @[[UIBarButtonItem tly_flexibleSpaceButtonItem],
                       [[UIBarButtonItem alloc] initWithTitle:@"One" style:UIBarButtonItemStyleBordered target:nil action:nil],
                       [UIBarButtonItem tly_flexibleSpaceButtonItem],
                       [[UIBarButtonItem alloc] initWithTitle:@"Two" style:UIBarButtonItemStyleBordered target:nil action:nil],
                       [UIBarButtonItem tly_flexibleSpaceButtonItem]];
     
-    TLYShyNavBarController *shyController = [TLYShyNavBarController new];
+    UIView *view = [[UIView alloc] initWithFrame:toolbar.frame];
+    view.backgroundColor = [UIColor redColor];
+    
+    TLYShyNavBarManager *shyController = [TLYShyNavBarManager new];
     shyController.scrollView = self.scrollView;
-    shyController.extensionView = toolbar;
+    
+    [shyController addExtensionView:view];
     
     self.shyNavBarController = shyController;
 }
@@ -68,6 +73,7 @@
 {
     [super viewDidLayoutSubviews];
     
+    self.shyNavBarController = self.shyNavBarController;
     self.scrollView.contentSize = self.imageView.bounds.size;
 }
 

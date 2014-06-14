@@ -1,5 +1,5 @@
 //
-//  TLYShyNavBarController.h
+//  TLYShyNavBarManager.h
 //  TLYShyNavBarDemo
 //
 //  Created by Mazyad Alabduljaleel on 6/13/14.
@@ -14,19 +14,19 @@
  *  controller.
  */
 
-@interface TLYShyNavBarController : NSObject
+@interface TLYShyNavBarManager : NSObject
 
 @property (nonatomic, readonly) UIViewController *viewController;
 
 @property (nonatomic, weak) UIScrollView *scrollView;
-@property (nonatomic, strong) UIView *extensionView;
 
+- (void)addExtensionView:(UIView *)view;
 - (void)scrollViewDidEndScrolling;
 
 @end
 
 @interface UIViewController (ShyNavBar)
 
-@property (nonatomic, strong) TLYShyNavBarController *shyNavBarController;
+@property (nonatomic, strong) TLYShyNavBarManager *shyNavBarController;
 
 @end
