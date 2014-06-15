@@ -50,28 +50,40 @@ const CGFloat contractionVelocity = 140.f;
     }
 }
 
-- (CGFloat)updateYOffset:(CGFloat)deltaY
+- (CGFloat)_updateYOffset:(CGFloat)deltaY overrideLimit:(BOOL)override
 {
+    if (self.child && deltaY < 0)
+    {
+        deltaY = [self.child updateYOffset:deltaY];
+    }
+    
     CGFloat newYOffset = self.view.center.y + deltaY;
-    CGFloat newYCenter = MAX(MIN(self.expandedCenterValue.y, newYOffset), self.contractedCenterValue.y);
+    CGFloat newYCenter = override ? newYOffset : MAX(MIN(self.expandedCenterValue.y, newYOffset), self.contractedCenterValue.y);
     
     self.view.center = CGPointMake(self.expandedCenterValue.x, newYCenter);
     
-    CGFloat newAlpha = 1.f - (self.expandedCenterValue.y - self.view.center.y) / self.contractionAmountValue;
-    newAlpha = MIN(MAX(FLT_EPSILON, newAlpha), 1.f);
-    
     if (self.hidesSubviews)
     {
+        CGFloat newAlpha = 1.f - (self.expandedCenterValue.y - self.view.center.y) / self.contractionAmountValue;
+        newAlpha = MIN(MAX(FLT_EPSILON, newAlpha), 1.f);
+    
         [self _updateSubviewsToAlpha:newAlpha];
     }
     
-    if (self.hidesAfterContraction)
+    CGFloat residual = newYOffset - newYCenter;
+    self.child.view.center = CGPointMake(self.child.view.center.x, self.child.view.center.y + deltaY - residual);
+    
+    if (self.child && deltaY > 0)
     {
-        self.view.alpha = fabs(newYCenter - self.contractedCenterValue.y) < FLT_EPSILON ? 0.f : 1.f;
+        residual = [self.child updateYOffset:residual];
     }
     
-    CGFloat residual = newYOffset - newYCenter;
     return residual;
+}
+
+- (CGFloat)updateYOffset:(CGFloat)deltaY
+{
+    return [self _updateYOffset:deltaY overrideLimit:NO];
 }
 
 - (CGFloat)snap:(BOOL)contract afterDelay:(NSTimeInterval)delay
@@ -81,8 +93,21 @@ const CGFloat contractionVelocity = 140.f;
                           : self.expandedCenterValue.y);
     
     CGFloat deltaY = newYCenter - self.view.center.y;
+    CGFloat duration = fabs(deltaY/contractionVelocity);
     
-    [UIView animateWithDuration:fabs(deltaY/contractionVelocity)
+    if (contract)
+    {
+        CGFloat childDelta = [self.child snap:contract afterDelay:delay];
+        delay = fabs(childDelta/contractionVelocity);
+        
+        deltaY += childDelta;
+    }
+    else
+    {
+        deltaY += [self.child snap:contract afterDelay:delay+duration];
+    }
+    
+    [UIView animateWithDuration:duration
                           delay:delay
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
