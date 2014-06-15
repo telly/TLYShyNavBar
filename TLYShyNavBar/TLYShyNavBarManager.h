@@ -17,6 +17,7 @@
 @interface TLYShyNavBarManager : NSObject
 
 @property (nonatomic, readonly) UIViewController *viewController;
+@property (nonatomic, readonly) UIView *extensionViewsContainer;
 
 @property (nonatomic, weak) UIScrollView *scrollView;
 

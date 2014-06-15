@@ -22,8 +22,7 @@ static inline CGFloat AACStatusBarHeight()
 @interface TLYShyNavBarManager () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) TLYShyViewController *navBarController;
-
-@property (nonatomic, strong) UIView *extensionViewsContainer;
+@property (nonatomic, readwrite) UIView *extensionViewsContainer;
 
 @property (nonatomic) CGFloat previousYOffset;
 
