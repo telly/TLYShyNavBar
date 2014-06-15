@@ -21,7 +21,6 @@ static inline CGFloat AACStatusBarHeight()
 
 @interface TLYShyNavBarManager () <UIGestureRecognizerDelegate>
 
-@property (nonatomic, strong) TLYShyViewController *extensionController;
 @property (nonatomic, strong) TLYShyViewController *navBarController;
 
 @property (nonatomic, strong) UIView *extensionViewsContainer;
@@ -33,6 +32,8 @@ static inline CGFloat AACStatusBarHeight()
 @end
 
 @implementation TLYShyNavBarManager
+
+#pragma mark - Init & Dealloc
 
 - (instancetype)init
 {
@@ -57,20 +58,21 @@ static inline CGFloat AACStatusBarHeight()
         self.extensionViewsContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100.f, 0.f)];
         self.extensionViewsContainer.backgroundColor = [UIColor clearColor];
         
-        self.extensionController = [[TLYShyViewController alloc] init];
-        self.extensionController.hidesAfterContraction = YES;
-        self.extensionController.view = self.extensionViewsContainer;
-        self.extensionController.contractionAmount = ^(UIView *view)
+        TLYShyViewController *extensionController = [[TLYShyViewController alloc] init];
+        extensionController.view = self.extensionViewsContainer;
+        extensionController.contractionAmount = ^(UIView *view)
         {
             return CGRectGetHeight(view.bounds);
         };
         
         __weak typeof(self) weakSelf = self;
-        self.extensionController.expandedCenter = ^(UIView *view)
+        extensionController.expandedCenter = ^(UIView *view)
         {
             return CGPointMake(CGRectGetMidX(view.bounds),
                                CGRectGetMidY(view.bounds) + weakSelf.viewController.topLayoutGuide.length);
         };
+        
+        self.navBarController.child = extensionController;
     }
     return self;
 }
@@ -82,13 +84,6 @@ static inline CGFloat AACStatusBarHeight()
 
 #pragma mark - Properties
 
-- (void)addExtensionView:(UIView *)view
-{
-    // TODO: expand the container instead of just adding it on top
-    self.extensionViewsContainer.frame = view.bounds;
-    [self.extensionViewsContainer addSubview:view];
-}
-
 - (void)setViewController:(UIViewController *)viewController
 {
     _viewController = viewController;
@@ -98,7 +93,7 @@ static inline CGFloat AACStatusBarHeight()
     
     self.navBarController.view = viewController.navigationController.navigationBar;
     
-    [self _layoutViews];
+    [self layoutViews];
 }
 
 - (void)setScrollView:(UIScrollView *)scrollView
@@ -109,17 +104,6 @@ static inline CGFloat AACStatusBarHeight()
 }
 
 #pragma mark - Private methods
-
-- (void)_layoutViews
-{
-    [self.extensionController expand];
-    
-    UIEdgeInsets scrollInsets = self.scrollView.contentInset;
-    scrollInsets.top = CGRectGetHeight(self.extensionViewsContainer.bounds) + self.viewController.topLayoutGuide.length;
-    
-    self.scrollView.contentInset = scrollInsets;
-    self.scrollView.scrollIndicatorInsets = scrollInsets;
-}
 
 - (void)_handleScrolling
 {
@@ -145,8 +129,7 @@ static inline CGFloat AACStatusBarHeight()
             self.isContracting = deltaY < 0;
         }
         
-        deltaY = [(self.isContracting ? self.extensionController : self.navBarController) updateYOffset:deltaY];
-        [(self.isContracting ? self.navBarController : self.extensionController) updateYOffset:deltaY];
+        [self.navBarController updateYOffset:deltaY];
     }
     
     self.previousYOffset = self.scrollView.contentOffset.y;
@@ -154,16 +137,10 @@ static inline CGFloat AACStatusBarHeight()
 
 - (void)_handleScrollingEnded
 {
-    TLYShyViewController *first = (self.isContracting ? self.extensionController : self.navBarController);
-    TLYShyViewController *second = (self.isContracting ? self.navBarController : self.extensionController);
-    
     NSTimeInterval duration = 0;
     CGFloat deltaY = 0;
     
-    deltaY = [first snap:self.isContracting afterDelay:duration];
-    duration = fabs(deltaY/contractionVelocity);
-    
-    deltaY += [second snap:self.isContracting afterDelay:duration];
+    deltaY = [self.navBarController snap:self.isContracting afterDelay:duration];
     duration = fabs(deltaY/contractionVelocity);
     
     CGPoint newContentOffset = self.scrollView.contentOffset;
@@ -175,10 +152,32 @@ static inline CGFloat AACStatusBarHeight()
                      }];
 }
 
+#pragma mark - public methods
+
+- (void)layoutViews
+{
+    [self.navBarController expand];
+    
+    UIEdgeInsets scrollInsets = self.scrollView.contentInset;
+    scrollInsets.top = CGRectGetHeight(self.extensionViewsContainer.bounds) + self.viewController.topLayoutGuide.length;
+    
+    self.scrollView.contentInset = scrollInsets;
+    self.scrollView.scrollIndicatorInsets = scrollInsets;
+}
+
+- (void)addExtensionView:(UIView *)view
+{
+    // TODO: expand the container instead of just adding it on top
+    self.extensionViewsContainer.frame = view.bounds;
+    [self.extensionViewsContainer addSubview:view];
+}
+
 - (void)scrollViewDidEndScrolling
 {
     [self _handleScrollingEnded];
 }
+
+#pragma mark - KVO methods
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {

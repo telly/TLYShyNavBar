@@ -21,6 +21,8 @@
 @property (nonatomic, weak) UIScrollView *scrollView;
 
 - (void)addExtensionView:(UIView *)view;
+
+- (void)layoutViews;
 - (void)scrollViewDidEndScrolling;
 
 @end
