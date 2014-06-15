@@ -8,6 +8,8 @@
 
 #import "TLYShyViewController.h"
 
+const CGFloat contractionVelocity = 140.f;
+
 @interface TLYShyViewController ()
 
 @property (nonatomic) CGPoint expandedCenterValue;
@@ -68,21 +70,27 @@
     
     if (self.hidesAfterContraction)
     {
-        self.view.hidden = fabs(newYCenter - self.contractedCenterValue.y) < FLT_EPSILON;
+        self.view.alpha = fabs(newYCenter - self.contractedCenterValue.y) < FLT_EPSILON ? 0.f : 1.f;
     }
     
     CGFloat residual = newYOffset - newYCenter;
     return residual;
 }
 
-- (CGFloat)snap:(BOOL)contract
+- (CGFloat)snap:(BOOL)contract afterDelay:(NSTimeInterval)delay
 {
     CGFloat newYCenter = (contract
                           ? self.expandedCenterValue.y - self.contractionAmountValue
                           : self.expandedCenterValue.y);
     
     CGFloat deltaY = newYCenter - self.view.center.y;
-    [self updateYOffset:deltaY];
+    
+    [UIView animateWithDuration:fabs(deltaY/contractionVelocity)
+                          delay:delay
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         [self updateYOffset:deltaY];
+                     } completion:nil];
     
     return deltaY;
 }

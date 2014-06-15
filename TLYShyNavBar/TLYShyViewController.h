@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+extern const CGFloat contractionVelocity;
+
 typedef CGPoint(^TLYShyViewControllerExpandedCenterBlock)(UIView *view);
 typedef CGFloat(^TLYShyViewControllerContractionAmountBlock)(UIView *view);
 
@@ -23,7 +25,7 @@ typedef CGFloat(^TLYShyViewControllerContractionAmountBlock)(UIView *view);
 
 - (CGFloat)updateYOffset:(CGFloat)deltaY;
 
-- (CGFloat)snap:(BOOL)contract;
+- (CGFloat)snap:(BOOL)contract afterDelay:(NSTimeInterval)delay;
 
 - (void)expand;
 - (void)contract;

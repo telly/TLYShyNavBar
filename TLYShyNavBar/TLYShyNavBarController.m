@@ -19,9 +19,6 @@ static inline CGFloat AACStatusBarHeight()
     return MIN(statusBarSize.width, statusBarSize.height);
 }
 
-static const CGFloat contractionVelocity = 140.f;
-
-
 @interface TLYShyNavBarManager () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) TLYShyViewController *extensionController;
@@ -87,6 +84,7 @@ static const CGFloat contractionVelocity = 140.f;
 
 - (void)addExtensionView:(UIView *)view
 {
+    // TODO: expand the container instead of just adding it on top
     self.extensionViewsContainer.frame = view.bounds;
     [self.extensionViewsContainer addSubview:view];
 }
@@ -159,8 +157,14 @@ static const CGFloat contractionVelocity = 140.f;
     TLYShyViewController *first = (self.isContracting ? self.extensionController : self.navBarController);
     TLYShyViewController *second = (self.isContracting ? self.navBarController : self.extensionController);
     
-    CGFloat deltaY = [first snap:self.isContracting];
-    deltaY += [second snap:self.isContracting];
+    NSTimeInterval duration = 0;
+    CGFloat deltaY = 0;
+    
+    deltaY = [first snap:self.isContracting afterDelay:duration];
+    duration = fabs(deltaY/contractionVelocity);
+    
+    deltaY += [second snap:self.isContracting afterDelay:duration];
+    duration = fabs(deltaY/contractionVelocity);
     
     CGPoint newContentOffset = self.scrollView.contentOffset;
     newContentOffset.y -= deltaY;
