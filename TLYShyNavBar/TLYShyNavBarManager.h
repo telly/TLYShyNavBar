@@ -29,6 +29,6 @@
 
 @interface UIViewController (ShyNavBar)
 
-@property (nonatomic, strong) TLYShyNavBarManager *shyNavBarController;
+@property (nonatomic, strong) TLYShyNavBarManager *shyNavBarManager;
 
 @end

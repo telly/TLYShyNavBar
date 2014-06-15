@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Telly, Inc. All rights reserved.
 //
 
-#import "TLYShyNavBarController.h"
+#import "TLYShyNavBarManager.h"
 #import "TLYShyViewController.h"
 #import <objc/runtime.h>
 
@@ -149,9 +149,11 @@ static inline CGFloat AACStatusBarHeight()
     newContentOffset.y -= deltaY;
     
     [UIView animateWithDuration:fabs(deltaY/contractionVelocity)
+                          delay:0
+                        options:UIViewAnimationOptionCurveLinear
                      animations:^{
                          self.scrollView.contentOffset = newContentOffset;
-                     }];
+                     } completion:nil];
 }
 
 #pragma mark - public methods
@@ -192,19 +194,19 @@ static inline CGFloat AACStatusBarHeight()
 @end
 
 
-static char shyNavBarControllerKey;
+static char shyNavBarManagerKey;
 
 @implementation UIViewController (ShyNavBar)
 
-- (void)setShyNavBarController:(TLYShyNavBarManager *)shyNavBarController
+- (void)setShyNavBarManager:(TLYShyNavBarManager *)shyNavBarManager
 {
-    shyNavBarController.viewController = self;
-    objc_setAssociatedObject(self, &shyNavBarControllerKey, shyNavBarController, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    shyNavBarManager.viewController = self;
+    objc_setAssociatedObject(self, &shyNavBarManagerKey, shyNavBarManager, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (TLYShyNavBarManager *)shyNavBarController
+- (TLYShyNavBarManager *)shyNavBarManager
 {
-    return objc_getAssociatedObject(self, &shyNavBarControllerKey);
+    return objc_getAssociatedObject(self, &shyNavBarManagerKey);
 }
 
 @end

@@ -8,7 +8,7 @@
 
 #import "TLYShyViewController.h"
 
-const CGFloat contractionVelocity = 140.f;
+const CGFloat contractionVelocity = 240.f;
 
 @interface TLYShyViewController ()
 
@@ -108,7 +108,7 @@ const CGFloat contractionVelocity = 140.f;
     
     [UIView animateWithDuration:duration
                           delay:delay
-                        options:UIViewAnimationOptionCurveEaseInOut
+                        options:UIViewAnimationOptionCurveLinear
                      animations:^{
                          [self updateYOffset:deltaY];
                      } completion:nil];
