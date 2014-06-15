@@ -37,16 +37,13 @@ const CGFloat contractionVelocity = 140.f;
     return CGPointMake(self.expandedCenterValue.x, self.expandedCenterValue.y - self.contractionAmountValue);
 }
 
-// This method is courtesy of GTScrollNavigationBar
-// https://github.com/luugiathuy/GTScrollNavigationBar
 - (void)_updateSubviewsToAlpha:(CGFloat)alpha
 {
     for (UIView* view in self.view.subviews)
     {
-        bool isBackgroundView = view == self.view.subviews[0];
-        bool isViewHidden = view.hidden || view.alpha < FLT_EPSILON;
-        
-        if (!isBackgroundView && !isViewHidden)
+        NSString *className = NSStringFromClass([view class]);
+        if (![className isEqualToString:@"_UINavigationBarBackground"] &&
+            ![className isEqualToString:@"_UINavigationBarBackIndicatorView"])
         {
             view.alpha = alpha;
         }
