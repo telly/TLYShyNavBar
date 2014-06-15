@@ -71,7 +71,6 @@ const CGFloat contractionVelocity = 140.f;
     }
     
     CGFloat residual = newYOffset - newYCenter;
-    self.child.view.center = CGPointMake(self.child.view.center.x, self.child.view.center.y + deltaY - residual);
     
     if (self.child && deltaY > 0)
     {
