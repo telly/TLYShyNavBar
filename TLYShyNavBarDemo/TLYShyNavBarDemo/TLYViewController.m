@@ -66,14 +66,14 @@
     
     [shyController addExtensionView:view];
     
-    self.shyNavBarController = shyController;
+    self.shyNavBarManager = shyController;
 }
 
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
     
-    self.shyNavBarController = self.shyNavBarController;
+    [self.shyNavBarManager layoutViews];
     self.scrollView.contentSize = self.imageView.bounds.size;
 }
 
@@ -83,13 +83,13 @@
 {
     if (!decelerate)
     {
-        [self.shyNavBarController scrollViewDidEndScrolling];
+        [self.shyNavBarManager scrollViewDidEndScrolling];
     }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    [self.shyNavBarController scrollViewDidEndScrolling];
+    [self.shyNavBarManager scrollViewDidEndScrolling];
 }
 
 @end

@@ -119,6 +119,7 @@ const CGFloat contractionVelocity = 240.f;
 - (void)expand
 {
     self.view.center = self.expandedCenter(self.view);
+    [self.child expand];
 }
 
 - (void)contract
