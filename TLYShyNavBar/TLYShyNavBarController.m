@@ -169,8 +169,10 @@ static inline CGFloat AACStatusBarHeight()
     CGPoint newContentOffset = self.scrollView.contentOffset;
     newContentOffset.y -= deltaY;
     
-    // TODO: manually animate content offset to match navbar animation
-    [self.scrollView setContentOffset:newContentOffset animated:YES];
+    [UIView animateWithDuration:fabs(deltaY/contractionVelocity)
+                     animations:^{
+                         self.scrollView.contentOffset = newContentOffset;
+                     }];
 }
 
 - (void)scrollViewDidEndScrolling
