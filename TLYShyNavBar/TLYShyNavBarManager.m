@@ -22,6 +22,8 @@ static inline CGFloat AACStatusBarHeight()
 @interface TLYShyNavBarManager () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) TLYShyViewController *navBarController;
+@property (nonatomic, strong) TLYShyViewController *extensionController;
+
 @property (nonatomic, readwrite) UIView *extensionViewsContainer;
 
 @property (nonatomic) CGFloat previousYOffset;
@@ -57,21 +59,22 @@ static inline CGFloat AACStatusBarHeight()
         self.extensionViewsContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100.f, 0.f)];
         self.extensionViewsContainer.backgroundColor = [UIColor clearColor];
         
-        TLYShyViewController *extensionController = [[TLYShyViewController alloc] init];
-        extensionController.view = self.extensionViewsContainer;
-        extensionController.contractionAmount = ^(UIView *view)
+        self.extensionController = [[TLYShyViewController alloc] init];
+        self.extensionController.view = self.extensionViewsContainer;
+        self.extensionController.hidesAfterContraction = YES;
+        self.extensionController.contractionAmount = ^(UIView *view)
         {
             return CGRectGetHeight(view.bounds);
         };
         
         __weak typeof(self) weakSelf = self;
-        extensionController.expandedCenter = ^(UIView *view)
+        self.extensionController.expandedCenter = ^(UIView *view)
         {
             return CGPointMake(CGRectGetMidX(view.bounds),
                                CGRectGetMidY(view.bounds) + weakSelf.viewController.topLayoutGuide.length);
         };
         
-        self.navBarController.child = extensionController;
+        self.navBarController.child = self.extensionController;
     }
     return self;
 }
@@ -148,11 +151,9 @@ static inline CGFloat AACStatusBarHeight()
     newContentOffset.y -= deltaY;
     
     [UIView animateWithDuration:fabs(deltaY/contractionVelocity)
-                          delay:0
-                        options:UIViewAnimationOptionCurveLinear
                      animations:^{
                          self.scrollView.contentOffset = newContentOffset;
-                     } completion:nil];
+                     }];
 }
 
 #pragma mark - public methods
