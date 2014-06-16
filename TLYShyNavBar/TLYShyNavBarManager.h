@@ -26,6 +26,8 @@
 - (void)layoutViews;
 - (void)scrollViewDidEndScrolling;
 
+- (void)cleanup;
+
 @end
 
 @interface UIViewController (ShyNavBar)

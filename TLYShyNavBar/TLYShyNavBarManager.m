@@ -68,7 +68,7 @@ static inline CGFloat AACStatusBarHeight()
         extensionController.expandedCenter = ^(UIView *view)
         {
             return CGPointMake(CGRectGetMidX(view.bounds),
-                               CGRectGetMidY(view.bounds) + CGRectGetHeight(weakSelf.navBarController.view.bounds));
+                               CGRectGetMidY(view.bounds) + weakSelf.viewController.topLayoutGuide.length);
         };
         
         self.navBarController.child = extensionController;
@@ -90,7 +90,7 @@ static inline CGFloat AACStatusBarHeight()
     UIView *navbar = viewController.navigationController.navigationBar;
     
     [self.extensionViewsContainer removeFromSuperview];
-    [navbar insertSubview:self.extensionViewsContainer atIndex:0];
+    [self.viewController.view addSubview:self.extensionViewsContainer];
     
     self.navBarController.view = navbar;
     
@@ -157,6 +157,13 @@ static inline CGFloat AACStatusBarHeight()
 
 #pragma mark - public methods
 
+- (void)addExtensionView:(UIView *)view
+{
+    // TODO: expand the container instead of just adding it on top
+    self.extensionViewsContainer.frame = view.bounds;
+    [self.extensionViewsContainer addSubview:view];
+}
+
 - (void)layoutViews
 {
     [self.navBarController expand];
@@ -168,16 +175,14 @@ static inline CGFloat AACStatusBarHeight()
     self.scrollView.scrollIndicatorInsets = scrollInsets;
 }
 
-- (void)addExtensionView:(UIView *)view
-{
-    // TODO: expand the container instead of just adding it on top
-    self.extensionViewsContainer.frame = view.bounds;
-    [self.extensionViewsContainer addSubview:view];
-}
-
 - (void)scrollViewDidEndScrolling
 {
     [self _handleScrollingEnded];
+}
+
+- (void)cleanup
+{
+    [self.navBarController cleanup];
 }
 
 #pragma mark - KVO methods

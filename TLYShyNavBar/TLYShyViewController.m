@@ -8,9 +8,12 @@
 
 #import "TLYShyViewController.h"
 
-const CGFloat contractionVelocity = 240.f;
+const CGFloat contractionVelocity = 40.f;
 
 @interface TLYShyViewController ()
+
+@property (nonatomic, weak) TLYShyViewController *parent;
+@property (nonatomic, readonly) CGFloat parentYOffset;
 
 @property (nonatomic) CGPoint expandedCenterValue;
 @property (nonatomic) CGFloat contractionAmountValue;
@@ -20,6 +23,13 @@ const CGFloat contractionVelocity = 240.f;
 @end
 
 @implementation TLYShyViewController
+
+- (void)setChild:(TLYShyViewController *)child
+{
+    _child.parent = nil;
+    _child = child;
+    _child.parent = self;
+}
 
 // convenience
 - (CGPoint)expandedCenterValue
@@ -37,6 +47,17 @@ const CGFloat contractionVelocity = 240.f;
     return CGPointMake(self.expandedCenterValue.x, self.expandedCenterValue.y - self.contractionAmountValue);
 }
 
+- (CGFloat)parentYOffset
+{
+    CGFloat parentOffset = 0;
+    if (self.parent)
+    {
+        parentOffset = MIN(0, self.parent.view.center.y - self.parent.expandedCenterValue.y);
+    }
+    
+    return parentOffset;
+}
+
 - (void)_updateSubviewsToAlpha:(CGFloat)alpha
 {
     for (UIView* view in self.view.subviews)
@@ -50,31 +71,30 @@ const CGFloat contractionVelocity = 240.f;
     }
 }
 
-- (CGFloat)_updateYOffset:(CGFloat)deltaY overrideLimit:(BOOL)override
+- (CGFloat)_updateYOffsetInternal:(CGFloat)deltaY
 {
-    if (self.child && deltaY < 0)
+    CGFloat newYOffset = self.view.center.y + deltaY - self.parentYOffset;
+    CGFloat newYCenter = MAX(MIN(self.expandedCenterValue.y, newYOffset), self.contractedCenterValue.y);
+    
+    CGFloat residual = newYOffset - newYCenter;
+    
+    if (self.parent && deltaY < 0)
     {
-        deltaY = [self.child updateYOffset:deltaY];
+        residual = [self.parent _updateYOffsetInternal:residual];
+    }
+    else if (self.child && deltaY > 0)
+    {
+        residual = [self.child _updateYOffsetInternal:residual];
     }
     
-    CGFloat newYOffset = self.view.center.y + deltaY;
-    CGFloat newYCenter = override ? newYOffset : MAX(MIN(self.expandedCenterValue.y, newYOffset), self.contractedCenterValue.y);
-    
-    self.view.center = CGPointMake(self.expandedCenterValue.x, newYCenter);
+    self.view.center = CGPointMake(self.expandedCenterValue.x, newYCenter + self.parentYOffset);
     
     if (self.hidesSubviews)
     {
         CGFloat newAlpha = 1.f - (self.expandedCenterValue.y - self.view.center.y) / self.contractionAmountValue;
         newAlpha = MIN(MAX(FLT_EPSILON, newAlpha), 1.f);
-    
+        
         [self _updateSubviewsToAlpha:newAlpha];
-    }
-    
-    CGFloat residual = newYOffset - newYCenter;
-    
-    if (self.child && deltaY > 0)
-    {
-        residual = [self.child updateYOffset:residual];
     }
     
     return residual;
@@ -82,7 +102,14 @@ const CGFloat contractionVelocity = 240.f;
 
 - (CGFloat)updateYOffset:(CGFloat)deltaY
 {
-    return [self _updateYOffset:deltaY overrideLimit:NO];
+    if (self.child && deltaY < 0)
+    {
+        return [self.child updateYOffset:deltaY];
+    }
+    else
+    {
+        return [self _updateYOffsetInternal:deltaY];
+    }
 }
 
 - (CGFloat)snap:(BOOL)contract afterDelay:(NSTimeInterval)delay
@@ -91,13 +118,13 @@ const CGFloat contractionVelocity = 240.f;
                           ? self.expandedCenterValue.y - self.contractionAmountValue
                           : self.expandedCenterValue.y);
     
-    CGFloat deltaY = newYCenter - self.view.center.y;
+    CGFloat deltaY = newYCenter - (self.view.center.y - self.parentYOffset);
     CGFloat duration = fabs(deltaY/contractionVelocity);
     
     if (contract)
     {
         CGFloat childDelta = [self.child snap:contract afterDelay:delay];
-        delay = fabs(childDelta/contractionVelocity);
+        delay += fabs(childDelta/contractionVelocity);
         
         deltaY += childDelta;
     }
@@ -106,12 +133,16 @@ const CGFloat contractionVelocity = 240.f;
         deltaY += [self.child snap:contract afterDelay:delay+duration];
     }
     
-    [UIView animateWithDuration:duration
-                          delay:delay
-                        options:UIViewAnimationOptionCurveLinear
-                     animations:^{
-                         [self updateYOffset:deltaY];
-                     } completion:nil];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^
+    {
+        NSLog(@"delay: %.4f", delay);
+        [UIView animateWithDuration:duration
+                              delay:0
+                            options:UIViewAnimationOptionCurveLinear
+                         animations:^{
+                             [self updateYOffset:deltaY];
+                         } completion:nil];
+    });
     
     return deltaY;
 }
@@ -124,7 +155,17 @@ const CGFloat contractionVelocity = 240.f;
 
 - (void)contract
 {
+    // Not needed?
+}
+
+- (void)cleanup
+{
+    if (self.hidesSubviews)
+    {
+        [self _updateSubviewsToAlpha:1.f];
+    }
     
+    [self.child cleanup];
 }
 
 @end

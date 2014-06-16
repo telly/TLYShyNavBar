@@ -69,6 +69,12 @@
     self.shyNavBarManager = shyController;
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.shyNavBarManager cleanup];
+}
+
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];

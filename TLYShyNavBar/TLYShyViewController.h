@@ -43,4 +43,6 @@ typedef CGFloat(^TLYShyViewControllerContractionAmountBlock)(UIView *view);
 - (void)expand;
 - (void)contract;
 
+- (void)cleanup;
+
 @end
