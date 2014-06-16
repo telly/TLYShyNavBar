@@ -141,16 +141,13 @@ static inline CGFloat AACStatusBarHeight()
 
 - (void)_handleScrollingEnded
 {
-    NSTimeInterval duration = 0;
-    CGFloat deltaY = 0;
-    
-    deltaY = [self.navBarController snap:self.isContracting afterDelay:duration];
-    duration = fabs(deltaY/contractionVelocity);
-    
+
+    CGFloat deltaY = deltaY = [self.navBarController snap:self.isContracting];
     CGPoint newContentOffset = self.scrollView.contentOffset;
+    
     newContentOffset.y -= deltaY;
     
-    [UIView animateWithDuration:fabs(deltaY/contractionVelocity)
+    [UIView animateWithDuration:0.2
                      animations:^{
                          self.scrollView.contentOffset = newContentOffset;
                      }];

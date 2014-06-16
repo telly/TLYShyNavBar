@@ -37,10 +37,10 @@ typedef CGFloat(^TLYShyViewControllerContractionAmountBlock)(UIView *view);
 
 - (CGFloat)updateYOffset:(CGFloat)deltaY;
 
-- (CGFloat)snap:(BOOL)contract afterDelay:(NSTimeInterval)delay;
+- (CGFloat)snap:(BOOL)contract;
 
-- (void)expand;
-- (void)contract;
+- (CGFloat)expand;
+- (CGFloat)contract;
 
 - (void)cleanup;
 

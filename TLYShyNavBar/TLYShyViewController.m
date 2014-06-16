@@ -8,7 +8,7 @@
 
 #import "TLYShyViewController.h"
 
-const CGFloat contractionVelocity = 40.f;
+const CGFloat contractionVelocity = 300.f;
 
 @interface TLYShyViewController ()
 
@@ -16,6 +16,9 @@ const CGFloat contractionVelocity = 40.f;
 @property (nonatomic) CGFloat contractionAmountValue;
 
 @property (nonatomic) CGPoint contractedCenterValue;
+
+@property (nonatomic, getter = isContracted) BOOL contracted;
+@property (nonatomic, getter = isExpanded) BOOL expanded;
 
 @end
 
@@ -35,6 +38,16 @@ const CGFloat contractionVelocity = 40.f;
 - (CGPoint)contractedCenterValue
 {
     return CGPointMake(self.expandedCenterValue.x, self.expandedCenterValue.y - self.contractionAmountValue);
+}
+
+- (BOOL)isContracted
+{
+    return fabs(self.view.center.y - self.contractedCenterValue.y) < FLT_EPSILON;
+}
+
+- (BOOL)isExpanded
+{
+    return fabs(self.view.center.y - self.expandedCenterValue.y) < FLT_EPSILON;
 }
 
 // This method is courtesy of GTScrollNavigationBar
@@ -85,32 +98,53 @@ const CGFloat contractionVelocity = 40.f;
     return residual;
 }
 
-- (CGFloat)snap:(BOOL)contract afterDelay:(NSTimeInterval)delay
+- (CGFloat)snap:(BOOL)contract
 {
-    CGFloat newYCenter = (contract
-                          ? self.expandedCenterValue.y - self.contractionAmountValue
-                          : self.expandedCenterValue.y);
+    /* "The Facebook" UX dictates that:
+     *
+     *      1 - When you contract:
+     *          A - contract beyond the extension view -> contract the whole thing
+     *          B - contract within the extension view -> expand the extension back
+     *
+     *      2 - When you expand:
+     *          A - expand beyond the navbar -> expand the whole thing
+     *          B - expand within the navbar -> contract the navbar back
+     */
     
-    CGFloat deltaY = newYCenter - self.view.center.y;
-    CGFloat duration = fabs(deltaY/contractionVelocity);
-    
-    [UIView animateWithDuration:duration
-                     animations:^{
-                         [self updateYOffset:deltaY];
-                     }];
+    __block CGFloat deltaY;
+    [UIView animateWithDuration:0.2 animations:^
+    {
+        if ((contract && self.child.isContracted) || (!contract && !self.isExpanded))
+        {
+            deltaY = [self contract];
+        }
+        else
+        {
+            deltaY = [self.child expand];
+        }
+    }];
     
     return deltaY;
 }
 
-- (void)expand
+- (CGFloat)expand
 {
-    self.view.center = self.expandedCenter(self.view);
+    CGFloat amountToMove = self.expandedCenterValue.y - self.view.center.y;
+
+    self.view.center = self.expandedCenterValue;
     [self.child expand];
+    
+    return amountToMove;
 }
 
-- (void)contract
+- (CGFloat)contract
 {
-    // Not needed?
+    CGFloat amountToMove = self.contractedCenterValue.y - self.view.center.y;
+
+    self.view.center = self.contractedCenterValue;
+    [self.child contract];
+    
+    return amountToMove;
 }
 
 - (void)cleanup
