@@ -16,17 +16,25 @@
 
 @interface TLYShyNavBarManager : NSObject
 
+/* The view controller that is part of the navigation stack
+ * IMPORTANT: Must have access to navigationController
+ */
 @property (nonatomic, readonly) UIViewController *viewController;
-@property (nonatomic, readonly) UIView *extensionViewsContainer;
 
+/* The container to contain the extension view, if any. Exposed to
+ * allow the developer to adjust content offset as necessary
+ */
+@property (nonatomic, readonly) UIView *extensionViewContainer;
+
+/* The scrollView subclass that will drive the contraction/expansion */
 @property (nonatomic, weak) UIScrollView *scrollView;
 
-- (void)addExtensionView:(UIView *)view;
+- (void)setExtensionView:(UIView *)view;
 
+/* Needs to be called in viewDidLayoutSubviews */
 - (void)layoutViews;
+/* Needs to be called in two places.. Please refer to the demo */
 - (void)scrollViewDidEndScrolling;
-
-- (void)cleanup;
 
 @end
 

@@ -64,15 +64,9 @@
     TLYShyNavBarManager *shyController = [TLYShyNavBarManager new];
     shyController.scrollView = self.scrollView;
     
-    [shyController addExtensionView:view];
+    [shyController setExtensionView:view];
     
     self.shyNavBarManager = shyController;
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [self.shyNavBarManager cleanup];
 }
 
 - (void)viewDidLayoutSubviews

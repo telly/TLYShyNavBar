@@ -147,13 +147,4 @@ const CGFloat contractionVelocity = 300.f;
     return amountToMove;
 }
 
-- (void)cleanup
-{
-    if (self.hidesSubviews)
-    {
-        [self _updateSubviewsToAlpha:1.f];
-    }
-    [self.child cleanup];
-}
-
 @end

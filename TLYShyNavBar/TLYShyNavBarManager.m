@@ -24,7 +24,7 @@ static inline CGFloat AACStatusBarHeight()
 @property (nonatomic, strong) TLYShyViewController *navBarController;
 @property (nonatomic, strong) TLYShyViewController *extensionController;
 
-@property (nonatomic, readwrite) UIView *extensionViewsContainer;
+@property (nonatomic, readwrite) UIView *extensionViewContainer;
 
 @property (nonatomic) CGFloat previousYOffset;
 
@@ -56,11 +56,11 @@ static inline CGFloat AACStatusBarHeight()
             return CGRectGetHeight(view.bounds);
         };
         
-        self.extensionViewsContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100.f, 0.f)];
-        self.extensionViewsContainer.backgroundColor = [UIColor clearColor];
+        self.extensionViewContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100.f, 0.f)];
+        self.extensionViewContainer.backgroundColor = [UIColor clearColor];
         
         self.extensionController = [[TLYShyViewController alloc] init];
-        self.extensionController.view = self.extensionViewsContainer;
+        self.extensionController.view = self.extensionViewContainer;
         self.extensionController.hidesAfterContraction = YES;
         self.extensionController.contractionAmount = ^(UIView *view)
         {
@@ -92,8 +92,8 @@ static inline CGFloat AACStatusBarHeight()
     
     UIView *navbar = viewController.navigationController.navigationBar;
     
-    [self.extensionViewsContainer removeFromSuperview];
-    [self.viewController.view addSubview:self.extensionViewsContainer];
+    [self.extensionViewContainer removeFromSuperview];
+    [self.viewController.view addSubview:self.extensionViewContainer];
     
     self.navBarController.view = navbar;
     
@@ -155,11 +155,11 @@ static inline CGFloat AACStatusBarHeight()
 
 #pragma mark - public methods
 
-- (void)addExtensionView:(UIView *)view
+- (void)setExtensionView:(UIView *)view
 {
     // TODO: expand the container instead of just adding it on top
-    self.extensionViewsContainer.frame = view.bounds;
-    [self.extensionViewsContainer addSubview:view];
+    self.extensionViewContainer.frame = view.bounds;
+    [self.extensionViewContainer addSubview:view];
 }
 
 - (void)layoutViews
@@ -167,7 +167,7 @@ static inline CGFloat AACStatusBarHeight()
     [self.navBarController expand];
     
     UIEdgeInsets scrollInsets = self.scrollView.contentInset;
-    scrollInsets.top = CGRectGetHeight(self.extensionViewsContainer.bounds) + self.viewController.topLayoutGuide.length;
+    scrollInsets.top = CGRectGetHeight(self.extensionViewContainer.bounds) + self.viewController.topLayoutGuide.length;
     
     self.scrollView.contentInset = scrollInsets;
     self.scrollView.scrollIndicatorInsets = scrollInsets;
@@ -176,11 +176,6 @@ static inline CGFloat AACStatusBarHeight()
 - (void)scrollViewDidEndScrolling
 {
     [self _handleScrollingEnded];
-}
-
-- (void)cleanup
-{
-    [self.navBarController cleanup];
 }
 
 #pragma mark - KVO methods
