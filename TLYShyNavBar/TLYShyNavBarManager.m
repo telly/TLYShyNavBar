@@ -79,7 +79,7 @@ static inline CGFloat AACStatusBarHeight()
         self.extensionController.expandedCenter = ^(UIView *view)
         {
             return CGPointMake(CGRectGetMidX(view.bounds),
-                               CGRectGetMidY(view.bounds) + weakSelf.viewController.topLayoutGuide.length);
+                               CGRectGetMidY(view.bounds) + weakSelf.viewController.realTopLayoutGuide.length);
         };
         
         self.navBarController.child = self.extensionController;
@@ -198,10 +198,15 @@ static inline CGFloat AACStatusBarHeight()
     [self.extensionViewContainer addSubview:view];
 }
 
+- (void)prepareForDisplay
+{
+    [self.navBarController expand];
+}
+
 - (void)layoutViews
 {
     [self.navBarController expand];
-    
+        
     UIEdgeInsets scrollInsets = self.scrollView.contentInset;
     scrollInsets.top = CGRectGetHeight(self.extensionViewContainer.bounds) + self.viewController.topLayoutGuide.length;
     

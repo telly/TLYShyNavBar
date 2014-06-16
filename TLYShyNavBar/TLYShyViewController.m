@@ -129,6 +129,13 @@ const CGFloat contractionVelocity = 300.f;
 
 - (CGFloat)expand
 {
+    self.view.hidden = NO;
+    
+    if (self.hidesSubviews)
+    {
+        [self _updateSubviewsToAlpha:1.f];
+    }
+    
     CGFloat amountToMove = self.expandedCenterValue.y - self.view.center.y;
 
     self.view.center = self.expandedCenterValue;

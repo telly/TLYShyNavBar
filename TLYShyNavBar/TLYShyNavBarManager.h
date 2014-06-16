@@ -46,6 +46,8 @@
 
 - (void)setExtensionView:(UIView *)view;
 
+/* Needs to be called in viewWillAppear */
+- (void)prepareForDisplay;
 /* Needs to be called in viewDidLayoutSubviews */
 - (void)layoutViews;
 /* Needs to be called in two places.. Please refer to the demo */
