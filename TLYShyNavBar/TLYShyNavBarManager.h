@@ -10,8 +10,17 @@
 
 /*  CLASS DESCRIPTION:
  *  ==================
- *      Manages the relationship between a scrollView and a navigation
- *  controller.
+ *      Manages the relationship between a scrollView and a view
+ *  controller. Must be instantiated and assigned the scrollView
+ *  that drives the contraction/expansion, then assigned to the
+ *  viewController that needs the functionality. Must be assigned
+ *  throught the UIViewController category:
+ *      
+ *  viewController.shyNavManager = ...;
+ *
+ *      OR
+ *
+ *  [viewController addShyNavManagerWithScrollView:scrollView]
  */
 
 @interface TLYShyNavBarManager : NSObject
@@ -21,13 +30,19 @@
  */
 @property (nonatomic, readonly) UIViewController *viewController;
 
+/* The scrollView subclass that will drive the contraction/expansion */
+@property (nonatomic, weak) UIScrollView *scrollView;
+
 /* The container to contain the extension view, if any. Exposed to
  * allow the developer to adjust content offset as necessary
  */
 @property (nonatomic, readonly) UIView *extensionViewContainer;
 
-/* The scrollView subclass that will drive the contraction/expansion */
-@property (nonatomic, weak) UIScrollView *scrollView;
+/* Control the resistance when scrolling up/down before the navbar 
+ * expands/contracts again.
+ */
+@property (nonatomic) CGFloat expansionResistance;      // default 200
+@property (nonatomic) CGFloat contractionResistance;    // default 0
 
 - (void)setExtensionView:(UIView *)view;
 
@@ -41,5 +56,8 @@
 @interface UIViewController (ShyNavBar)
 
 @property (nonatomic, strong) TLYShyNavBarManager *shyNavBarManager;
+
+// Convenience
+- (void)addShyNavBarManagerWithScrollView:(UIScrollView *)scrollView;
 
 @end

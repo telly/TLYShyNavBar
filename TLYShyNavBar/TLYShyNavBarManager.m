@@ -27,8 +27,10 @@ static inline CGFloat AACStatusBarHeight()
 @property (nonatomic, readwrite) UIView *extensionViewContainer;
 
 @property (nonatomic) CGFloat previousYOffset;
+@property (nonatomic) CGFloat resistanceConsumed;
 
-@property (nonatomic, getter = isContracting) BOOL isContracting;
+@property (nonatomic, getter = isContracting) BOOL contracting;
+@property (nonatomic) BOOL previousContractionState;
 
 @end
 
@@ -41,6 +43,12 @@ static inline CGFloat AACStatusBarHeight()
     self = [super init];
     if (self)
     {
+        self.contracting = NO;
+        self.previousContractionState = YES;
+        
+        self.expansionResistance = 100.f;
+        self.contractionResistance = 0.f;
+        
         self.previousYOffset = NAN;
         
         self.navBarController = [[TLYShyViewController alloc] init];
@@ -113,8 +121,10 @@ static inline CGFloat AACStatusBarHeight()
 {
     if (!isnan(self.previousYOffset))
     {
+        // 1 - Calculate the delta
         CGFloat deltaY = (self.previousYOffset - self.scrollView.contentOffset.y);
 
+        // 2 - Ignore any scrollOffset beyond the bounds
         CGFloat start = -self.scrollView.contentInset.top;
         if (self.previousYOffset < start)
         {
@@ -128,11 +138,36 @@ static inline CGFloat AACStatusBarHeight()
             deltaY = MAX(0, deltaY - self.previousYOffset + end);
         }
         
+        // 3 - Update contracting variable
         if (fabs(deltaY) > FLT_EPSILON)
         {
-            self.isContracting = deltaY < 0;
+            self.contracting = deltaY < 0;
         }
         
+        // 4 - Check if contracting state changed, and do stuff if so
+        if (self.isContracting != self.previousContractionState)
+        {
+            self.previousContractionState = self.isContracting;
+            self.resistanceConsumed = 0;
+        }
+
+        // 5 - Apply resistance
+        if (self.isContracting)
+        {
+            CGFloat availableResistance = self.contractionResistance - self.resistanceConsumed;
+            self.resistanceConsumed = MIN(self.contractionResistance, self.resistanceConsumed - deltaY);
+
+            deltaY = MIN(0, availableResistance + deltaY);
+        }
+        else if (self.scrollView.contentOffset.y > -AACStatusBarHeight())
+        {
+            CGFloat availableResistance = self.expansionResistance - self.resistanceConsumed;
+            self.resistanceConsumed = MIN(self.expansionResistance, self.resistanceConsumed + deltaY);
+            
+            deltaY = MAX(0, deltaY - availableResistance);
+        }
+        
+        // 6 - Update the shyViewController
         [self.navBarController updateYOffset:deltaY];
     }
     
@@ -141,7 +176,8 @@ static inline CGFloat AACStatusBarHeight()
 
 - (void)_handleScrollingEnded
 {
-
+    self.resistanceConsumed = 0;
+    
     CGFloat deltaY = deltaY = [self.navBarController snap:self.isContracting];
     CGPoint newContentOffset = self.scrollView.contentOffset;
     
@@ -204,6 +240,14 @@ static char shyNavBarManagerKey;
 - (TLYShyNavBarManager *)shyNavBarManager
 {
     return objc_getAssociatedObject(self, &shyNavBarManagerKey);
+}
+
+- (void)addShyNavBarManagerWithScrollView:(UIScrollView *)scrollView
+{
+    TLYShyNavBarManager *shyManager = [TLYShyNavBarManager new];
+    shyManager.scrollView = scrollView;
+    
+    self.shyNavBarManager = shyManager;
 }
 
 @end
