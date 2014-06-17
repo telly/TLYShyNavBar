@@ -52,6 +52,8 @@
 - (void)layoutViews;
 /* Needs to be called in two places.. Please refer to the demo */
 - (void)scrollViewDidEndScrolling;
+/* Needs to be called on viewWillDisappear */
+- (void)cleanup;
 
 @end
 

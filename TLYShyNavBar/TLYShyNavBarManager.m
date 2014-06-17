@@ -66,6 +66,7 @@ static inline CGFloat AACStatusBarHeight()
         
         self.extensionViewContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100.f, 0.f)];
         self.extensionViewContainer.backgroundColor = [UIColor clearColor];
+        self.extensionViewContainer.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
         
         self.extensionController = [[TLYShyViewController alloc] init];
         self.extensionController.view = self.extensionViewContainer;
@@ -193,9 +194,15 @@ static inline CGFloat AACStatusBarHeight()
 
 - (void)setExtensionView:(UIView *)view
 {
-    // TODO: expand the container instead of just adding it on top
-    self.extensionViewContainer.frame = view.bounds;
-    [self.extensionViewContainer addSubview:view];
+    if (view != [self.extensionViewContainer.subviews firstObject])
+    {
+        [[self.extensionViewContainer.subviews firstObject] removeFromSuperview];
+        // TODO: expand the container instead of just adding it on top
+        self.extensionViewContainer.frame = view.bounds;
+        [self.extensionViewContainer addSubview:view];
+        
+        [self layoutViews];
+    }
 }
 
 - (void)prepareForDisplay
@@ -212,6 +219,11 @@ static inline CGFloat AACStatusBarHeight()
     
     self.scrollView.contentInset = scrollInsets;
     self.scrollView.scrollIndicatorInsets = scrollInsets;
+}
+
+- (void)cleanup
+{
+    [self.navBarController expand];
 }
 
 - (void)scrollViewDidEndScrolling
