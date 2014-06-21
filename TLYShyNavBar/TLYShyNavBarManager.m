@@ -8,6 +8,7 @@
 
 #import "TLYShyNavBarManager.h"
 #import "TLYShyViewController.h"
+#import "UIViewController+BetterLayoutGuides.h"
 #import <objc/runtime.h>
 
 // Thanks to SO user, MattDiPasquale
@@ -80,7 +81,7 @@ static inline CGFloat AACStatusBarHeight()
         self.extensionController.expandedCenter = ^(UIView *view)
         {
             return CGPointMake(CGRectGetMidX(view.bounds),
-                               CGRectGetMidY(view.bounds) + weakSelf.viewController.realTopLayoutGuide.length);
+                               CGRectGetMidY(view.bounds) + weakSelf.viewController.tly_topLayoutGuide.length);
         };
         
         self.navBarController.child = self.extensionController;
