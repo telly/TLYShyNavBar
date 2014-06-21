@@ -64,6 +64,7 @@
     TLYShyNavBarManager *shyController = [TLYShyNavBarManager new];
     shyController.scrollView = self.scrollView;
     
+    /* Can then be remove by setting the ExtensionView to nil */
     [shyController setExtensionView:view];
     
     self.shyNavBarManager = shyController;
