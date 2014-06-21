@@ -2,6 +2,7 @@
 # TODO
 
 + **REALLY need to import the `realTopLayoutGuide` categories**
++ **REALLY need to cleanup scrollView observer properly**
 + Add ability to remove extension view
 + Add tolerance customization 
 + Add more convenience methods for the `UIViewController` category
