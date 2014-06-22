@@ -8,24 +8,6 @@
 
 #import "TLYViewController.h"
 
-@interface UIBarButtonItem (Telly)
-
-+ (UIBarButtonItem *)tly_flexibleSpaceButtonItem;
-
-@end
-
-@implementation UIBarButtonItem (Telly)
-
-+ (UIBarButtonItem *)tly_flexibleSpaceButtonItem
-{
-    return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-                                                         target:nil
-                                                         action:nil];
-}
-
-@end
-
-
 @interface TLYViewController ()
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -48,17 +30,7 @@
 {
     [super viewDidLoad];
     
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 44.f)];
-    toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
-    toolbar.barTintColor = [UIColor whiteColor];
-    toolbar.opaque = YES;
-    toolbar.items = @[[UIBarButtonItem tly_flexibleSpaceButtonItem],
-                      [[UIBarButtonItem alloc] initWithTitle:@"One" style:UIBarButtonItemStyleBordered target:nil action:nil],
-                      [UIBarButtonItem tly_flexibleSpaceButtonItem],
-                      [[UIBarButtonItem alloc] initWithTitle:@"Two" style:UIBarButtonItemStyleBordered target:nil action:nil],
-                      [UIBarButtonItem tly_flexibleSpaceButtonItem]];
-    
-    UIView *view = [[UIView alloc] initWithFrame:toolbar.frame];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 44.f)];
     view.backgroundColor = [UIColor redColor];
     
     TLYShyNavBarManager *shyController = [TLYShyNavBarManager new];
