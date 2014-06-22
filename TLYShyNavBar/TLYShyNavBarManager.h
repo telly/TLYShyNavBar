@@ -28,7 +28,7 @@
 /* The view controller that is part of the navigation stack
  * IMPORTANT: Must have access to navigationController
  */
-@property (nonatomic, readonly) UIViewController *viewController;
+@property (nonatomic, readonly, weak) UIViewController *viewController;
 
 /* The scrollView subclass that will drive the contraction/expansion */
 @property (nonatomic, weak) UIScrollView *scrollView;
