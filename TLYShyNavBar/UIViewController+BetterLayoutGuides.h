@@ -10,9 +10,9 @@
 
 /*  CATEGORY DESCRIPTION:
  *  =====================
- *      Apparently, Apple fucked up when they implemented autolayout
+ *      Apparently, Apple messed up when they implemented autolayout
  *  somehow, so when we have child view controllers, they get wrong
- *  layout guides. This helps accomodate that fuck up.
+ *  layout guides. This helps accomodate that problem.
  *
  *  Courtesy of http://stackoverflow.com/questions/19140530/toplayoutguide-in-child-view-controller
  */

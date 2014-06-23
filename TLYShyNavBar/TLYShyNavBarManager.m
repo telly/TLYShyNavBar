@@ -91,7 +91,7 @@ static inline CGFloat AACStatusBarHeight()
 
 - (void)dealloc
 {
-    [_scrollView removeObserver:self forKeyPath:@"contentOffset"];
+    [self _cleanupScrollViewAttachments];
 }
 
 #pragma mark - Properties
@@ -112,12 +112,21 @@ static inline CGFloat AACStatusBarHeight()
 
 - (void)setScrollView:(UIScrollView *)scrollView
 {
-    [_scrollView removeObserver:self forKeyPath:@"contentOffset"];
+    [self _cleanupScrollViewAttachments];
+    
     _scrollView = scrollView;
+    
     [_scrollView addObserver:self forKeyPath:@"contentOffset" options:0 context:NULL];
+    [_scrollView.panGestureRecognizer addTarget:self action:@selector(gestureRecognizerUpdate:)];
 }
 
 #pragma mark - Private methods
+
+- (void)_cleanupScrollViewAttachments
+{
+    [_scrollView removeObserver:self forKeyPath:@"contentOffset"];
+    [_scrollView.panGestureRecognizer removeTarget:self action:@selector(gestureRecognizerUpdate:)];
+}
 
 - (void)_handleScrolling
 {
@@ -195,10 +204,11 @@ static inline CGFloat AACStatusBarHeight()
 
 - (void)setExtensionView:(UIView *)view
 {
-    if (view != [self.extensionViewContainer.subviews firstObject])
+    UIView *previousExtensionView = [self.extensionViewContainer.subviews firstObject];
+    if (view != previousExtensionView)
     {
-        [[self.extensionViewContainer.subviews firstObject] removeFromSuperview];
-        // TODO: expand the container instead of just adding it on top
+        [previousExtensionView removeFromSuperview];
+
         self.extensionViewContainer.frame = view.bounds;
         [self.extensionViewContainer addSubview:view];
         
@@ -230,6 +240,24 @@ static inline CGFloat AACStatusBarHeight()
 - (void)scrollViewDidEndScrolling
 {
     [self _handleScrollingEnded];
+}
+
+#pragma mark - Gesture Recognizer methods
+
+- (void)gestureRecognizerUpdate:(UIGestureRecognizer *)gesture
+{
+    BOOL gestureEnded = (gesture.state == UIGestureRecognizerStateEnded
+                         || gesture.state == UIGestureRecognizerStateFailed
+                         || gesture.state == UIGestureRecognizerStateCancelled);
+    
+    if (gestureEnded)
+    {
+        [self _handleScrollingEnded];
+    }
+    else
+    {
+        /* We must use contentOffset KVO for scrolling */
+    }
 }
 
 #pragma mark - KVO methods

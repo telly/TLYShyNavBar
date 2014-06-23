@@ -50,19 +50,4 @@
     self.scrollView.contentSize = self.imageView.bounds.size;
 }
 
-#pragma mark - UIScrollViewDelegate methods
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    if (!decelerate)
-    {
-        [self.shyNavBarManager scrollViewDidEndScrolling];
-    }
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    [self.shyNavBarManager scrollViewDidEndScrolling];
-}
-
 @end
