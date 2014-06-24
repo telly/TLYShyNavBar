@@ -219,6 +219,7 @@ static inline CGFloat AACStatusBarHeight()
 - (void)prepareForDisplay
 {
     [self.navBarController expand];
+    self.previousYOffset = NAN;
 }
 
 - (void)layoutViews
@@ -235,6 +236,7 @@ static inline CGFloat AACStatusBarHeight()
 - (void)cleanup
 {
     [self.navBarController expand];
+    self.previousYOffset = NAN;
 }
 
 - (void)scrollViewDidEndScrolling
