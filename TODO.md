@@ -7,10 +7,11 @@
 + ~~Add tolerance customization~~
 + ~~Add more convenience methods for the `UIViewController` category~~
 + CocoaPods support
-+ Update GIF to focus on the navbar, and demo the scroll ended animation feature
++ ~~Update GIF to focus on the navbar, and demo the scroll ended animation feature~~
 + ~~Rename TLYShyNavBarController files to Manager~~
-+ Solve the scrollView did end dragging problem
++ ~~Solve the scrollView did end dragging problem~~
 + ~~Fix orientation problems~~
++ Don't end scrolling while the scrollView is decelerating. (isTracking property in gesture recognizer?)
 
 ## Good to Have
 
