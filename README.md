@@ -161,4 +161,4 @@ viewController.shyNavBarManager = shyManager;
 
 + [GTScrollNavigationBar](https://github.com/luugiathuy/GTScrollNavigationBar)
 + [JKAutoShrinkView](https://github.com/fsjack/JKAutoShrinkView)
-
++ [SherginScrollableNavigationBar](https://github.com/shergin/SherginScrollableNavigationBar)
