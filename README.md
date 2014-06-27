@@ -46,7 +46,10 @@ This component helps you mimick the navigation bar expansion/contraction that yo
 ## Quick Start
 
 1. Get the component
-  + Hopefully, CocoaPods support is coming, but for now, download the project, or use git submodules, and drag the `TLYShyNavBar` folder to your project.
+  + [CocoaPods](http://cocoapods.org)
+      * Add the following to you [Podfile](http://guides.cocoapods.org/using/the-podfile.html) `pod TLYShyNavBar`
+
+  + Download the project/git submodules, and drag the `TLYShyNavBar` folder to your project.
 
 2. `#import "TLYShyNavBarManager.h"` 
   + I suggest adding it to your pch file, or wherever you want to use the component.
