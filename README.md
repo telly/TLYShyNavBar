@@ -3,7 +3,14 @@
 
 This component helps you mimick the navigation bar expansion/contraction that you see in the facebook, instagram and other apps. Not only that, but with the ability to add an additional extension that expands/contracts as well! It is designed for ease of use, and is battle tested in our own [Telly app](https://itunes.apple.com/us/app/telly/id524552885?mt=8)<sup>[1]</sup>!
 
-<sub>[1]: AppStore version doesn't have the latest, though. Coming soon. :grin:</sub>
+![Battle Tested!!](resources/battle-tested-demo.gif)
+
+<sub>[1]: AppStore version doesn't have the latest, though. Coming soon. :grin:</sub><br />
+<sub>[*]: Content are shown for demo purpose only of how this component is used in the Telly app. We hold the right to show those contents as part of our contract with Sony Pictures.</sub>
+
+## Outline 
+
++ [Features](#features): See what this component has to offer!
 
 ## Features:
 
