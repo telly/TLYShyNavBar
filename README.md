@@ -12,7 +12,7 @@ This component helps you mimick the navigation bar expansion/contraction that yo
 
 + **[Features](#features)**: See what this component has to offer!
 + **[Quick Start](#quick-start)**: TL;DR people, you'll love this.
-+ **[A Deeper Look](#a-deeper-look)**: You love this, you want to make the most out of it.
++ **[A Deeper Look](#a-deeper-look)**: You're invensted in this now and want to make the most out of it.
 + **[How it Works](#how-it-works)**: The deep stuff...
 + **[Remarks](#remarks)**: Read this before losing all hope.
 + **[Similar Projects](#similar-projects)**: Similar projects that influenced the project in some way.
