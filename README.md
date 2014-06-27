@@ -10,9 +10,14 @@ This component helps you mimick the navigation bar expansion/contraction that yo
 
 ## Outline 
 
-+ [Features](#features): See what this component has to offer!
++ **[Features](#features)**: See what this component has to offer!
++ **[Quick Start](#quick-start)**: TL;DR people, you'll love this.
++ **[A Deeper Look](#a-deeper-look)**: You love this, you want to make the most out of it.
++ **[How it Works](#how-it-works)**: The deep stuff...
++ **[Remarks](#remarks)**: Read this before losing all hope.
++ **[Similar Projects](#similar-projects)**: Similar projects that influenced the project in some way.
 
-## Features:
+## Features
 
 + Optional extension view to the `UINavigationBar`!
 
@@ -37,6 +42,91 @@ This component helps you mimick the navigation bar expansion/contraction that yo
 + Plays well with `pushViewController`
 
 ![](resources/ShyNavBar-6.gif)
+
+## Quick Start
+
+1. Get the component
+  + Hopefully, CocoaPods support is coming, but for now, download the project, or use git submodules, and drag the `TLYShyNavBar` folder to your project.
+
+2. `#import "TLYShyNavBarManager.h"` 
+  + I suggest adding it to your pch file, or wherever you want to use the component.
+ 
+3. Write one line of code to get started!!
+
+```objc
+/* In your UIViewController viewDidLoad or after creating the scroll view. */
+self.shyNavBarManager.scrollView = self.scrollView;
+```
+
+**IMPORTANT!!** If you are assigning a delegate to your scrollView, do that **before** assigning the scrollView to the `TLYShyNavBarManager`! To learn more, [see below](#how-it-works).
+
+## A Deeper Look
+
+The above example, while small, is complete! It makes the navigation bar enriched with humbility, that it will start getting out of the way when the scroll view starts scrolling. But, you may want to do more than that!
+
+### ACCESS THE MANAGER OF SHYNESS
+
+Simply access it within your `UIViewController` subclass as a property. The property is lazy loaded for you, so you don't have to instantiate anything:
+
+```objc
+self.shyNavBarManager
+```
+
+### ADDING AN EXTENSION VIEW
+
+You can assign your own extension view, and it will appear right beneath the navigation bar. It will slide beneath the navigation bar, before the navigation bar starts shrinking (contracting). Adding an extension view is as simple as:
+
+```objc
+/* Also in your UIViewController subclass */
+[self.shyNavBarManager setExtensionView:self.toolbar];
+```
+
+### CONTROLLING THE RESISTANCE
+
+When you starting scrolling up (going down the view) or scrolling down (going up the view), you may want the navigation bar to hold off for a certain amount (tolerance) before changing states. (i.e. if the user scrolls down 10 px, don't immediately start showing the contracted navigation bar, but wait till he scrolls, say, 100 px).
+
+You can control that using the following properties on the `shyNavBarManager`:
+
+```objc
+/* Control the resistance when scrolling up/down before the navbar 
+ * expands/contracts again.
+ */
+@property (nonatomic) CGFloat expansionResistance;      // default 200
+@property (nonatomic) CGFloat contractionResistance;    // default 0
+```
+
+## How it Works
+
+OK, I'll admit that I added this section purely to rant about how this project came together, and the desicion making process behind it.
+
+At a component-user level, this works by adding a category to `UIViewController` with a `TLYShyNavBarManager` property. The property is lazily loaded, to cut any unnecessary overhead, and lower the barrier of entry. From the property, you can start customizing the `TLYShyNavBarManager` for that view controller.
+
+Now, you may start asking, what about the navigation bar? Well, the navigation bar is accessed from the view controller your using the manager in. Let's break that down...
+
+1. When you access the `shyNavBarManager` for the first time, it is created with the `self` parameter passed to it, effectively binding the `shyNavBarManager` to the `UIViewController`.
+2. The `shyNavBarManager` accesses the `UINavigationBar` through the assigned `UIViewController`.
+
+... And that is how the basic setup is done!
+
+
+
+## Remarks
+
+There are downsides in making this component as easy to use as it is. If you have read the how it works section carefully, you'd realize that trying to configure the the `shyNavBarManager` before it is included in the `UINavigationController` heirarchy, will break the component, since within the component, we cannot find the navigation bar, and an assert is triggered:
+
+```objc
+NSAssert(navbar != nil, @"You are using the component wrong... Please see the README file.");
+```
+
+Of course, that can be avoided by creating your own `TLYShyNavBarManager`, like so:
+
+```objc
+TLYShyNavBarManager *shyManager = [TLYShyNavBarManager new];
+shyManager.expansionResistance = 777.f;
+
+/* ... sometime after the view controller is added to the hierarchy  */
+viewController.shyNavBarManager = shyManager;
+```
 
 ## Similar Projects
 
