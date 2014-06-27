@@ -89,7 +89,7 @@ static inline CGFloat AACStatusBarHeight()
             return CGRectGetHeight(view.bounds);
         };
         
-        __weak typeof(self) weakSelf = self;
+        __weak __typeof(self) weakSelf = self;
         self.extensionController.expandedCenter = ^(UIView *view)
         {
             return CGPointMake(CGRectGetMidX(view.bounds),
