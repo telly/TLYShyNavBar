@@ -64,7 +64,7 @@ self.shyNavBarManager.scrollView = self.scrollView;
 
 The above example, while small, is complete! It makes the navigation bar enriched with humbility, that it will start getting out of the way when the scroll view starts scrolling. But, you may want to do more than that!
 
-### ACCESS THE MANAGER OF SHYNESS
+#### ACCESS THE MANAGER OF SHYNESS
 
 Simply access it within your `UIViewController` subclass as a property. The property is lazy loaded for you, so you don't have to instantiate anything:
 
@@ -72,7 +72,7 @@ Simply access it within your `UIViewController` subclass as a property. The prop
 self.shyNavBarManager
 ```
 
-### ADDING AN EXTENSION VIEW
+#### ADDING AN EXTENSION VIEW
 
 You can assign your own extension view, and it will appear right beneath the navigation bar. It will slide beneath the navigation bar, before the navigation bar starts shrinking (contracting). Adding an extension view is as simple as:
 
@@ -81,7 +81,7 @@ You can assign your own extension view, and it will appear right beneath the nav
 [self.shyNavBarManager setExtensionView:self.toolbar];
 ```
 
-### CONTROLLING THE RESISTANCE
+#### CONTROLLING THE RESISTANCE
 
 When you starting scrolling up (going down the view) or scrolling down (going up the view), you may want the navigation bar to hold off for a certain amount (tolerance) before changing states. (i.e. if the user scrolls down 10 px, don't immediately start showing the contracted navigation bar, but wait till he scrolls, say, 100 px).
 
@@ -99,7 +99,7 @@ You can control that using the following properties on the `shyNavBarManager`:
 
 OK, I'll admit that I added this section purely to rant about how this project came together, and the desicion making process behind it.
 
-### THE BASICS
+#### THE BASICS
 
 At a component-user level, this works by adding a category to `UIViewController` with a `TLYShyNavBarManager` property. The property is lazily loaded, to cut any unnecessary overhead, and lower the barrier of entry. From the property, you can start customizing the `TLYShyNavBarManager` for that view controller.
 
@@ -110,11 +110,11 @@ Now, you may start asking, what about the navigation bar? Well, the navigation b
 
 ... And that is how the basic setup is done!
 
-### THE EXTENSION VIEW
+#### THE EXTENSION VIEW
 
 When you call `setExtensionView:`, it simply resizes an internal container view, and adds your extension view to it. There is no magic here, just simple, single view extension.
 
-### CAPTURING SCROLL VIEW EVENTS
+#### CAPTURING SCROLL VIEW EVENTS
 
 This one was a pain... First, the experiments that this project went through included:
 
@@ -127,7 +127,7 @@ The above did yield the perfect experience we were hoping for, except the last o
 
 When you assign the `scrollView` property to the TLYShyNavBarManager, we attach a proxy object to the `UIScrollView` as the delegate, and then the original delegate to that proxy. The proxy forwards the events we are interested in to the `TLYShyNavBarManager`, and of course, does everything else normally for the original selector, you won't even notice a thing!
 
-### THE DRAWER CONCEPT
+#### THE DRAWER CONCEPT
 
 The way the offsets are applied to the navigation bar and extension view is through an elegent linked list implementation. We set the offset to the first node (navigation bar), and ...
 
