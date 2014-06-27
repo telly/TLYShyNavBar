@@ -99,6 +99,8 @@ You can control that using the following properties on the `shyNavBarManager`:
 
 OK, I'll admit that I added this section purely to rant about how this project came together, and the desicion making process behind it.
 
+### THE BASICS
+
 At a component-user level, this works by adding a category to `UIViewController` with a `TLYShyNavBarManager` property. The property is lazily loaded, to cut any unnecessary overhead, and lower the barrier of entry. From the property, you can start customizing the `TLYShyNavBarManager` for that view controller.
 
 Now, you may start asking, what about the navigation bar? Well, the navigation bar is accessed from the view controller your using the manager in. Let's break that down...
@@ -108,7 +110,34 @@ Now, you may start asking, what about the navigation bar? Well, the navigation b
 
 ... And that is how the basic setup is done!
 
+### THE EXTENSION VIEW
 
+When you call `setExtensionView:`, it simply resizes an internal container view, and adds your extension view to it. There is no magic here, just simple, single view extension.
+
+### CAPTURING SCROLL VIEW EVENTS
+
+This one was a pain... First, the experiments that this project went through included:
+
++ Observing the contentOffset property
++ Adding self as a `UIGestureRecognizer` target
++ Adding a `UIPanGestureRecognizer` to the scroll view.
++ Make the user implement `UIScrollViewDelegate`, and send us the events.
+
+The above did yield the perfect experience we were hoping for, except the last one. It did, however, make for redundant code everywhere, and forced the component user to implement the `UIScrollViewDelegate`. Tha's when the `NSProxy` happened.
+
+When you assign the `scrollView` property to the TLYShyNavBarManager, we attach a proxy object to the `UIScrollView` as the delegate, and then the original delegate to that proxy. The proxy forwards the events we are interested in to the `TLYShyNavBarManager`, and of course, does everything else normally for the original selector, you won't even notice a thing!
+
+### THE DRAWER CONCEPT
+
+The way the offsets are applied to the navigation bar and extension view is through an elegent linked list implementation. We set the offset to the first node (navigation bar), and ...
+
++ If it is contracting:
+  - We pass the contraction amount to the next node, and it returned a residual amount.
+
++ If we are expanding:
+  - We process the offset in the first node, and pass the residual to the next node. 
+
+It is a simple concept. Say we dragged down by 100 px, and the nav bar was contracted. The navigation bar would take 64 px of that to expand, and then pass the residual 36 px to the next node (extension view) to calculate its offset. The same goes for contracting, but it starts from the last node, all the way up to the navigation bar.
 
 ## Remarks
 
