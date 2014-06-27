@@ -291,19 +291,19 @@ static char shyNavBarManagerKey;
 
 - (void)tly_swizzledViewWillAppear:(BOOL)animated
 {
-    [self.shyNavBarManager prepareForDisplay];
+    [[self _internalShyNavBarManager] prepareForDisplay];
     [self tly_swizzledViewWillAppear:animated];
 }
 
 - (void)tly_swizzledViewDidLayoutSubviews
 {
-    [self.shyNavBarManager layoutViews];
+    [[self _internalShyNavBarManager] layoutViews];
     [self tly_swizzledViewDidLayoutSubviews];
 }
 
 - (void)tly_swizzledViewWillDisappear:(BOOL)animated
 {
-    [self.shyNavBarManager cleanup];
+    [[self _internalShyNavBarManager] cleanup];
     [self tly_swizzledViewWillDisappear:animated];
 }
 
@@ -325,6 +325,14 @@ static char shyNavBarManagerKey;
     }
     
     return shyNavBarManager;
+}
+
+#pragma mark - Private methods
+
+/* Internally, we need to access the variable without creating it */
+- (TLYShyNavBarManager *)_internalShyNavBarManager
+{
+    return objc_getAssociatedObject(self, &shyNavBarManagerKey);
 }
 
 @end
