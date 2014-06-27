@@ -37,8 +37,6 @@
     [self addShyNavBarManagerWithScrollView:self.scrollView];
     /* Can then be remove by setting the ExtensionView to nil */
     [self.shyNavBarManager setExtensionView:view];
-    /* set resistance? */
-    self.shyNavBarManager.contractionResistance = 50.f;
 }
 
 - (void)viewDidLayoutSubviews
