@@ -46,14 +46,19 @@
 
 - (void)setExtensionView:(UIView *)view;
 
-/* Needs to be called in viewWillAppear */
-- (void)prepareForDisplay;
-/* Needs to be called in viewDidLayoutSubviews */
-- (void)layoutViews;
-/* Needs to be called on viewWillDisappear */
-- (void)cleanup;
-
 @end
+
+
+/*  CATEGORY DESCRIPTION:
+ *  =====================
+ *      The category described in the TLYShyNavBarManager usage, and it
+ *  simply uses associated objects to attatch a TLYShyNavBar to the 
+ *  designated view controller.
+ *
+ *      We also perform some swizzling to pass notifications to the 
+ *  TLYShyNavBar. Things like, viewDidLayoutSubviews, viewWillAppear and
+ *   Disappear, ... etc.
+ */
 
 @interface UIViewController (ShyNavBar)
 

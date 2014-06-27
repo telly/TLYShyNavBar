@@ -8,8 +8,14 @@
 
 #import "TLYShyNavBarManager.h"
 #import "TLYShyViewController.h"
+#import "TLYDelegateProxy.h"
+
 #import "UIViewController+BetterLayoutGuides.h"
+#import "NSObject+TLYSwizzlingHelpers.h"
+
 #import <objc/runtime.h>
+
+#pragma mark - Helper functions
 
 // Thanks to SO user, MattDiPasquale
 // http://stackoverflow.com/questions/12991935/how-to-programmatically-get-ios-status-bar-height/16598350#16598350
@@ -20,10 +26,14 @@ static inline CGFloat AACStatusBarHeight()
     return MIN(statusBarSize.width, statusBarSize.height);
 }
 
-@interface TLYShyNavBarManager () <UIGestureRecognizerDelegate>
+#pragma mark - TLYShyNavBarManager class
+
+@interface TLYShyNavBarManager () <UIScrollViewDelegate>
 
 @property (nonatomic, strong) TLYShyViewController *navBarController;
 @property (nonatomic, strong) TLYShyViewController *extensionController;
+
+@property (nonatomic, strong) TLYDelegateProxy *delegateProxy;
 
 @property (nonatomic, readwrite) UIView *extensionViewContainer;
 
@@ -44,6 +54,8 @@ static inline CGFloat AACStatusBarHeight()
     self = [super init];
     if (self)
     {
+        self.delegateProxy = [[TLYDelegateProxy alloc] initWithMiddleMan:self];
+        
         self.contracting = NO;
         self.previousContractionState = YES;
         
@@ -89,11 +101,6 @@ static inline CGFloat AACStatusBarHeight()
     return self;
 }
 
-- (void)dealloc
-{
-    [self _cleanupScrollViewAttachments];
-}
-
 #pragma mark - Properties
 
 - (void)setViewController:(UIViewController *)viewController
@@ -112,21 +119,13 @@ static inline CGFloat AACStatusBarHeight()
 
 - (void)setScrollView:(UIScrollView *)scrollView
 {
-    [self _cleanupScrollViewAttachments];
-    
     _scrollView = scrollView;
     
-    [_scrollView addObserver:self forKeyPath:@"contentOffset" options:0 context:NULL];
-    [_scrollView.panGestureRecognizer addTarget:self action:@selector(gestureRecognizerUpdate:)];
+    self.delegateProxy.originalDelegate = _scrollView.delegate;
+    _scrollView.delegate = (id)self.delegateProxy;
 }
 
 #pragma mark - Private methods
-
-- (void)_cleanupScrollViewAttachments
-{
-    [_scrollView removeObserver:self forKeyPath:@"contentOffset"];
-    [_scrollView.panGestureRecognizer removeTarget:self action:@selector(gestureRecognizerUpdate:)];
-}
 
 - (void)_handleScrolling
 {
@@ -219,6 +218,7 @@ static inline CGFloat AACStatusBarHeight()
 - (void)prepareForDisplay
 {
     [self.navBarController expand];
+    self.previousYOffset = NAN;
 }
 
 - (void)layoutViews
@@ -226,7 +226,7 @@ static inline CGFloat AACStatusBarHeight()
     [self.navBarController expand];
         
     UIEdgeInsets scrollInsets = self.scrollView.contentInset;
-    scrollInsets.top = CGRectGetHeight(self.extensionViewContainer.bounds) + self.viewController.topLayoutGuide.length;
+    scrollInsets.top = CGRectGetHeight(self.extensionViewContainer.bounds) + self.viewController.tly_topLayoutGuide.length;
     
     self.scrollView.contentInset = scrollInsets;
     self.scrollView.scrollIndicatorInsets = scrollInsets;
@@ -235,47 +235,70 @@ static inline CGFloat AACStatusBarHeight()
 - (void)cleanup
 {
     [self.navBarController expand];
+    self.previousYOffset = NAN;
 }
 
-- (void)scrollViewDidEndScrolling
+#pragma mark - UIScrollViewDelegate methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self _handleScrolling];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if (!decelerate)
+    {
+        [self _handleScrollingEnded];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     [self _handleScrollingEnded];
 }
 
-#pragma mark - Gesture Recognizer methods
-
-- (void)gestureRecognizerUpdate:(UIGestureRecognizer *)gesture
-{
-    BOOL gestureEnded = (gesture.state == UIGestureRecognizerStateEnded
-                         || gesture.state == UIGestureRecognizerStateFailed
-                         || gesture.state == UIGestureRecognizerStateCancelled);
-    
-    if (gestureEnded)
-    {
-        [self _handleScrollingEnded];
-    }
-    else
-    {
-        /* We must use contentOffset KVO for scrolling */
-    }
-}
-
-#pragma mark - KVO methods
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqual:NSStringFromSelector(@selector(contentOffset))])
-    {
-        [self _handleScrolling];
-    }
-}
-
 @end
 
+#pragma mark - UIViewController+TLYShyNavBar category
 
 static char shyNavBarManagerKey;
 
 @implementation UIViewController (ShyNavBar)
+
+#pragma mark - Static methods
+
++ (void)load
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [self tly_swizzleInstanceMethod:@selector(viewWillAppear:) withReplacement:@selector(tly_swizzledViewWillAppear:)];
+        [self tly_swizzleInstanceMethod:@selector(viewWillLayoutSubviews) withReplacement:@selector(tly_swizzledViewDidLayoutSubviews)];
+        [self tly_swizzleInstanceMethod:@selector(viewWillDisappear:) withReplacement:@selector(tly_swizzledViewWillDisappear:)];
+    });
+}
+
+#pragma mark - Swizzled View Life Cycle
+
+- (void)tly_swizzledViewWillAppear:(BOOL)animated
+{
+    [self.shyNavBarManager prepareForDisplay];
+    [self tly_swizzledViewWillAppear:animated];
+}
+
+- (void)tly_swizzledViewDidLayoutSubviews
+{
+    [self.shyNavBarManager layoutViews];
+    [self tly_swizzledViewDidLayoutSubviews];
+}
+
+- (void)tly_swizzledViewWillDisappear:(BOOL)animated
+{
+    [self.shyNavBarManager cleanup];
+    [self tly_swizzledViewWillDisappear:animated];
+}
+
+#pragma mark - Properties
 
 - (void)setShyNavBarManager:(TLYShyNavBarManager *)shyNavBarManager
 {
@@ -287,6 +310,8 @@ static char shyNavBarManagerKey;
 {
     return objc_getAssociatedObject(self, &shyNavBarManagerKey);
 }
+
+#pragma mark - Public methods
 
 - (void)addShyNavBarManagerWithScrollView:(UIScrollView *)scrollView
 {

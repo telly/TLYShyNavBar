@@ -33,20 +33,17 @@
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 44.f)];
     view.backgroundColor = [UIColor redColor];
     
-    TLYShyNavBarManager *shyController = [TLYShyNavBarManager new];
-    shyController.scrollView = self.scrollView;
-    
+    /* Library code */
+    [self addShyNavBarManagerWithScrollView:self.scrollView];
     /* Can then be remove by setting the ExtensionView to nil */
-    [shyController setExtensionView:view];
-    
-    self.shyNavBarManager = shyController;
+    [self.shyNavBarManager setExtensionView:view];
+    /* set resistance? */
+    self.shyNavBarManager.contractionResistance = 50.f;
 }
 
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    
-    [self.shyNavBarManager layoutViews];
     self.scrollView.contentSize = self.imageView.bounds.size;
 }
 
