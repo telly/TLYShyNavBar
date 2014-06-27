@@ -35,7 +35,7 @@ static inline CGFloat AACStatusBarHeight()
 
 @property (nonatomic, strong) TLYDelegateProxy *delegateProxy;
 
-@property (nonatomic, readwrite) UIView *extensionViewContainer;
+@property (nonatomic, strong) UIView *extensionViewContainer;
 
 @property (nonatomic) CGFloat previousYOffset;
 @property (nonatomic) CGFloat resistanceConsumed;
@@ -59,7 +59,7 @@ static inline CGFloat AACStatusBarHeight()
         self.contracting = NO;
         self.previousContractionState = YES;
         
-        self.expansionResistance = 100.f;
+        self.expansionResistance = 200.f;
         self.contractionResistance = 0.f;
         
         self.previousYOffset = NAN;
@@ -108,6 +108,7 @@ static inline CGFloat AACStatusBarHeight()
     _viewController = viewController;
     
     UIView *navbar = viewController.navigationController.navigationBar;
+    NSAssert(navbar != nil, @"You are using the component wrong... Please see the README file.");
     
     [self.extensionViewContainer removeFromSuperview];
     [self.viewController.view addSubview:self.extensionViewContainer];
@@ -123,6 +124,11 @@ static inline CGFloat AACStatusBarHeight()
     
     self.delegateProxy.originalDelegate = _scrollView.delegate;
     _scrollView.delegate = (id)self.delegateProxy;
+}
+
+- (CGRect)extensionViewBounds
+{
+    return self.extensionViewContainer.bounds;
 }
 
 #pragma mark - Private methods
@@ -203,6 +209,9 @@ static inline CGFloat AACStatusBarHeight()
 
 - (void)setExtensionView:(UIView *)view
 {
+    NSAssert([self.extensionViewContainer.subviews count] <= 1,
+             @"Please don't tamper with this view! Thanks!");
+    
     UIView *previousExtensionView = [self.extensionViewContainer.subviews firstObject];
     if (view != previousExtensionView)
     {
@@ -308,17 +317,14 @@ static char shyNavBarManagerKey;
 
 - (TLYShyNavBarManager *)shyNavBarManager
 {
-    return objc_getAssociatedObject(self, &shyNavBarManagerKey);
-}
-
-#pragma mark - Public methods
-
-- (void)addShyNavBarManagerWithScrollView:(UIScrollView *)scrollView
-{
-    TLYShyNavBarManager *shyManager = [TLYShyNavBarManager new];
-    shyManager.scrollView = scrollView;
+    id shyNavBarManager = objc_getAssociatedObject(self, &shyNavBarManagerKey);
+    if (!shyNavBarManager)
+    {
+        shyNavBarManager = [[TLYShyNavBarManager alloc] init];
+        self.shyNavBarManager = shyNavBarManager;
+    }
     
-    self.shyNavBarManager = shyManager;
+    return shyNavBarManager;
 }
 
 @end

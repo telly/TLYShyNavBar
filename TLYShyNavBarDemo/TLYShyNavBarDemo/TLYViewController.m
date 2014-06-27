@@ -34,7 +34,7 @@
     view.backgroundColor = [UIColor redColor];
     
     /* Library code */
-    [self addShyNavBarManagerWithScrollView:self.scrollView];
+    self.shyNavBarManager.scrollView = self.scrollView;
     /* Can then be remove by setting the ExtensionView to nil */
     [self.shyNavBarManager setExtensionView:view];
 }

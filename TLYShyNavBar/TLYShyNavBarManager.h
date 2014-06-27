@@ -33,10 +33,10 @@
 /* The scrollView subclass that will drive the contraction/expansion */
 @property (nonatomic, weak) UIScrollView *scrollView;
 
-/* The container to contain the extension view, if any. Exposed to
- * allow the developer to adjust content offset as necessary
+/* The container contains the extension view, if any. Exposed to
+ * allow the developer to adjust content offset as necessary.
  */
-@property (nonatomic, readonly) UIView *extensionViewContainer;
+@property (nonatomic, readonly) CGRect extensionViewBounds;
 
 /* Control the resistance when scrolling up/down before the navbar 
  * expands/contracts again.
@@ -62,9 +62,7 @@
 
 @interface UIViewController (ShyNavBar)
 
+/* Initially, this is nil, but created for you when you access it */
 @property (nonatomic, strong) TLYShyNavBarManager *shyNavBarManager;
-
-// Convenience
-- (void)addShyNavBarManagerWithScrollView:(UIScrollView *)scrollView;
 
 @end
