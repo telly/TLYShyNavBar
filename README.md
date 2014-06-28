@@ -126,7 +126,7 @@ This one was a pain... First, the experiments that this project went through inc
 + Adding a `UIPanGestureRecognizer` to the scroll view.
 + Make the user implement `UIScrollViewDelegate`, and send us the events.
 
-The above did yield the perfect experience we were hoping for, except the last one. It did, however, make for redundant code everywhere, and forced the component user to implement the `UIScrollViewDelegate`. Tha's when the `NSProxy` happened.
+The above didn't yield the perfect experience we were hoping for, except the last one. It did, however, make for redundant code everywhere, and forced the component user to implement the `UIScrollViewDelegate`. Tha's when the `NSProxy` happened.
 
 When you assign the `scrollView` property to the TLYShyNavBarManager, we attach a proxy object to the `UIScrollView` as the delegate, and then the original delegate to that proxy. The proxy forwards the events we are interested in to the `TLYShyNavBarManager`, and of course, does everything else normally for the original selector, you won't even notice a thing!
 
