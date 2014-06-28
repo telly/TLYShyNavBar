@@ -30,7 +30,9 @@
  */
 @property (nonatomic, readonly, weak) UIViewController *viewController;
 
-/* The scrollView subclass that will drive the contraction/expansion */
+/* The scrollView subclass that will drive the contraction/expansion 
+ * IMPORTANT: set this property AFTER assigning its delegate, if needed!
+ */
 @property (nonatomic, weak) UIScrollView *scrollView;
 
 /* The container contains the extension view, if any. Exposed to
