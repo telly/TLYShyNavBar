@@ -1,7 +1,7 @@
 
 # TLYShyNavBar
 
-This component helps you mimick the navigation bar expansion/contraction that you see in the facebook, instagram and other apps. Not only that, but with the ability to add an additional extension that expands/contracts as well! It is designed for ease of use, and is battle tested in our own [Telly app](https://itunes.apple.com/us/app/telly/id524552885?mt=8)<sup>[1]</sup>!
+This component helps you mimick the navigation bar auto scrolling that you see in the facebook, instagram and other apps. Not only that, but with the ability to add an additional extension that scrolls along as well! It is designed for ease of use, and is battle tested in our own [Telly app](https://itunes.apple.com/us/app/telly/id524552885?mt=8)<sup>[1]</sup>!
 
 ![Battle Tested!!](resources/battle-tested-demo.gif)
 
@@ -65,7 +65,7 @@ self.shyNavBarManager.scrollView = self.scrollView;
 
 ## A Deeper Look
 
-The above example, while small, is complete! It makes the navigation bar enriched with humbility, that it will start getting out of the way when the scroll view starts scrolling. But, you may want to do more than that!
+The above example, while small, is complete! It makes the navigation bar enriched with humbility, that it will start getting out of the way when the scroll view starts scrolling. But, you may want to do more than that! 
 
 #### ACCESS THE MANAGER OF SHYNESS
 
@@ -141,6 +141,8 @@ The way the offsets are applied to the navigation bar and extension view is thro
   - We process the offset in the first node, and pass the residual to the next node. 
 
 It is a simple concept. Say we dragged down by 100 px, and the nav bar was contracted. The navigation bar would take 64 px of that to expand, and then pass the residual 36 px to the next node (extension view) to calculate its offset. The same goes for contracting, but it starts from the last node, all the way up to the navigation bar.
+
+*Note:* Even though there might be an illusion that the views are expanding and contracting, it's really just a translation (scrolling) of the views. There might be an advantage to actually resizing the bounds, so the extension view doesn't appear behind the navigation bar, for example, so that approach might be explored in the future.
 
 ## Remarks
 
