@@ -101,6 +101,11 @@ static inline CGFloat AACStatusBarHeight()
     return self;
 }
 
+- (void)dealloc
+{
+    _scrollView.delegate = _delegateProxy.originalDelegate;
+}
+
 #pragma mark - Properties
 
 - (void)setViewController:(UIViewController *)viewController
