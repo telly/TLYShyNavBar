@@ -232,8 +232,13 @@ static inline CGFloat AACStatusBarHeight()
     if (view != previousExtensionView)
     {
         [previousExtensionView removeFromSuperview];
-
-        self.extensionViewContainer.frame = view.bounds;
+        
+        CGRect bounds = view.frame;
+        bounds.origin = CGPointZero;
+        
+        view.frame = bounds;
+        
+        self.extensionViewContainer.frame = bounds;
         [self.extensionViewContainer addSubview:view];
         
         [self layoutViews];
@@ -249,6 +254,7 @@ static inline CGFloat AACStatusBarHeight()
 - (void)layoutViews
 {
     [self.navBarController expand];
+    [self.extensionViewContainer.superview bringSubviewToFront:self.extensionViewContainer];
         
     UIEdgeInsets scrollInsets = self.scrollView.contentInset;
     scrollInsets.top = CGRectGetHeight(self.extensionViewContainer.bounds) + self.viewController.tly_topLayoutGuide.length;
