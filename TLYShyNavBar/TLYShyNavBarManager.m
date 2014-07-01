@@ -103,7 +103,11 @@ static inline CGFloat AACStatusBarHeight()
 
 - (void)dealloc
 {
-    _scrollView.delegate = _delegateProxy.originalDelegate;
+    // sanity check
+    if (_scrollView.delegate == _delegateProxy)
+    {
+        _scrollView.delegate = _delegateProxy.originalDelegate;
+    }
 }
 
 #pragma mark - Properties
@@ -125,11 +129,18 @@ static inline CGFloat AACStatusBarHeight()
 
 - (void)setScrollView:(UIScrollView *)scrollView
 {
+    if (_scrollView.delegate == self.delegateProxy)
+    {
+        _scrollView.delegate = self.delegateProxy.originalDelegate;
+    }
+    
     _scrollView = scrollView;
     
-    self.delegateProxy.originalDelegate = _scrollView.delegate;
-    _scrollView.delegate = (id)self.delegateProxy;
-}
+    if (_scrollView.delegate != self.delegateProxy)
+    {
+        self.delegateProxy.originalDelegate = _scrollView.delegate;
+        _scrollView.delegate = (id)self.delegateProxy;
+    }}
 
 - (CGRect)extensionViewBounds
 {
