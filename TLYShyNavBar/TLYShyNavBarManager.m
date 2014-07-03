@@ -37,6 +37,7 @@ static inline CGFloat AACStatusBarHeight()
 
 @property (nonatomic, strong) UIView *extensionViewContainer;
 
+@property (nonatomic) UIEdgeInsets previousScrollInsets;
 @property (nonatomic) CGFloat previousYOffset;
 @property (nonatomic) CGFloat resistanceConsumed;
 
@@ -62,6 +63,7 @@ static inline CGFloat AACStatusBarHeight()
         self.expansionResistance = 200.f;
         self.contractionResistance = 0.f;
         
+        self.previousScrollInsets = UIEdgeInsetsZero;
         self.previousYOffset = NAN;
         
         self.navBarController = [[TLYShyViewController alloc] init];
@@ -247,18 +249,24 @@ static inline CGFloat AACStatusBarHeight()
 
 - (void)prepareForDisplay
 {
-    [self.navBarController expand];
-    self.previousYOffset = NAN;
+    [self cleanup];
 }
 
 - (void)layoutViews
 {
-    [self.navBarController expand];
-    [self.extensionViewContainer.superview bringSubviewToFront:self.extensionViewContainer];
-        
     UIEdgeInsets scrollInsets = self.scrollView.contentInset;
     scrollInsets.top = CGRectGetHeight(self.extensionViewContainer.bounds) + self.viewController.tly_topLayoutGuide.length;
     
+    if (UIEdgeInsetsEqualToEdgeInsets(scrollInsets, self.previousScrollInsets))
+    {
+        return;
+    }
+    
+    self.previousScrollInsets = scrollInsets;
+    
+    [self.navBarController expand];
+    [self.extensionViewContainer.superview bringSubviewToFront:self.extensionViewContainer];
+
     self.scrollView.contentInset = scrollInsets;
     self.scrollView.scrollIndicatorInsets = scrollInsets;
 }
@@ -267,6 +275,7 @@ static inline CGFloat AACStatusBarHeight()
 {
     [self.navBarController expand];
     self.previousYOffset = NAN;
+    self.previousScrollInsets = UIEdgeInsetsZero;
 }
 
 #pragma mark - UIScrollViewDelegate methods
