@@ -42,6 +42,7 @@ static inline CGFloat AACStatusBarHeight()
 @property (nonatomic) CGFloat resistanceConsumed;
 
 @property (nonatomic, getter = isContracting) BOOL contracting;
+@property (nonatomic, getter = isViewControllerVisible) BOOL viewControllerVisible;
 @property (nonatomic) BOOL previousContractionState;
 
 @end
@@ -153,6 +154,11 @@ static inline CGFloat AACStatusBarHeight()
 
 - (void)_handleScrolling
 {
+    if (!self.isViewControllerVisible)
+    {
+        return;
+    }
+    
     if (!isnan(self.previousYOffset))
     {
         // 1 - Calculate the delta
@@ -210,6 +216,11 @@ static inline CGFloat AACStatusBarHeight()
 
 - (void)_handleScrollingEnded
 {
+    if (!self.isViewControllerVisible)
+    {
+        return;
+    }
+    
     self.resistanceConsumed = 0;
     
     CGFloat deltaY = deltaY = [self.navBarController snap:self.isContracting];
@@ -250,6 +261,7 @@ static inline CGFloat AACStatusBarHeight()
 - (void)prepareForDisplay
 {
     [self cleanup];
+    self.viewControllerVisible = YES;
 }
 
 - (void)layoutViews
@@ -274,6 +286,8 @@ static inline CGFloat AACStatusBarHeight()
 - (void)cleanup
 {
     [self.navBarController expand];
+    
+    self.viewControllerVisible = NO;
     self.previousYOffset = NAN;
     self.previousScrollInsets = UIEdgeInsetsZero;
 }
