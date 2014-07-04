@@ -178,6 +178,12 @@ static inline CGFloat AACStatusBarHeight()
 {
     [self _resetCacheVariables];
     self.viewControllerVisible = YES;
+    
+    UINavigationController *navController = self.viewController.navigationController;
+    if (navController.isNavigationBarHidden)
+    {
+        [navController setNavigationBarHidden:NO animated:NO];
+    }
 }
 
 - (void)_viewWillDisappear
