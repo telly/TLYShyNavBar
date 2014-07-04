@@ -35,9 +35,6 @@ typedef CGFloat(^TLYShyViewControllerContractionAmountBlock)(UIView *view);
 @property (nonatomic) BOOL hidesSubviews;
 @property (nonatomic) BOOL hidesAfterContraction;
 
-@property (nonatomic, readonly, getter = isContracted) BOOL contracted;
-@property (nonatomic, readonly, getter = isExpanded) BOOL expanded;
-
 - (CGFloat)updateYOffset:(CGFloat)deltaY;
 
 - (CGFloat)snap:(BOOL)contract;

@@ -17,6 +17,9 @@ const CGFloat contractionVelocity = 300.f;
 
 @property (nonatomic) CGPoint contractedCenterValue;
 
+@property (nonatomic, getter = isContracted) BOOL contracted;
+@property (nonatomic, getter = isExpanded) BOOL expanded;
+
 @end
 
 @implementation TLYShyViewController

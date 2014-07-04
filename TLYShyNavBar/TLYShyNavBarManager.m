@@ -26,21 +26,6 @@ static inline CGFloat AACStatusBarHeight()
     return MIN(statusBarSize.width, statusBarSize.height);
 }
 
-#pragma mark - UINavigationController Category interface
-
-/*  CATEGORY DESCRIPTION:
- *  =====================
- *      We set the navigation bar to hidden in TLYShyNavBarManager,
- *  but then we need to restore it in the next view controller. We
- *  use this category to add a flag if it was us whom hid the navbar.
- */
-
-@interface UINavigationController (TLYShyNavBar)
-
-@property (nonatomic) BOOL didShyNavBarManagerHideNavBar;
-
-@end
-
 #pragma mark - TLYShyNavBarManager class
 
 @interface TLYShyNavBarManager () <UIScrollViewDelegate>
@@ -51,7 +36,6 @@ static inline CGFloat AACStatusBarHeight()
 @property (nonatomic, strong) TLYDelegateProxy *delegateProxy;
 
 @property (nonatomic, strong) UIView *extensionViewContainer;
-@property (nonatomic, weak) UIView *statusBarBackgroundView;
 
 @property (nonatomic) UIEdgeInsets previousScrollInsets;
 @property (nonatomic) CGFloat previousYOffset;
@@ -75,12 +59,13 @@ static inline CGFloat AACStatusBarHeight()
         self.delegateProxy = [[TLYDelegateProxy alloc] initWithMiddleMan:self];
         
         self.contracting = NO;
-        self.previousContractionState = NO;
+        self.previousContractionState = YES;
         
         self.expansionResistance = 200.f;
         self.contractionResistance = 0.f;
         
-        [self _resetCacheVariables];
+        self.previousScrollInsets = UIEdgeInsetsZero;
+        self.previousYOffset = NAN;
         
         self.navBarController = [[TLYShyViewController alloc] init];
         self.navBarController.hidesSubviews = YES;
@@ -167,56 +152,6 @@ static inline CGFloat AACStatusBarHeight()
 
 #pragma mark - Private methods
 
-- (void)_resetCacheVariables
-{
-    self.previousYOffset = NAN;
-    self.previousScrollInsets = UIEdgeInsetsZero;
-    self.resistanceConsumed = 0;
-}
-
-- (void)_viewWillAppear
-{
-    [self _resetCacheVariables];
-    self.viewControllerVisible = YES;
-    
-    UINavigationController *navController = self.viewController.navigationController;
-    if (navController.isNavigationBarHidden)
-    {
-        [navController setNavigationBarHidden:NO animated:NO];
-    }
-}
-
-- (void)_viewWillDisappear
-{
-    if (self.isContracting)
-    {
-        UINavigationController *navController = self.viewController.navigationController;
-        [navController setNavigationBarHidden:YES animated:YES];
-        navController.didShyNavBarManagerHideNavBar = YES;
-        
-        UIView *snapshotView = [self.viewController.view.window snapshotViewAfterScreenUpdates:NO];
-        
-        CGRect clippingFrame = snapshotView.frame;
-        clippingFrame.size.height = AACStatusBarHeight();
-        
-        UIView *clippingView = [[UIView alloc] initWithFrame:clippingFrame];
-        clippingView.backgroundColor = [UIColor clearColor];
-        clippingView.clipsToBounds = YES;
-        
-        [clippingView addSubview:snapshotView];
-        [self.viewController.view addSubview:clippingView];
-        
-        self.statusBarBackgroundView = clippingView;
-    }
-    
-    self.viewControllerVisible = NO;
-}
-
-- (void)_viewDidDisappear
-{
-    [self.statusBarBackgroundView removeFromSuperview];
-}
-
 - (void)_handleScrolling
 {
     if (!self.isViewControllerVisible)
@@ -237,8 +172,7 @@ static inline CGFloat AACStatusBarHeight()
         }
         
         /* rounding to resolve a dumb issue with the contentOffset value */
-        CGFloat maxContentOffset = self.scrollView.contentSize.height - CGRectGetHeight(self.scrollView.bounds);
-        CGFloat end = floorf(maxContentOffset + self.scrollView.contentInset.bottom - 0.5f);
+        CGFloat end = floorf(self.scrollView.contentSize.height - CGRectGetHeight(self.scrollView.bounds) + self.scrollView.contentInset.bottom - 0.5f);
         if (self.previousYOffset > end)
         {
             deltaY = MAX(0, deltaY - self.previousYOffset + end);
@@ -289,10 +223,9 @@ static inline CGFloat AACStatusBarHeight()
     
     self.resistanceConsumed = 0;
     
-    CGFloat deltaY = [self.navBarController snap:self.isContracting];
-    self.contracting = self.navBarController.isContracted;
-    
+    CGFloat deltaY = deltaY = [self.navBarController snap:self.isContracting];
     CGPoint newContentOffset = self.scrollView.contentOffset;
+    
     newContentOffset.y -= deltaY;
     
     [UIView animateWithDuration:0.2
@@ -325,6 +258,12 @@ static inline CGFloat AACStatusBarHeight()
     }
 }
 
+- (void)prepareForDisplay
+{
+    [self cleanup];
+    self.viewControllerVisible = YES;
+}
+
 - (void)layoutViews
 {
     UIEdgeInsets scrollInsets = self.scrollView.contentInset;
@@ -342,6 +281,15 @@ static inline CGFloat AACStatusBarHeight()
 
     self.scrollView.contentInset = scrollInsets;
     self.scrollView.scrollIndicatorInsets = scrollInsets;
+}
+
+- (void)cleanup
+{
+    [self.navBarController expand];
+    
+    self.viewControllerVisible = NO;
+    self.previousYOffset = NAN;
+    self.previousScrollInsets = UIEdgeInsetsZero;
 }
 
 #pragma mark - UIScrollViewDelegate methods
@@ -381,7 +329,6 @@ static char shyNavBarManagerKey;
         [self tly_swizzleInstanceMethod:@selector(viewWillAppear:) withReplacement:@selector(tly_swizzledViewWillAppear:)];
         [self tly_swizzleInstanceMethod:@selector(viewWillLayoutSubviews) withReplacement:@selector(tly_swizzledViewDidLayoutSubviews)];
         [self tly_swizzleInstanceMethod:@selector(viewWillDisappear:) withReplacement:@selector(tly_swizzledViewWillDisappear:)];
-        [self tly_swizzleInstanceMethod:@selector(viewDidDisappear:) withReplacement:@selector(tly_swizzledViewDidDisappear:)];
     });
 }
 
@@ -389,19 +336,7 @@ static char shyNavBarManagerKey;
 
 - (void)tly_swizzledViewWillAppear:(BOOL)animated
 {
-    [[self _internalShyNavBarManager] _viewWillAppear];
-    
-    if (self.navigationController.viewControllers.count > 1)
-    {
-        NSUInteger index = self.navigationController.viewControllers.count - 2;
-        UIViewController *previousController = self.navigationController.viewControllers[index];
-        
-        if (self.navigationController.didShyNavBarManagerHideNavBar)
-        {
-            [self.navigationController setNavigationBarHidden:NO animated:YES];
-        }
-    }
-    
+    [[self _internalShyNavBarManager] prepareForDisplay];
     [self tly_swizzledViewWillAppear:animated];
 }
 
@@ -413,14 +348,8 @@ static char shyNavBarManagerKey;
 
 - (void)tly_swizzledViewWillDisappear:(BOOL)animated
 {
-    [[self _internalShyNavBarManager] _viewWillDisappear];
+    [[self _internalShyNavBarManager] cleanup];
     [self tly_swizzledViewWillDisappear:animated];
-}
-
-- (void)tly_swizzledViewDidDisappear:(BOOL)animated
-{
-    [[self _internalShyNavBarManager] _viewDidDisappear];
-    [self tly_swizzledViewDidDisappear:animated];
 }
 
 #pragma mark - Properties
@@ -449,24 +378,6 @@ static char shyNavBarManagerKey;
 - (TLYShyNavBarManager *)_internalShyNavBarManager
 {
     return objc_getAssociatedObject(self, &shyNavBarManagerKey);
-}
-
-@end
-
-#pragma mark - UINavigationController Category implementation
-
-const void *didShyNavBarManagerHideNavBarKey = &didShyNavBarManagerHideNavBarKey;
-
-@implementation UINavigationController (TLYShyNavBar)
-
-- (void)setDidShyNavBarManagerHideNavBar:(BOOL)didShyNavBarManagerHideNavBar
-{
-    objc_setAssociatedObject(self, didShyNavBarManagerHideNavBarKey, @(didShyNavBarManagerHideNavBar), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (BOOL)didShyNavBarManagerHideNavBar
-{
-    return [objc_getAssociatedObject(self, didShyNavBarManagerHideNavBarKey) boolValue];
 }
 
 @end
