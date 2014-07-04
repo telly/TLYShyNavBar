@@ -26,6 +26,21 @@ static inline CGFloat AACStatusBarHeight()
     return MIN(statusBarSize.width, statusBarSize.height);
 }
 
+#pragma mark - UINavigationController Category interface
+
+/*  CATEGORY DESCRIPTION:
+ *  =====================
+ *      We set the navigation bar to hidden in TLYShyNavBarManager,
+ *  but then we need to restore it in the next view controller. We
+ *  use this category to add a flag if it was us whom hid the navbar.
+ */
+
+@interface UINavigationController (TLYShyNavBar)
+
+@property (nonatomic) BOOL didShyNavBarManagerHideNavBar;
+
+@end
+
 #pragma mark - TLYShyNavBarManager class
 
 @interface TLYShyNavBarManager () <UIScrollViewDelegate>
@@ -171,6 +186,7 @@ static inline CGFloat AACStatusBarHeight()
     {
         UINavigationController *navController = self.viewController.navigationController;
         [navController setNavigationBarHidden:YES animated:YES];
+        navController.didShyNavBarManagerHideNavBar = YES;
         
         UIView *snapshotView = [self.viewController.view.window snapshotViewAfterScreenUpdates:NO];
         
@@ -374,7 +390,7 @@ static char shyNavBarManagerKey;
         NSUInteger index = self.navigationController.viewControllers.count - 2;
         UIViewController *previousController = self.navigationController.viewControllers[index];
         
-        if ([previousController _internalShyNavBarManager].isContracting)
+        if (self.navigationController.didShyNavBarManagerHideNavBar)
         {
             [self.navigationController setNavigationBarHidden:NO animated:YES];
         }
@@ -427,6 +443,24 @@ static char shyNavBarManagerKey;
 - (TLYShyNavBarManager *)_internalShyNavBarManager
 {
     return objc_getAssociatedObject(self, &shyNavBarManagerKey);
+}
+
+@end
+
+#pragma mark - UINavigationController Category implementation
+
+const void *didShyNavBarManagerHideNavBarKey = &didShyNavBarManagerHideNavBarKey;
+
+@implementation UINavigationController (TLYShyNavBar)
+
+- (void)setDidShyNavBarManagerHideNavBar:(BOOL)didShyNavBarManagerHideNavBar
+{
+    objc_setAssociatedObject(self, didShyNavBarManagerHideNavBarKey, @(didShyNavBarManagerHideNavBar), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (BOOL)didShyNavBarManagerHideNavBar
+{
+    return [objc_getAssociatedObject(self, didShyNavBarManagerHideNavBarKey) boolValue];
 }
 
 @end
