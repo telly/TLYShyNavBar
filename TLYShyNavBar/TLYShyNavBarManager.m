@@ -238,13 +238,9 @@ static inline CGFloat AACStatusBarHeight()
 
 - (void)setExtensionView:(UIView *)view
 {
-    NSAssert([self.extensionViewContainer.subviews count] <= 1,
-             @"Please don't tamper with this view! Thanks!");
-    
-    UIView *previousExtensionView = [self.extensionViewContainer.subviews firstObject];
-    if (view != previousExtensionView)
+    if (view != _extensionView)
     {
-        [previousExtensionView removeFromSuperview];
+        [_extensionView removeFromSuperview];
         
         CGRect bounds = view.frame;
         bounds.origin = CGPointZero;

@@ -35,6 +35,10 @@
  */
 @property (nonatomic, weak) UIScrollView *scrollView;
 
+/* The extension view to be shown beneath the navbar
+ */
+@property (nonatomic, strong) UIView *extensionView;
+
 /* The container contains the extension view, if any. Exposed to
  * allow the developer to adjust content offset as necessary.
  */
@@ -45,8 +49,6 @@
  */
 @property (nonatomic) CGFloat expansionResistance;      // default 200
 @property (nonatomic) CGFloat contractionResistance;    // default 0
-
-- (void)setExtensionView:(UIView *)view;
 
 @end
 
