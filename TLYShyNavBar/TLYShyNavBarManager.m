@@ -241,6 +241,7 @@ static inline CGFloat AACStatusBarHeight()
     if (view != _extensionView)
     {
         [_extensionView removeFromSuperview];
+        _extensionView = view;
         
         CGRect bounds = view.frame;
         bounds.origin = CGPointZero;
