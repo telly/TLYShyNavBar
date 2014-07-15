@@ -152,9 +152,18 @@ static inline CGFloat AACStatusBarHeight()
 
 #pragma mark - Private methods
 
+- (BOOL)_shouldHandleScrolling
+{
+    CGRect scrollFrame = UIEdgeInsetsInsetRect(self.scrollView.bounds, self.scrollView.contentInset);
+    CGFloat scrollableAmount = self.scrollView.contentSize.height - CGRectGetHeight(scrollFrame);
+    BOOL scrollViewIsSuffecientlyLong = (scrollableAmount > self.navBarController.totalHeight);
+    
+    return (self.isViewControllerVisible && scrollViewIsSuffecientlyLong);
+}
+
 - (void)_handleScrolling
 {
-    if (!self.isViewControllerVisible)
+    if (![self _shouldHandleScrolling])
     {
         return;
     }

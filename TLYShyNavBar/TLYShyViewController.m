@@ -24,6 +24,8 @@ const CGFloat contractionVelocity = 300.f;
 
 @implementation TLYShyViewController
 
+#pragma mark - Properties
+
 // convenience
 - (CGPoint)expandedCenterValue
 {
@@ -50,6 +52,13 @@ const CGFloat contractionVelocity = 300.f;
     return fabs(self.view.center.y - self.expandedCenterValue.y) < FLT_EPSILON;
 }
 
+- (CGFloat)totalHeight
+{
+    return self.child.totalHeight + (self.expandedCenterValue.y - self.contractedCenterValue.y);
+}
+
+#pragma mark - Private methods
+
 // This method is courtesy of GTScrollNavigationBar
 // https://github.com/luugiathuy/GTScrollNavigationBar
 - (void)_updateSubviewsToAlpha:(CGFloat)alpha
@@ -65,6 +74,8 @@ const CGFloat contractionVelocity = 300.f;
         }
     }
 }
+
+#pragma mark - Public methods
 
 - (CGFloat)updateYOffset:(CGFloat)deltaY
 {
