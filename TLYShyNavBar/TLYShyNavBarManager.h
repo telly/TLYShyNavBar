@@ -18,9 +18,6 @@
  *      
  *  viewController.shyNavManager = ...;
  *
- *      OR
- *
- *  [viewController addShyNavManagerWithScrollView:scrollView]
  */
 
 @interface TLYShyNavBarManager : NSObject
