@@ -63,18 +63,6 @@ self.shyNavBarManager.scrollView = self.scrollView;
 
 **IMPORTANT!!** If you are assigning a delegate to your scrollView, do that **before** assigning the scrollView to the `TLYShyNavBarManager`! To learn more, [see below](#how-it-works).
 
-4. Post the `TLYShyApplicationDidBecomeActive` notification:
-
-```objc
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-    // Other stuff...
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"TLYShyApplicationDidBecomeActive"
-                                                        object:nil];
-    
-}
-```
-
 ## A Deeper Look
 
 The above example, while small, is complete! It makes the navigation bar enriched with humbility, that it will start getting out of the way when the scroll view starts scrolling. But, you may want to do more than that! 
