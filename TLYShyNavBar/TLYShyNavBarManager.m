@@ -100,6 +100,8 @@ static inline CGFloat AACStatusBarHeight()
         };
         
         self.navBarController.child = self.extensionController;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive) name:@"TLYShyApplicationDidBecomeActive" object:nil];
     }
     return self;
 }
@@ -111,6 +113,7 @@ static inline CGFloat AACStatusBarHeight()
     {
         _scrollView.delegate = _delegateProxy.originalDelegate;
     }
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"TLYShyApplicationDidBecomeActive" object:nil];
 }
 
 #pragma mark - Properties
@@ -316,6 +319,13 @@ static inline CGFloat AACStatusBarHeight()
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     [self _handleScrollingEnded];
+}
+
+#pragma mark - Application did become active method
+
+- (void)applicationDidBecomeActive
+{
+    [self.navBarController expand];
 }
 
 @end
