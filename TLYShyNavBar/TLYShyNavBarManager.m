@@ -113,7 +113,8 @@ static inline CGFloat AACStatusBarHeight()
     {
         _scrollView.delegate = _delegateProxy.originalDelegate;
     }
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Properties
@@ -321,7 +322,7 @@ static inline CGFloat AACStatusBarHeight()
     [self _handleScrollingEnded];
 }
 
-#pragma mark - Application did become active method
+#pragma mark - NSNotificationCenter methods
 
 - (void)applicationDidBecomeActive
 {
