@@ -22,8 +22,12 @@
 
 static inline CGFloat AACStatusBarHeight()
 {
-    CGSize statusBarSize = [UIApplication sharedApplication].statusBarFrame.size;
-    return MIN(statusBarSize.width, statusBarSize.height);
+    if ([UIApplication sharedApplication].statusBarHidden == NO){
+        CGSize statusBarSize = [UIApplication sharedApplication].statusBarFrame.size;
+        return MIN(statusBarSize.width, statusBarSize.height);
+    } else {
+        return 0.f;
+    }
 }
 
 #pragma mark - TLYShyNavBarManager class
