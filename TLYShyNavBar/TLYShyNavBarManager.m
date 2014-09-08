@@ -68,6 +68,8 @@ static inline CGFloat AACStatusBarHeight()
         self.expansionResistance = 200.f;
         self.contractionResistance = 0.f;
         
+        self.alphaFadeEnabled = YES;
+        
         self.previousScrollInsets = UIEdgeInsetsZero;
         self.previousYOffset = NAN;
         
@@ -224,6 +226,7 @@ static inline CGFloat AACStatusBarHeight()
         }
         
         // 6 - Update the shyViewController
+        self.navBarController.alphaFadeEnabled = self.alphaFadeEnabled;
         [self.navBarController updateYOffset:deltaY];
     }
     
@@ -239,7 +242,7 @@ static inline CGFloat AACStatusBarHeight()
     
     self.resistanceConsumed = 0;
     
-    CGFloat deltaY = deltaY = [self.navBarController snap:self.isContracting];
+    CGFloat deltaY = [self.navBarController snap:self.isContracting];
     CGPoint newContentOffset = self.scrollView.contentOffset;
     
     newContentOffset.y -= deltaY;
