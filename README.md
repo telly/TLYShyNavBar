@@ -1,7 +1,7 @@
 
 # TLYShyNavBar
 
-This component helps you mimick the navigation bar auto scrolling that you see in the facebook, instagram and other apps. Not only that, but with the ability to add an additional extension that scrolls along as well! It is designed for ease of use, and is battle tested in our own [Telly app](https://itunes.apple.com/us/app/telly/id524552885?mt=8)<sup>[1]</sup>!
+This component helps you mimick the navigation bar auto scrolling that you see in the facebook, instagram and other apps. Not only that, but with the ability to add an additional extension that scrolls along as well! It is designed for **ease of use**, and is battle tested in our own [Telly app](https://itunes.apple.com/us/app/telly/id524552885?mt=8)<sup>[1]</sup>!
 
 ![Battle Tested!!](resources/battle-tested-demo.gif)
 
@@ -12,6 +12,7 @@ This component helps you mimick the navigation bar auto scrolling that you see i
 
 + **[Features](#features)**: See what this component has to offer!
 + **[Quick Start](#quick-start)**: TL;DR people, you'll love this.
++ **[Design Goals](#design-goals)**: The cherished aspects of this component.
 + **[A Deeper Look](#a-deeper-look)**: You're invensted in this now and want to make the most out of it.
 + **[How it Works](#how-it-works)**: The deep stuff...
 + **[Remarks](#remarks)**: Read this before losing all hope.
@@ -63,9 +64,15 @@ self.shyNavBarManager.scrollView = self.scrollView;
 
 **IMPORTANT!!** If you are assigning a delegate to your scrollView, do that **before** assigning the scrollView to the `TLYShyNavBarManager`! To learn more, [see below](#how-it-works).
 
+## Design Goals
+
++ **Ease of Use**: This is the most important, and should never be compromised. Even if compatability breaks or versatility is limited, the component should remain easy to integrate.
++ **Portable**: Less dependencies, lightweight, self-contained, ... etc.
++ **Compatability**: Whenever possible, the component should simply work with whatever you throw at it.
+
 ## A Deeper Look
 
-The above example, while small, is complete! It makes the navigation bar enriched with humbility, that it will start getting out of the way when the scroll view starts scrolling. But, you may want to do more than that! 
+The above example, while small, is complete! It makes the navigation bar enriched with humbility, that it will start getting out of the way when the scroll view starts scrolling. But, you may want to do more than that!
 
 #### ACCESS THE MANAGER OF SHYNESS
 
