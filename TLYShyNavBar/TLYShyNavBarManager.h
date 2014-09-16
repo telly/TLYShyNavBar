@@ -47,8 +47,10 @@
 @property (nonatomic) CGFloat expansionResistance;      // default 200
 @property (nonatomic) CGFloat contractionResistance;    // default 0
 
-/* Turn on or off the alpha fade as the navbar contracts/expands. Defaults to YES */
-@property (nonatomic) BOOL alphaFadeEnabled;
+/* Turn on or off the alpha fade as the navbar contracts/expands. 
+ * Defaults to YES
+ */
+@property (nonatomic, getter = isAlphaFadeEnabled) BOOL alphaFadeEnabled;
 
 @end
 

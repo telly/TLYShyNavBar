@@ -22,12 +22,13 @@
 
 static inline CGFloat AACStatusBarHeight()
 {
-    if ([UIApplication sharedApplication].statusBarHidden == NO){
-        CGSize statusBarSize = [UIApplication sharedApplication].statusBarFrame.size;
-        return MIN(statusBarSize.width, statusBarSize.height);
-    } else {
+    if ([UIApplication sharedApplication].statusBarHidden)
+    {
         return 0.f;
     }
+    
+    CGSize statusBarSize = [UIApplication sharedApplication].statusBarFrame.size;
+    return MIN(statusBarSize.width, statusBarSize.height);
 }
 
 #pragma mark - TLYShyNavBarManager class
@@ -46,8 +47,9 @@ static inline CGFloat AACStatusBarHeight()
 @property (nonatomic) CGFloat resistanceConsumed;
 
 @property (nonatomic, getter = isContracting) BOOL contracting;
-@property (nonatomic, readonly, getter = isViewControllerVisible) BOOL viewControllerVisible;
 @property (nonatomic) BOOL previousContractionState;
+
+@property (nonatomic, readonly) BOOL isViewControllerVisible;
 
 @end
 
