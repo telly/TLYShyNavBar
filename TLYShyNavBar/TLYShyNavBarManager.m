@@ -46,7 +46,7 @@ static inline CGFloat AACStatusBarHeight()
 @property (nonatomic) CGFloat resistanceConsumed;
 
 @property (nonatomic, getter = isContracting) BOOL contracting;
-@property (nonatomic, getter = isViewControllerVisible) BOOL viewControllerVisible;
+@property (nonatomic, readonly, getter = isViewControllerVisible) BOOL viewControllerVisible;
 @property (nonatomic) BOOL previousContractionState;
 
 @end
@@ -158,6 +158,11 @@ static inline CGFloat AACStatusBarHeight()
 - (CGRect)extensionViewBounds
 {
     return self.extensionViewContainer.bounds;
+}
+
+- (BOOL)isViewControllerVisible
+{
+    return self.viewController.isViewLoaded && self.viewController.view.window;
 }
 
 #pragma mark - Private methods
@@ -278,7 +283,6 @@ static inline CGFloat AACStatusBarHeight()
 - (void)prepareForDisplay
 {
     [self cleanup];
-    self.viewControllerVisible = YES;
 }
 
 - (void)layoutViews
@@ -304,7 +308,6 @@ static inline CGFloat AACStatusBarHeight()
 {
     [self.navBarController expand];
     
-    self.viewControllerVisible = NO;
     self.previousYOffset = NAN;
     self.previousScrollInsets = UIEdgeInsetsZero;
 }
