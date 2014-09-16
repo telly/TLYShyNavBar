@@ -77,6 +77,16 @@ const CGFloat contractionVelocity = 300.f;
 
 #pragma mark - Public methods
 
+- (void)setAlphaFadeEnabled:(BOOL)alphaFadeEnabled
+{
+    _alphaFadeEnabled = alphaFadeEnabled;
+    
+    if (!alphaFadeEnabled)
+    {
+        [self _updateSubviewsToAlpha:1.f];
+    }
+}
+
 - (CGFloat)updateYOffset:(CGFloat)deltaY
 {
     if (self.child && deltaY < 0)
@@ -95,7 +105,10 @@ const CGFloat contractionVelocity = 300.f;
         CGFloat newAlpha = 1.f - (self.expandedCenterValue.y - self.view.center.y) / self.contractionAmountValue;
         newAlpha = MIN(MAX(FLT_EPSILON, newAlpha), 1.f);
         
-        [self _updateSubviewsToAlpha:newAlpha];
+        if (self.alphaFadeEnabled)
+        {
+            [self _updateSubviewsToAlpha:newAlpha];
+        }
     }
     
     CGFloat residual = newYOffset - newYCenter;
@@ -142,7 +155,7 @@ const CGFloat contractionVelocity = 300.f;
 {
     self.view.hidden = NO;
     
-    if (self.hidesSubviews)
+    if (self.hidesSubviews && self.alphaFadeEnabled)
     {
         [self _updateSubviewsToAlpha:1.f];
     }
