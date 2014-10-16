@@ -155,7 +155,11 @@ static inline CGFloat AACStatusBarHeight()
     {
         self.delegateProxy.originalDelegate = _scrollView.delegate;
         _scrollView.delegate = (id)self.delegateProxy;
-    }}
+    }
+    [self cleanup];
+    [self layoutViews];
+    
+}
 
 - (CGRect)extensionViewBounds
 {
