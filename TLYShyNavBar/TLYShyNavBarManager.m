@@ -7,7 +7,8 @@
 //
 
 #import "TLYShyNavBarManager.h"
-#import "TLYShyViewController.h"
+#import "TLYOffsetShyController.h"
+#import "TLYBoundsShyController.h"
 #import "TLYDelegateProxy.h"
 
 #import "UIViewController+BetterLayoutGuides.h"
@@ -20,7 +21,7 @@
 // Thanks to SO user, MattDiPasquale
 // http://stackoverflow.com/questions/12991935/how-to-programmatically-get-ios-status-bar-height/16598350#16598350
 
-static inline CGFloat AACStatusBarHeight()
+CGFloat tly_AACStatusBarHeight(void)
 {
     if ([UIApplication sharedApplication].statusBarHidden)
     {
@@ -35,8 +36,8 @@ static inline CGFloat AACStatusBarHeight()
 
 @interface TLYShyNavBarManager () <UIScrollViewDelegate>
 
-@property (nonatomic, strong) TLYShyViewController *navBarController;
-@property (nonatomic, strong) TLYShyViewController *extensionController;
+@property (nonatomic, strong) TLYShyController *navBarController;
+@property (nonatomic, strong) TLYShyController *extensionController;
 
 @property (nonatomic, strong) TLYDelegateProxy *delegateProxy;
 
@@ -75,37 +76,53 @@ static inline CGFloat AACStatusBarHeight()
         self.previousScrollInsets = UIEdgeInsetsZero;
         self.previousYOffset = NAN;
         
-        self.navBarController = [[TLYShyViewController alloc] init];
-        self.navBarController.hidesSubviews = YES;
-        self.navBarController.expandedCenter = ^(UIView *view)
-        {
-            return CGPointMake(CGRectGetMidX(view.bounds),
-                               CGRectGetMidY(view.bounds) + AACStatusBarHeight());
-        };
-        
-        self.navBarController.contractionAmount = ^(UIView *view)
-        {
-            return CGRectGetHeight(view.bounds);
-        };
-        
-        self.extensionViewContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100.f, 0.f)];
-        self.extensionViewContainer.backgroundColor = [UIColor clearColor];
-        self.extensionViewContainer.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
-        
-        self.extensionController = [[TLYShyViewController alloc] init];
-        self.extensionController.view = self.extensionViewContainer;
-        self.extensionController.hidesAfterContraction = YES;
-        self.extensionController.contractionAmount = ^(UIView *view)
-        {
-            return CGRectGetHeight(view.bounds);
-        };
-        
         __weak __typeof(self) weakSelf = self;
-        self.extensionController.expandedCenter = ^(UIView *view)
-        {
-            return CGPointMake(CGRectGetMidX(view.bounds),
-                               CGRectGetMidY(view.bounds) + weakSelf.viewController.tly_topLayoutGuide.length);
-        };
+
+        self.navBarController = ({
+            TLYBoundsShyController *shyController = [[TLYBoundsShyController alloc] init];
+            shyController.hidesSubviews = YES;
+            shyController.cancelScrollBlock = ^(CGFloat deltaY)
+            {
+                UIScrollView *scrollView = weakSelf.scrollView;
+                id delegate = scrollView.delegate;
+                scrollView.delegate = nil;
+                scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, scrollView.contentOffset.y + deltaY);
+                scrollView.delegate = (id)delegate;
+            };
+            
+            shyController.navbarBlock = ^
+            {
+                return weakSelf.viewController.navigationController.navigationBar;
+            };
+            
+            shyController;
+        });
+        
+        self.extensionViewContainer = ({
+            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100.f, 0.f)];
+            view.backgroundColor = [UIColor clearColor];
+            view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
+            view;
+        });
+        
+        self.extensionController = ({
+            TLYOffsetShyController *shyController = [[TLYOffsetShyController alloc] init];
+            shyController.view = self.extensionViewContainer;
+            shyController.hidesAfterContraction = YES;
+            shyController.contractionAmount = ^(UIView *view)
+            {
+                return CGRectGetHeight(view.bounds);
+            };
+            
+            shyController.expandedCenter = ^(UIView *view)
+            {
+                UIView *navbar = weakSelf.viewController.navigationController.navigationBar;
+                return CGPointMake(CGRectGetMidX(view.bounds),
+                                   CGRectGetMidY(view.bounds) + CGRectGetHeight(navbar.bounds) + tly_AACStatusBarHeight());
+            };
+            
+            shyController;
+        });
         
         self.navBarController.child = self.extensionController;
         
@@ -131,13 +148,13 @@ static inline CGFloat AACStatusBarHeight()
 {
     _viewController = viewController;
     
-    UIView *navbar = viewController.navigationController.navigationBar;
-    NSAssert(navbar != nil, @"You are using the component wrong... Please see the README file.");
+    UINavigationController *navController = viewController.navigationController;
+    NSAssert(navController != nil, @"The view controller must already be in a navigation controller hierarchy");
     
     [self.extensionViewContainer removeFromSuperview];
     [self.viewController.view addSubview:self.extensionViewContainer];
     
-    self.navBarController.view = navbar;
+    self.navBarController.view = navController.view;
     
     [self layoutViews];
 }
@@ -156,9 +173,9 @@ static inline CGFloat AACStatusBarHeight()
         self.delegateProxy.originalDelegate = _scrollView.delegate;
         _scrollView.delegate = (id)self.delegateProxy;
     }
+    
     [self cleanup];
     [self layoutViews];
-    
 }
 
 - (CGRect)extensionViewBounds
@@ -229,7 +246,7 @@ static inline CGFloat AACStatusBarHeight()
 
             deltaY = MIN(0, availableResistance + deltaY);
         }
-        else if (self.scrollView.contentOffset.y > -AACStatusBarHeight())
+        else if (self.scrollView.contentOffset.y > 0)
         {
             CGFloat availableResistance = self.expansionResistance - self.resistanceConsumed;
             self.resistanceConsumed = MIN(self.expansionResistance, self.resistanceConsumed + deltaY);
@@ -303,9 +320,13 @@ static inline CGFloat AACStatusBarHeight()
     
     self.previousScrollInsets = scrollInsets;
     
-    [self.navBarController expand];
+    if (!self.scrollView.isTracking && !self.scrollView.isDragging && !self.scrollView.isDecelerating)
+    {
+        [self.navBarController expand];
+    }
+    
     [self.extensionViewContainer.superview bringSubviewToFront:self.extensionViewContainer];
-
+    
     self.scrollView.contentInset = scrollInsets;
     self.scrollView.scrollIndicatorInsets = scrollInsets;
 }
@@ -394,7 +415,7 @@ static char shyNavBarManagerKey;
 }
 
 - (TLYShyNavBarManager *)shyNavBarManager
-{
+{    
     id shyNavBarManager = objc_getAssociatedObject(self, &shyNavBarManagerKey);
     if (!shyNavBarManager)
     {

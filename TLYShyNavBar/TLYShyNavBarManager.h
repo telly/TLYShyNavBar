@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-/*  CLASS DESCRIPTION:
- *  ==================
- *      Manages the relationship between a scrollView and a view
+extern CGFloat tly_AACStatusBarHeight(void);
+
+/** Manages the relationship between a scrollView and a view
  *  controller. Must be instantiated and assigned the scrollView
  *  that drives the contraction/expansion, then assigned to the
  *  viewController that needs the functionality. Must be assigned
@@ -19,7 +19,6 @@
  *  viewController.shyNavManager = ...;
  *
  */
-
 @interface TLYShyNavBarManager : NSObject
 
 /* The view controller that is part of the navigation stack
@@ -55,9 +54,7 @@
 @end
 
 
-/*  CATEGORY DESCRIPTION:
- *  =====================
- *      The category described in the TLYShyNavBarManager usage, and it
+/** The category described in the TLYShyNavBarManager usage, and it
  *  simply uses associated objects to attatch a TLYShyNavBar to the 
  *  designated view controller.
  *
@@ -65,7 +62,6 @@
  *  TLYShyNavBar. Things like, viewDidLayoutSubviews, viewWillAppear and
  *   Disappear, ... etc.
  */
-
 @interface UIViewController (ShyNavBar)
 
 /* Initially, this is nil, but created for you when you access it */
