@@ -203,7 +203,7 @@ static inline CGFloat AACStatusBarHeight()
         
         /* rounding to resolve a dumb issue with the contentOffset value */
         CGFloat end = floorf(self.scrollView.contentSize.height - CGRectGetHeight(self.scrollView.bounds) + self.scrollView.contentInset.bottom - 0.5f);
-        if (self.previousYOffset > end)
+        if (self.previousYOffset > end && deltaY > 0)
         {
             deltaY = MAX(0, deltaY - self.previousYOffset + end);
         }
