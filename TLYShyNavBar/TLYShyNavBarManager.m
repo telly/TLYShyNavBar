@@ -178,7 +178,7 @@ CGFloat tly_AACStatusBarHeight(void)
     
     if (navController.navigationBar.isTranslucent)
     {
-        navController.navigationBar.backgroundColor = [UIColor whiteColor];
+        [navController.navigationBar.subviews.firstObject setBackgroundColor:[UIColor whiteColor]];
         
         self.navBarController = self.translucentNavBarController;
         self.navBarController.view = navController.navigationBar;
@@ -484,11 +484,7 @@ static char shyNavBarManagerKey;
         bool isBackgroundView = view == [self.subviews firstObject];
         bool isViewHidden = view.hidden || view.alpha < FLT_EPSILON;
         
-        if (isBackgroundView)
-        {
-            view.backgroundColor = [UIColor whiteColor];
-        }
-        else if (!isViewHidden)
+        if (!isBackgroundView && !isViewHidden)
         {
             view.alpha = MAX(alpha, FLT_EPSILON);
         }
