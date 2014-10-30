@@ -55,21 +55,10 @@
 
 #pragma mark - Public methods
 
-// This method is courtesy of GTScrollNavigationBar
-// https://github.com/luugiathuy/GTScrollNavigationBar
 - (void)updateSubviewsToAlpha:(CGFloat)alpha
 {
-    UIView *navbar = self.navbarBlock();
-    for (UIView* view in navbar.subviews)
-    {
-        bool isBackgroundView = view == [navbar.subviews firstObject];
-        bool isViewHidden = view.hidden || view.alpha < FLT_EPSILON;
-        
-        if (!isBackgroundView && !isViewHidden)
-        {
-            view.alpha = MAX(alpha, FLT_EPSILON);
-        }
-    }
+    UINavigationBar *navbar = self.navbarBlock();
+    [navbar updateSubviewsToAlpha:alpha];
 }
 
 - (CGFloat)performUpdateForDelta:(CGFloat)deltaY

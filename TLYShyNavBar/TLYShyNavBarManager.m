@@ -36,7 +36,10 @@ CGFloat tly_AACStatusBarHeight(void)
 
 @interface TLYShyNavBarManager () <UIScrollViewDelegate>
 
-@property (nonatomic, strong) TLYShyController *navBarController;
+@property (nonatomic, unsafe_unretained) TLYShyController *navBarController;
+
+@property (nonatomic, strong) TLYShyController *translucentNavBarController;
+@property (nonatomic, strong) TLYShyController *opaqueNavBarController;
 @property (nonatomic, strong) TLYShyController *extensionController;
 
 @property (nonatomic, strong) TLYDelegateProxy *delegateProxy;
@@ -78,7 +81,7 @@ CGFloat tly_AACStatusBarHeight(void)
         
         __weak __typeof(self) weakSelf = self;
 
-        self.navBarController = ({
+        self.opaqueNavBarController = ({
             TLYBoundsShyController *shyController = [[TLYBoundsShyController alloc] init];
             shyController.hidesSubviews = YES;
             shyController.cancelScrollBlock = ^(CGFloat deltaY)
@@ -93,6 +96,23 @@ CGFloat tly_AACStatusBarHeight(void)
             shyController.navbarBlock = ^
             {
                 return weakSelf.viewController.navigationController.navigationBar;
+            };
+            
+            shyController;
+        });
+        
+        self.translucentNavBarController = ({
+            TLYOffsetShyController *shyController = [[TLYOffsetShyController alloc] init];
+            shyController.hidesSubviews = YES;
+            shyController.contractionAmount = ^(UIView *view)
+            {
+                return CGRectGetHeight(view.bounds);
+            };
+            
+            shyController.expandedCenter = ^(UIView *view)
+            {
+                return CGPointMake(CGRectGetMidX(view.bounds),
+                                   CGRectGetMidY(view.bounds) + tly_AACStatusBarHeight());
             };
             
             shyController;
@@ -148,13 +168,26 @@ CGFloat tly_AACStatusBarHeight(void)
 {
     _viewController = viewController;
     
+    viewController.automaticallyAdjustsScrollViewInsets = NO;
+    
     UINavigationController *navController = viewController.navigationController;
     NSAssert(navController != nil, @"The view controller must already be in a navigation controller hierarchy");
     
     [self.extensionViewContainer removeFromSuperview];
     [self.viewController.view addSubview:self.extensionViewContainer];
     
-    self.navBarController.view = navController.view;
+    if (navController.navigationBar.isTranslucent)
+    {
+        navController.navigationBar.backgroundColor = [UIColor whiteColor];
+        
+        self.navBarController = self.translucentNavBarController;
+        self.navBarController.view = navController.navigationBar;
+    }
+    else
+    {
+        self.navBarController = self.opaqueNavBarController;
+        self.navBarController.view = navController.view;
+    }
     
     [self layoutViews];
 }
@@ -415,9 +448,10 @@ static char shyNavBarManagerKey;
 }
 
 - (TLYShyNavBarManager *)shyNavBarManager
-{    
+{
+#warning HACK - Disabled for iPad
     id shyNavBarManager = objc_getAssociatedObject(self, &shyNavBarManagerKey);
-    if (!shyNavBarManager)
+    if (!shyNavBarManager && ![UIDevice isPad])
     {
         shyNavBarManager = [[TLYShyNavBarManager alloc] init];
         self.shyNavBarManager = shyNavBarManager;
@@ -436,3 +470,29 @@ static char shyNavBarManagerKey;
 
 @end
 
+
+#pragma mark - UINavigationBar Category Implementation
+
+@implementation UINavigationBar (TLYShyNavBar)
+
+// This method is courtesy of GTScrollNavigationBar
+// https://github.com/luugiathuy/GTScrollNavigationBar
+- (void)updateSubviewsToAlpha:(CGFloat)alpha
+{
+    for (UIView* view in self.subviews)
+    {
+        bool isBackgroundView = view == [self.subviews firstObject];
+        bool isViewHidden = view.hidden || view.alpha < FLT_EPSILON;
+        
+        if (isBackgroundView)
+        {
+            view.backgroundColor = [UIColor whiteColor];
+        }
+        else if (!isViewHidden)
+        {
+            view.alpha = MAX(alpha, FLT_EPSILON);
+        }
+    }
+}
+
+@end

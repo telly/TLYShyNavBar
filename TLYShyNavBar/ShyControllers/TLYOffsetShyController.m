@@ -62,7 +62,14 @@
 
 - (void)updateSubviewsToAlpha:(CGFloat)alpha
 {
-    self.view.alpha = alpha;
+    if ([self.view respondsToSelector:@selector(updateSubviewsToAlpha:)])
+    {
+        [(id)self.view updateSubviewsToAlpha:alpha];
+    }
+    else
+    {
+        self.view.alpha = alpha;
+    }
 }
 
 - (CGFloat)performUpdateForDelta:(CGFloat)deltaY

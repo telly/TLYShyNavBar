@@ -10,7 +10,7 @@
 
 /** We need the scroll view to undo the content offset */
 typedef void(^TLYShyViewControllerCancelScrollBlock)(CGFloat deltaY);
-typedef UIView *(^TLYShyViewControllerNavbarBlock)();
+typedef UINavigationBar *(^TLYShyViewControllerNavbarBlock)();
 
 /** Reacts to the scroll deltas by manipulating the bounds
  */

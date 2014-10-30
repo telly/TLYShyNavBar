@@ -68,3 +68,14 @@ extern CGFloat tly_AACStatusBarHeight(void);
 @property (nonatomic, strong) TLYShyNavBarManager *shyNavBarManager;
 
 @end
+
+
+/** Simple category on UINavigationBar to update the subview's alpha
+ */
+@interface UINavigationBar (ShyNavBar)
+
+// This method is courtesy of GTScrollNavigationBar
+// https://github.com/luugiathuy/GTScrollNavigationBar
+- (void)updateSubviewsToAlpha:(CGFloat)alpha;
+
+@end
