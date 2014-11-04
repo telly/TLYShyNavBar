@@ -98,6 +98,14 @@
     self.view.center = self.expandedCenterValue;
     [self.child expand];
     
+#warning HACK - one more hack :(
+    if ([self.view isKindOfClass:[UINavigationBar class]]) {
+        CGRect newFrame = self.view.frame;
+        newFrame.size.height = MAX(44.f, newFrame.size.height);
+        
+        self.view.frame = newFrame;
+    }
+    
     return amountToMove;
 }
 
