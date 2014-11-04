@@ -121,14 +121,12 @@ const CGFloat contractionVelocity = 300.f;
 
 - (CGFloat)expand
 {
-    [self.child expand];
-    return 0.f;
+    return [self.child expand];
 }
 
 - (CGFloat)contract
 {
-    [self.child contract];
-    return 0.f;
+    return [self.child contract];
 }
 
 @end

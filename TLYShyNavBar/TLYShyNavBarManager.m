@@ -147,6 +147,7 @@ CGFloat tly_AACStatusBarHeight(void)
         self.navBarController.child = self.extensionController;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidChangeStatusBarFrame) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
     }
     return self;
 }
@@ -393,6 +394,11 @@ CGFloat tly_AACStatusBarHeight(void)
 }
 
 #pragma mark - NSNotificationCenter methods
+
+- (void)applicationDidChangeStatusBarFrame
+{
+    [self prepareForDisplay];
+}
 
 - (void)applicationDidBecomeActive
 {
