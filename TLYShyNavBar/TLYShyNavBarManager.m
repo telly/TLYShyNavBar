@@ -46,7 +46,6 @@ CGFloat tly_AACStatusBarHeight(void)
 
 @property (nonatomic, strong) UIView *extensionViewContainer;
 
-@property (nonatomic) UIEdgeInsets previousScrollInsets;
 @property (nonatomic) CGFloat previousYOffset;
 @property (nonatomic) CGFloat resistanceConsumed;
 
@@ -76,7 +75,6 @@ CGFloat tly_AACStatusBarHeight(void)
         
         self.alphaFadeEnabled = YES;
         
-        self.previousScrollInsets = UIEdgeInsetsZero;
         self.previousYOffset = NAN;
         
         __weak __typeof(self) weakSelf = self;
@@ -169,17 +167,25 @@ CGFloat tly_AACStatusBarHeight(void)
 {
     _viewController = viewController;
     
-    viewController.automaticallyAdjustsScrollViewInsets = NO;
-    
     UINavigationController *navController = viewController.navigationController;
     NSAssert(navController != nil, @"The view controller must already be in a navigation controller hierarchy");
+    
+    navController.automaticallyAdjustsScrollViewInsets = NO;
+    viewController.automaticallyAdjustsScrollViewInsets = NO;
     
     [self.extensionViewContainer removeFromSuperview];
     [self.viewController.view addSubview:self.extensionViewContainer];
     
     if (navController.navigationBar.isTranslucent)
     {
-        [navController.navigationBar.subviews.firstObject setBackgroundColor:[UIColor whiteColor]];
+        // on iOS 8 the background is reset to nil unpredictably.
+        UIView *backgroundView = navController.navigationBar.subviews.firstObject;
+        [self.KVOController observeAndExecute:backgroundView keyPath:@keypath(UIView.new, backgroundColor) block:^(id observer, id object) {
+            if (!backgroundView.backgroundColor)
+            {
+                [backgroundView setBackgroundColor:[UIColor whiteColor]];
+            }
+        }];
         
         self.navBarController = self.translucentNavBarController;
         self.navBarController.view = navController.navigationBar;
@@ -242,6 +248,8 @@ CGFloat tly_AACStatusBarHeight(void)
     
     if (!isnan(self.previousYOffset))
     {
+        [self layoutViews];
+        
         // 1 - Calculate the delta
         CGFloat deltaY = (self.previousYOffset - self.scrollView.contentOffset.y);
 
@@ -345,14 +353,12 @@ CGFloat tly_AACStatusBarHeight(void)
 - (void)layoutViews
 {
     UIEdgeInsets scrollInsets = self.scrollView.contentInset;
-    scrollInsets.top = CGRectGetHeight(self.extensionViewContainer.bounds) + self.viewController.tly_topLayoutGuide.length;
+    scrollInsets.top = CGRectGetHeight(self.extensionViewContainer.bounds) + 64.f;
     
-    if (UIEdgeInsetsEqualToEdgeInsets(scrollInsets, self.previousScrollInsets))
+    if (UIEdgeInsetsEqualToEdgeInsets(scrollInsets, self.scrollView.contentInset))
     {
         return;
     }
-    
-    self.previousScrollInsets = scrollInsets;
     
     if (!self.scrollView.isTracking && !self.scrollView.isDragging && !self.scrollView.isDecelerating)
     {
@@ -370,7 +376,6 @@ CGFloat tly_AACStatusBarHeight(void)
     [self.navBarController expand];
     
     self.previousYOffset = NAN;
-    self.previousScrollInsets = UIEdgeInsetsZero;
 }
 
 #pragma mark - UIScrollViewDelegate methods
