@@ -177,16 +177,7 @@ CGFloat tly_AACStatusBarHeight(void)
     [self.viewController.view addSubview:self.extensionViewContainer];
     
     if (navController.navigationBar.isTranslucent)
-    {
-        // on iOS 8 the background is reset to nil unpredictably.
-        UIView *backgroundView = navController.navigationBar.subviews.firstObject;
-        [self.KVOController observeAndExecute:backgroundView keyPath:@keypath(UIView.new, backgroundColor) block:^(id observer, id object) {
-            if (!backgroundView.backgroundColor)
-            {
-                [backgroundView setBackgroundColor:[UIColor whiteColor]];
-            }
-        }];
-        
+    {        
         self.navBarController = self.translucentNavBarController;
         self.navBarController.view = navController.navigationBar;
     }
