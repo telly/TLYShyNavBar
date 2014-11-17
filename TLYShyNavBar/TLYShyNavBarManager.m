@@ -12,6 +12,7 @@
 
 #import "UIViewController+BetterLayoutGuides.h"
 #import "NSObject+TLYSwizzlingHelpers.h"
+#import "TLYShyTableView.h"
 
 #import <objc/runtime.h>
 
@@ -308,6 +309,12 @@ static inline CGFloat AACStatusBarHeight()
 
     self.scrollView.contentInset = scrollInsets;
     self.scrollView.scrollIndicatorInsets = scrollInsets;
+    
+    if ([self.scrollView isKindOfClass:[TLYShyTableView class]]){
+        UIEdgeInsets headerInst = UIEdgeInsetsMake(scrollInsets.top*-1, 0, 0, 0);
+        [(TLYShyTableView *)self.scrollView setHeaderViewInsets:headerInst];
+    }
+    
 }
 
 - (void)cleanup
