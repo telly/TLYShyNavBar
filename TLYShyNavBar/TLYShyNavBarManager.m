@@ -31,6 +31,23 @@ static inline CGFloat AACStatusBarHeight()
     return MIN(statusBarSize.width, statusBarSize.height);
 }
 
+@implementation UIScrollView(Helper)
+
+// Modify contentInset and scrollIndicatorInsets while preserving visual content offset
+- (void)tly_smartSetInsets:(UIEdgeInsets)contentAndScrollIndicatorInsets
+{
+    if (contentAndScrollIndicatorInsets.top != self.contentInset.top)
+    {
+        CGPoint contentOffset = self.contentOffset;
+        contentOffset.y -= contentAndScrollIndicatorInsets.top - self.contentInset.top;
+        self.contentOffset = contentOffset;
+    }
+
+    self.contentInset = self.scrollIndicatorInsets = contentAndScrollIndicatorInsets;
+}
+
+@end
+
 #pragma mark - TLYShyNavBarManager class
 
 @interface TLYShyNavBarManager () <UIScrollViewDelegate>
@@ -325,8 +342,7 @@ static inline CGFloat AACStatusBarHeight()
     [self.navBarController expand];
     [self.extensionViewContainer.superview bringSubviewToFront:self.extensionViewContainer];
 
-    self.scrollView.contentInset = scrollInsets;
-    self.scrollView.scrollIndicatorInsets = scrollInsets;
+    [self.scrollView tly_smartSetInsets:scrollInsets];
 }
 
 - (void)cleanup
