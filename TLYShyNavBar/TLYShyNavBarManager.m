@@ -171,10 +171,29 @@ static inline CGFloat AACStatusBarHeight()
     return self.viewController.isViewLoaded && self.viewController.view.window;
 }
 
+- (void)setDisable:(BOOL)disable
+{
+    if (disable == _disable)
+    {
+        return;
+    }
+
+    _disable = disable;
+
+    if (!disable) {
+        self.previousYOffset = self.scrollView.contentOffset.y;
+    }
+}
+
 #pragma mark - Private methods
 
 - (BOOL)_shouldHandleScrolling
 {
+    if (self.disable)
+    {
+        return NO;
+    }
+
     CGRect scrollFrame = UIEdgeInsetsInsetRect(self.scrollView.bounds, self.scrollView.contentInset);
     CGFloat scrollableAmount = self.scrollView.contentSize.height - CGRectGetHeight(scrollFrame);
     BOOL scrollViewIsSuffecientlyLong = (scrollableAmount > self.navBarController.totalHeight);

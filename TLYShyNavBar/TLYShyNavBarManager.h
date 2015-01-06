@@ -52,6 +52,8 @@
  */
 @property (nonatomic, getter = isAlphaFadeEnabled) BOOL alphaFadeEnabled;
 
+@property (nonatomic) BOOL disable;
+
 @end
 
 
