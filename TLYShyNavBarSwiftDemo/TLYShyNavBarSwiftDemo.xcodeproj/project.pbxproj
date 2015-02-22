@@ -12,12 +12,12 @@
 		E7ADE6171A99A83B00E8F95C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7ADE6161A99A83B00E8F95C /* Images.xcassets */; };
 		E7ADE61A1A99A83B00E8F95C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7ADE6181A99A83B00E8F95C /* LaunchScreen.xib */; };
 		E7ADE6261A99A83B00E8F95C /* TLYShyNavBarSwiftDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7ADE6251A99A83B00E8F95C /* TLYShyNavBarSwiftDemoTests.swift */; };
-		E7ADE63B1A99A84C00E8F95C /* NSObject+TLYSwizzlingHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = E7ADE6321A99A84C00E8F95C /* NSObject+TLYSwizzlingHelpers.m */; };
-		E7ADE63C1A99A84C00E8F95C /* UIViewController+BetterLayoutGuides.m in Sources */ = {isa = PBXBuildFile; fileRef = E7ADE6341A99A84C00E8F95C /* UIViewController+BetterLayoutGuides.m */; };
-		E7ADE63D1A99A84C00E8F95C /* TLYDelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = E7ADE6361A99A84C00E8F95C /* TLYDelegateProxy.m */; };
-		E7ADE63E1A99A84C00E8F95C /* TLYShyNavBarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E7ADE6381A99A84C00E8F95C /* TLYShyNavBarManager.m */; };
-		E7ADE63F1A99A84C00E8F95C /* TLYShyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7ADE63A1A99A84C00E8F95C /* TLYShyViewController.m */; };
 		E7ADE6421A99AB5800E8F95C /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7ADE6411A99AB5800E8F95C /* TableViewController.swift */; };
+		E7ADE64F1A9A6F7C00E8F95C /* NSObject+TLYSwizzlingHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = E7ADE6461A9A6F7C00E8F95C /* NSObject+TLYSwizzlingHelpers.m */; };
+		E7ADE6501A9A6F7C00E8F95C /* UIViewController+BetterLayoutGuides.m in Sources */ = {isa = PBXBuildFile; fileRef = E7ADE6481A9A6F7C00E8F95C /* UIViewController+BetterLayoutGuides.m */; };
+		E7ADE6511A9A6F7C00E8F95C /* TLYDelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = E7ADE64A1A9A6F7C00E8F95C /* TLYDelegateProxy.m */; };
+		E7ADE6521A9A6F7C00E8F95C /* TLYShyNavBarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E7ADE64C1A9A6F7C00E8F95C /* TLYShyNavBarManager.m */; };
+		E7ADE6531A9A6F7C00E8F95C /* TLYShyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7ADE64E1A9A6F7C00E8F95C /* TLYShyViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,18 +40,18 @@
 		E7ADE61F1A99A83B00E8F95C /* TLYShyNavBarSwiftDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TLYShyNavBarSwiftDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7ADE6241A99A83B00E8F95C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E7ADE6251A99A83B00E8F95C /* TLYShyNavBarSwiftDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TLYShyNavBarSwiftDemoTests.swift; sourceTree = "<group>"; };
-		E7ADE6311A99A84C00E8F95C /* NSObject+TLYSwizzlingHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+TLYSwizzlingHelpers.h"; sourceTree = "<group>"; };
-		E7ADE6321A99A84C00E8F95C /* NSObject+TLYSwizzlingHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+TLYSwizzlingHelpers.m"; sourceTree = "<group>"; };
-		E7ADE6331A99A84C00E8F95C /* UIViewController+BetterLayoutGuides.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+BetterLayoutGuides.h"; sourceTree = "<group>"; };
-		E7ADE6341A99A84C00E8F95C /* UIViewController+BetterLayoutGuides.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+BetterLayoutGuides.m"; sourceTree = "<group>"; };
-		E7ADE6351A99A84C00E8F95C /* TLYDelegateProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYDelegateProxy.h; sourceTree = "<group>"; };
-		E7ADE6361A99A84C00E8F95C /* TLYDelegateProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLYDelegateProxy.m; sourceTree = "<group>"; };
-		E7ADE6371A99A84C00E8F95C /* TLYShyNavBarManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYShyNavBarManager.h; sourceTree = "<group>"; };
-		E7ADE6381A99A84C00E8F95C /* TLYShyNavBarManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLYShyNavBarManager.m; sourceTree = "<group>"; };
-		E7ADE6391A99A84C00E8F95C /* TLYShyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYShyViewController.h; sourceTree = "<group>"; };
-		E7ADE63A1A99A84C00E8F95C /* TLYShyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLYShyViewController.m; sourceTree = "<group>"; };
 		E7ADE6401A99A86600E8F95C /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		E7ADE6411A99AB5800E8F95C /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		E7ADE6451A9A6F7C00E8F95C /* NSObject+TLYSwizzlingHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+TLYSwizzlingHelpers.h"; sourceTree = "<group>"; };
+		E7ADE6461A9A6F7C00E8F95C /* NSObject+TLYSwizzlingHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+TLYSwizzlingHelpers.m"; sourceTree = "<group>"; };
+		E7ADE6471A9A6F7C00E8F95C /* UIViewController+BetterLayoutGuides.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+BetterLayoutGuides.h"; sourceTree = "<group>"; };
+		E7ADE6481A9A6F7C00E8F95C /* UIViewController+BetterLayoutGuides.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+BetterLayoutGuides.m"; sourceTree = "<group>"; };
+		E7ADE6491A9A6F7C00E8F95C /* TLYDelegateProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYDelegateProxy.h; sourceTree = "<group>"; };
+		E7ADE64A1A9A6F7C00E8F95C /* TLYDelegateProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLYDelegateProxy.m; sourceTree = "<group>"; };
+		E7ADE64B1A9A6F7C00E8F95C /* TLYShyNavBarManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYShyNavBarManager.h; sourceTree = "<group>"; };
+		E7ADE64C1A9A6F7C00E8F95C /* TLYShyNavBarManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLYShyNavBarManager.m; sourceTree = "<group>"; };
+		E7ADE64D1A9A6F7C00E8F95C /* TLYShyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYShyViewController.h; sourceTree = "<group>"; };
+		E7ADE64E1A9A6F7C00E8F95C /* TLYShyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLYShyViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				E7ADE6401A99A86600E8F95C /* Bridging-Header.h */,
-				E7ADE62F1A99A84C00E8F95C /* TLYShyNavBar */,
+				E7ADE6431A9A6F7C00E8F95C /* TLYShyNavBar */,
 				E7ADE60C1A99A83B00E8F95C /* TLYShyNavBarSwiftDemo */,
 				E7ADE6221A99A83B00E8F95C /* TLYShyNavBarSwiftDemoTests */,
 				E7ADE60B1A99A83B00E8F95C /* Products */,
@@ -130,27 +130,28 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		E7ADE62F1A99A84C00E8F95C /* TLYShyNavBar */ = {
+		E7ADE6431A9A6F7C00E8F95C /* TLYShyNavBar */ = {
 			isa = PBXGroup;
 			children = (
-				E7ADE6301A99A84C00E8F95C /* Categories */,
-				E7ADE6351A99A84C00E8F95C /* TLYDelegateProxy.h */,
-				E7ADE6361A99A84C00E8F95C /* TLYDelegateProxy.m */,
-				E7ADE6371A99A84C00E8F95C /* TLYShyNavBarManager.h */,
-				E7ADE6381A99A84C00E8F95C /* TLYShyNavBarManager.m */,
-				E7ADE6391A99A84C00E8F95C /* TLYShyViewController.h */,
-				E7ADE63A1A99A84C00E8F95C /* TLYShyViewController.m */,
+				E7ADE6441A9A6F7C00E8F95C /* Categories */,
+				E7ADE6491A9A6F7C00E8F95C /* TLYDelegateProxy.h */,
+				E7ADE64A1A9A6F7C00E8F95C /* TLYDelegateProxy.m */,
+				E7ADE64B1A9A6F7C00E8F95C /* TLYShyNavBarManager.h */,
+				E7ADE64C1A9A6F7C00E8F95C /* TLYShyNavBarManager.m */,
+				E7ADE64D1A9A6F7C00E8F95C /* TLYShyViewController.h */,
+				E7ADE64E1A9A6F7C00E8F95C /* TLYShyViewController.m */,
 			);
-			path = TLYShyNavBar;
+			name = TLYShyNavBar;
+			path = ../TLYShyNavBar;
 			sourceTree = "<group>";
 		};
-		E7ADE6301A99A84C00E8F95C /* Categories */ = {
+		E7ADE6441A9A6F7C00E8F95C /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				E7ADE6311A99A84C00E8F95C /* NSObject+TLYSwizzlingHelpers.h */,
-				E7ADE6321A99A84C00E8F95C /* NSObject+TLYSwizzlingHelpers.m */,
-				E7ADE6331A99A84C00E8F95C /* UIViewController+BetterLayoutGuides.h */,
-				E7ADE6341A99A84C00E8F95C /* UIViewController+BetterLayoutGuides.m */,
+				E7ADE6451A9A6F7C00E8F95C /* NSObject+TLYSwizzlingHelpers.h */,
+				E7ADE6461A9A6F7C00E8F95C /* NSObject+TLYSwizzlingHelpers.m */,
+				E7ADE6471A9A6F7C00E8F95C /* UIViewController+BetterLayoutGuides.h */,
+				E7ADE6481A9A6F7C00E8F95C /* UIViewController+BetterLayoutGuides.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -255,13 +256,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E7ADE63F1A99A84C00E8F95C /* TLYShyViewController.m in Sources */,
-				E7ADE63C1A99A84C00E8F95C /* UIViewController+BetterLayoutGuides.m in Sources */,
+				E7ADE6531A9A6F7C00E8F95C /* TLYShyViewController.m in Sources */,
 				E7ADE6421A99AB5800E8F95C /* TableViewController.swift in Sources */,
+				E7ADE6501A9A6F7C00E8F95C /* UIViewController+BetterLayoutGuides.m in Sources */,
 				E7ADE6101A99A83B00E8F95C /* AppDelegate.swift in Sources */,
-				E7ADE63D1A99A84C00E8F95C /* TLYDelegateProxy.m in Sources */,
-				E7ADE63E1A99A84C00E8F95C /* TLYShyNavBarManager.m in Sources */,
-				E7ADE63B1A99A84C00E8F95C /* NSObject+TLYSwizzlingHelpers.m in Sources */,
+				E7ADE6511A9A6F7C00E8F95C /* TLYDelegateProxy.m in Sources */,
+				E7ADE6521A9A6F7C00E8F95C /* TLYShyNavBarManager.m in Sources */,
+				E7ADE64F1A9A6F7C00E8F95C /* NSObject+TLYSwizzlingHelpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -455,6 +456,7 @@
 				E7ADE62B1A99A83B00E8F95C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E7ADE62C1A99A83B00E8F95C /* Build configuration list for PBXNativeTarget "TLYShyNavBarSwiftDemoTests" */ = {
 			isa = XCConfigurationList;
@@ -463,6 +465,7 @@
 				E7ADE62E1A99A83B00E8F95C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
