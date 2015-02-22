@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>72C64448-CAFE-4F5D-8307-0D51A162F41F</string>
+	<key>IDESourceControlProjectName</key>
+	<string>TLYShyNavBarSwiftDemo</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>58D55ECABAD5AAEB583BB3898420091CC2A418B2</key>
+		<string>github.com:TNuzzi/TLYShyNavBar.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>TLYShyNavBarSwiftDemo/TLYShyNavBarSwiftDemo.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>58D55ECABAD5AAEB583BB3898420091CC2A418B2</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:TNuzzi/TLYShyNavBar.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>58D55ECABAD5AAEB583BB3898420091CC2A418B2</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>58D55ECABAD5AAEB583BB3898420091CC2A418B2</string>
+			<key>IDESourceControlWCCName</key>
+			<string>TLYShyNavBar</string>
+		</dict>
+	</array>
+</dict>
+</plist>
