@@ -73,7 +73,6 @@ To use this component in Swift
 2. Copy the `TLYShyNavBar` directory into your Swift project. <br />![](resources/Swift-project.png)
 3. Create a new header file called `Bridging-Header.h` and add the headers from `TLYShyNavBar` folder.[see headers below](#bridge-headers).
 4. Add the bridging header file to the project's build settings.  Search `Bridging Header` in `Build Settings` and add `Bridging-Header.h`. <br />![](resources/Bridged-Header.png)
-5. Add **#import &lt;UIKit/UIKit.h&gt;** to `TLYShyNavBarManager.h` and `TLYShyViewController.h`
 
 Now your project is setup to use the TLYShyNavBar component.  Next all you need to do is set the scrollview property in your UIViewController like it was an Objective-c project.
 
