@@ -64,6 +64,33 @@ self.shyNavBarManager.scrollView = self.scrollView;
 
 **IMPORTANT!!** If you are assigning a delegate to your scrollView, do that **before** assigning the scrollView to the `TLYShyNavBarManager`! To learn more, [see below](#how-it-works).
 
+### Using TLYShyNavBar in Swift
+If you are building apps in Swift and targeting apps to iOS7 Apples [hidesBarsOnSwipe](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UINavigationController_Class/#//apple_ref/occ/instp/UINavigationController/hidesBarsOnSwipe) will not work because it is in an iOS 8 feature.  As an alternative you can use TLYShyNavBar component in lieu of Apples feature.
+
+To use this component in Swift
+
+1. Clone this git repository locally: `git clone https://github.com/telly/TLYShyNavBar.git`
+2. Copy the `TLYShyNavBar` directory into your Swift project. <br />![](resources/Swift-project.png)
+3. Create a new header file called `Bridging-Header.h` and add the headers from `TLYShyNavBar` folder.[see headers below](#bridge-headers).
+4. Add the bridging header file to the project's build settings.  Search `Bridging Header` in `Build Settings` and add `Bridging-Header.h`. <br />![](resources/Bridged-Header.png)
+
+Now your project is setup to use the TLYShyNavBar component.  Next all you need to do is set the scrollview property in your UIViewController like it was an Objective-c project.
+
+```
+/* In your UIViewController viewDidLoad or after creating the scroll view. */
+self.shyNavBarManager.scrollView = self.scrollView;
+```
+
+#### Bridge Headers
+```
+#import "TLYShyNavBarManager.h"
+#import "TLYShyViewController.h"
+#import "TLYDelegateProxy.h"
+#import "NSObject+TLYSwizzlingHelpers.h"
+#import "UIViewController+BetterLayoutGuides.h"
+```
+
+
 ## Design Goals
 
 + **Ease of Use**: This is the most important, and should never be compromised. Even if compatability breaks or versatility is limited, the component should remain easy to integrate.
