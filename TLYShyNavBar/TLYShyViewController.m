@@ -116,7 +116,7 @@ const CGFloat contractionVelocity = 300.f;
     if (self.child && deltaY > 0 && residual > 0)
     {
         residual = [self.child updateYOffset:residual];
-        self.child.view.hidden = residual - (newYOffset - newYCenter) > 0;
+        self.child.view.hidden = residual - (newYOffset - newYCenter) > FLT_EPSILON;
     }
     
     return residual;
