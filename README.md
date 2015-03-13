@@ -198,6 +198,7 @@ viewController.shyNavBarManager = shyManager;
 
 ## Similar Projects
 
++ [BLKFlexibleHeightBar](https://github.com/bryankeller/BLKFlexibleHeightBar)
 + [AMScrollingNavbar](https://github.com/andreamazz/AMScrollingNavbar)
 + [GTScrollNavigationBar](https://github.com/luugiathuy/GTScrollNavigationBar)
 + [JKAutoShrinkView](https://github.com/fsjack/JKAutoShrinkView)
