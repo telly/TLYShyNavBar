@@ -35,7 +35,7 @@ Pod::Spec.new do |s|
                    DESC
 
   s.homepage     = "https://github.com/telly/TLYShyNavBar"
-  s.screenshots  = "https://raw.githubusercontent.com/telly/TLYShyNavBar/master/resources/battle-tested-demo.gif", "https://raw.githubusercontent.com/telly/TLYShyNavBar/master/resources/ShyNavBar-1.gif"
+  s.screenshots  = "http://imgur.com/dv1LK1v.png"
 
 
   # ―――  Spec License  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
