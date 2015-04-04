@@ -132,7 +132,7 @@ static inline CGFloat AACStatusBarHeight()
                                                    object:nil];
 
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(applicationdidChangeStatusBarFrame:)
+                                                 selector:@selector(applicationDidChangeStatusBarFrame:)
                                                      name:UIApplicationDidChangeStatusBarFrameNotification
                                                    object:nil];
     }
@@ -388,7 +388,8 @@ static inline CGFloat AACStatusBarHeight()
     [self.navBarController expand];
 }
 
-- (void)applicationdidChangeStatusBarFrame:(NSNotification *)notification {
+- (void)applicationDidChangeStatusBarFrame:(NSNotification *)notification
+{
     [self.navBarController expand];
 }
 
