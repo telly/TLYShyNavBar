@@ -284,6 +284,19 @@ static inline CGFloat AACStatusBarHeight()
         // 6 - Update the shyViewController
         self.navBarController.alphaFadeEnabled = self.alphaFadeEnabled;
         [self.navBarController updateYOffset:deltaY];
+
+        // 7 - Update the scroll view's scrollIndicatorInsets, if changed
+        UIEdgeInsets scrollInsets = self.scrollView.contentInset;
+        CGFloat maxNavY = CGRectGetMaxY(self.navBarController.view.frame);
+        CGFloat maxExtensionY = CGRectGetMaxY(self.extensionViewContainer.frame);
+        if (self.extensionViewContainer.hidden) {
+            scrollInsets.top = maxNavY;
+        } else {
+            scrollInsets.top = MAX(maxNavY, maxExtensionY);
+        }
+        if (!UIEdgeInsetsEqualToEdgeInsets(self.scrollView.scrollIndicatorInsets, scrollInsets)) {
+            self.scrollView.scrollIndicatorInsets = scrollInsets;
+        }
     }
     
     self.previousYOffset = self.scrollView.contentOffset.y;
