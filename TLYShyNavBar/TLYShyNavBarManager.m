@@ -295,6 +295,11 @@ static inline CGFloat AACStatusBarHeight()
             scrollInsets.top = MAX(maxNavY, maxExtensionY);
         }
         if (!UIEdgeInsetsEqualToEdgeInsets(self.scrollView.scrollIndicatorInsets, scrollInsets)) {
+            if (scrollInsets.top == AACStatusBarHeight()) {
+                if ([self.delegate respondsToSelector:@selector(shyNavBarManagerDidBecomeFullyContracted:)]) {
+                    [self.delegate shyNavBarManagerDidBecomeFullyContracted:self];
+                }
+            }
             self.scrollView.scrollIndicatorInsets = scrollInsets;
         }
     }
