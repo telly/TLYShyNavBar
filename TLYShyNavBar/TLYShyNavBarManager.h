@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+@protocol TLYShyNavBarManagerDelegate;
+
 /*  CLASS DESCRIPTION:
  *  ==================
  *      Manages the relationship between a scrollView and a view
@@ -54,6 +56,24 @@
 @property (nonatomic, getter = isAlphaFadeEnabled) BOOL alphaFadeEnabled;
 
 @property (nonatomic) BOOL disable;
+
+/* Use this to be notified about contraction and expansion events.
+ */
+@property (nonatomic, weak) id<TLYShyNavBarManagerDelegate> delegate;
+
+@end
+
+/* PROTOCOL DESCRIPTION:
+ * =====================
+ *     This protocol is used to notify an optional TLYShyNavBarManager's delegate
+ * when a contraction or expansion finishes animating.
+ */
+@protocol TLYShyNavBarManagerDelegate <NSObject>
+
+@optional
+
+- (void)shyNavBarManagerDidFinishContracting:(TLYShyNavBarManager *) shyNavBarManager;
+- (void)shyNavBarManagerDidFinishExpanding:(TLYShyNavBarManager *) shyNavBarManager;
 
 @end
 

@@ -315,10 +315,23 @@ static inline CGFloat AACStatusBarHeight()
     CGPoint newContentOffset = self.scrollView.contentOffset;
     
     newContentOffset.y -= deltaY;
-    
+
+    __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:0.2
                      animations:^{
-                         self.scrollView.contentOffset = newContentOffset;
+                         weakSelf.scrollView.contentOffset = newContentOffset;
+                     }
+                     completion:^(BOOL finished) {
+                         typeof(weakSelf) strongSelf = weakSelf;
+                         if (strongSelf.isContracting) {
+                            if ([strongSelf.delegate respondsToSelector:@selector(shyNavBarManagerDidFinishContracting:)]) {
+                                [strongSelf.delegate shyNavBarManagerDidFinishContracting:strongSelf];
+                            }
+                         } else {
+                             if ([strongSelf.delegate respondsToSelector:@selector(shyNavBarManagerDidFinishExpanding:)]) {
+                                 [strongSelf.delegate shyNavBarManagerDidFinishExpanding:strongSelf];
+                             }
+                         }
                      }];
 }
 
