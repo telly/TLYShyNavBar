@@ -37,6 +37,8 @@
     self.shyNavBarManager.scrollView = self.scrollView;
     /* Can then be remove by setting the ExtensionView to nil */
     [self.shyNavBarManager setExtensionView:view];
+    /* Make the extension view stick to the top */
+    [self.shyNavBarManager setStickyExtensionView:YES];
 }
 
 - (void)viewDidLayoutSubviews

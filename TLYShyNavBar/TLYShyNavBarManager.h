@@ -42,6 +42,10 @@
  */
 @property (nonatomic, readonly) CGRect extensionViewBounds;
 
+/* Sticky extension view
+ */
+@property (nonatomic) BOOL stickyExtensionView;
+
 /* Control the resistance when scrolling up/down before the navbar 
  * expands/contracts again.
  */
