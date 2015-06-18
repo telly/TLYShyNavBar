@@ -118,6 +118,13 @@ You can assign your own extension view, and it will appear right beneath the nav
 [self.shyNavBarManager setExtensionView:self.toolbar];
 ```
 
+To stick the extension view to the top and have it remain visible when the navigation bar has been hidden:
+
+```objc
+/* Also in your UIViewController subclass */
+[self.shyNavBarManager setStickyExtensionView:YES];
+```
+
 #### CONTROLLING THE RESISTANCE
 
 When you starting scrolling up (going down the view) or scrolling down (going up the view), you may want the navigation bar to hold off for a certain amount (tolerance) before changing states. (i.e. if the user scrolls down 10 px, don't immediately start showing the contracted navigation bar, but wait till he scrolls, say, 100 px).

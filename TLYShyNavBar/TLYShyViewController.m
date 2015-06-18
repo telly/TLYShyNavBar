@@ -89,7 +89,7 @@ const CGFloat contractionVelocity = 300.f;
 
 - (CGFloat)updateYOffset:(CGFloat)deltaY
 {
-    if (self.child && deltaY < 0)
+    if (self.child && deltaY < 0 && !self.stickyExtensionView)
     {
         deltaY = [self.child updateYOffset:deltaY];
         self.child.view.hidden = (deltaY) < 0;
@@ -99,6 +99,12 @@ const CGFloat contractionVelocity = 300.f;
     CGFloat newYCenter = MAX(MIN(self.expandedCenterValue.y, newYOffset), self.contractedCenterValue.y);
     
     self.view.center = CGPointMake(self.expandedCenterValue.x, newYCenter);
+    
+    if (self.stickyExtensionView) {
+        CGFloat newChildYOffset = self.child.view.center.y + deltaY;
+        CGFloat newChildYCenter = MAX(MIN(self.child.expandedCenterValue.y, newChildYOffset), self.child.contractedCenterValue.y);
+        self.child.view.center = CGPointMake(self.child.expandedCenterValue.x, newChildYCenter);
+    }
     
     if (self.hidesSubviews)
     {
@@ -113,7 +119,7 @@ const CGFloat contractionVelocity = 300.f;
     
     CGFloat residual = newYOffset - newYCenter;
     
-    if (self.child && deltaY > 0 && residual > 0)
+    if (self.child && deltaY > 0 && residual > 0 && !self.stickyExtensionView)
     {
         residual = [self.child updateYOffset:residual];
         self.child.view.hidden = residual - (newYOffset - newYCenter) > FLT_EPSILON;

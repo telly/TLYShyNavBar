@@ -40,6 +40,10 @@ typedef CGFloat(^TLYShyViewControllerContractionAmountBlock)(UIView *view);
 
 @property (nonatomic, readonly) CGFloat totalHeight;
 
+/* Sticky extension view
+ */
+@property (nonatomic) BOOL stickyExtensionView;
+
 - (CGFloat)updateYOffset:(CGFloat)deltaY;
 
 - (CGFloat)snap:(BOOL)contract;
