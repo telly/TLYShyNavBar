@@ -31,7 +31,7 @@
 /* The scrollView subclass that will drive the contraction/expansion 
  * IMPORTANT: set this property AFTER assigning its delegate, if needed!
  */
-@property (nonatomic, weak) UIScrollView *scrollView;
+@property (nonatomic, strong) UIScrollView *scrollView;
 
 /* The extension view to be shown beneath the navbar
  */

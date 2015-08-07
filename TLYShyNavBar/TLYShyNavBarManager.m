@@ -31,7 +31,7 @@ static inline CGFloat AACStatusBarHeight()
     return MIN(MIN(statusBarSize.width, statusBarSize.height), 20.0f);
 }
 
-static int kTLYShyNavBarManagerKVOContext;
+static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManagerKVOContext;
 
 @implementation UIScrollView(Helper)
 
@@ -150,7 +150,7 @@ static int kTLYShyNavBarManagerKVOContext;
     }
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [_scrollView removeObserver:self forKeyPath:@"contentSize" context:&kTLYShyNavBarManagerKVOContext];
+    [_scrollView removeObserver:self forKeyPath:@"contentSize" context:kTLYShyNavBarManagerKVOContext];
 }
 
 #pragma mark - Properties
@@ -172,7 +172,7 @@ static int kTLYShyNavBarManagerKVOContext;
 
 - (void)setScrollView:(UIScrollView *)scrollView
 {
-    [_scrollView removeObserver:self forKeyPath:@"contentSize" context:&kTLYShyNavBarManagerKVOContext];
+    [_scrollView removeObserver:self forKeyPath:@"contentSize" context:kTLYShyNavBarManagerKVOContext];
     
     if (_scrollView.delegate == self.delegateProxy)
     {
@@ -189,7 +189,7 @@ static int kTLYShyNavBarManagerKVOContext;
     [self cleanup];
     [self layoutViews];
     
-    [_scrollView addObserver:self forKeyPath:@"contentSize" options:0 context:&kTLYShyNavBarManagerKVOContext];
+    [_scrollView addObserver:self forKeyPath:@"contentSize" options:0 context:kTLYShyNavBarManagerKVOContext];
 }
 
 - (CGRect)extensionViewBounds
@@ -231,8 +231,7 @@ static int kTLYShyNavBarManagerKVOContext;
 {
     CGRect scrollFrame = UIEdgeInsetsInsetRect(self.scrollView.bounds, self.scrollView.contentInset);
     CGFloat scrollableAmount = self.scrollView.contentSize.height - CGRectGetHeight(scrollFrame);
-    BOOL scrollViewIsSuffecientlyLong = (scrollableAmount > self.navBarController.totalHeight);
-    return scrollViewIsSuffecientlyLong;
+    return (scrollableAmount > self.navBarController.totalHeight);
 }
 
 - (BOOL)_shouldHandleScrolling
@@ -334,7 +333,7 @@ static int kTLYShyNavBarManagerKVOContext;
                         change:(NSDictionary *)change
                        context:(void *)context
 {
-    if (context == &kTLYShyNavBarManagerKVOContext)
+    if (context == kTLYShyNavBarManagerKVOContext)
     {
         if (self.isViewControllerVisible && ![self _scrollViewIsSuffecientlyLong])
         {
