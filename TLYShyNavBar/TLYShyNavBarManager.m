@@ -31,6 +31,8 @@ static inline CGFloat AACStatusBarHeight()
     return MIN(MIN(statusBarSize.width, statusBarSize.height), 20.0f);
 }
 
+static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManagerKVOContext;
+
 @implementation UIScrollView(Helper)
 
 // Modify contentInset and scrollIndicatorInsets while preserving visual content offset
@@ -148,6 +150,7 @@ static inline CGFloat AACStatusBarHeight()
     }
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [_scrollView removeObserver:self forKeyPath:@"contentSize" context:kTLYShyNavBarManagerKVOContext];
 }
 
 #pragma mark - Properties
@@ -169,6 +172,8 @@ static inline CGFloat AACStatusBarHeight()
 
 - (void)setScrollView:(UIScrollView *)scrollView
 {
+    [_scrollView removeObserver:self forKeyPath:@"contentSize" context:kTLYShyNavBarManagerKVOContext];
+    
     if (_scrollView.delegate == self.delegateProxy)
     {
         _scrollView.delegate = self.delegateProxy.originalDelegate;
@@ -184,6 +189,7 @@ static inline CGFloat AACStatusBarHeight()
     [self cleanup];
     [self layoutViews];
     
+    [_scrollView addObserver:self forKeyPath:@"contentSize" options:0 context:kTLYShyNavBarManagerKVOContext];
 }
 
 - (CGRect)extensionViewBounds
@@ -221,18 +227,20 @@ static inline CGFloat AACStatusBarHeight()
 
 #pragma mark - Private methods
 
+- (BOOL)_scrollViewIsSuffecientlyLong
+{
+    CGRect scrollFrame = UIEdgeInsetsInsetRect(self.scrollView.bounds, self.scrollView.contentInset);
+    CGFloat scrollableAmount = self.scrollView.contentSize.height - CGRectGetHeight(scrollFrame);
+    return (scrollableAmount > self.navBarController.totalHeight);
+}
+
 - (BOOL)_shouldHandleScrolling
 {
     if (self.disable)
     {
         return NO;
     }
-
-    CGRect scrollFrame = UIEdgeInsetsInsetRect(self.scrollView.bounds, self.scrollView.contentInset);
-    CGFloat scrollableAmount = self.scrollView.contentSize.height - CGRectGetHeight(scrollFrame);
-    BOOL scrollViewIsSuffecientlyLong = (scrollableAmount > self.navBarController.totalHeight);
-    
-    return (self.isViewControllerVisible && scrollViewIsSuffecientlyLong);
+    return (self.isViewControllerVisible && [self _scrollViewIsSuffecientlyLong]);
 }
 
 - (void)_handleScrolling
@@ -316,6 +324,26 @@ static inline CGFloat AACStatusBarHeight()
                      animations:^{
                          self.scrollView.contentOffset = newContentOffset;
                      }];
+}
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    if (context == kTLYShyNavBarManagerKVOContext)
+    {
+        if (self.isViewControllerVisible && ![self _scrollViewIsSuffecientlyLong])
+        {
+            [self.navBarController expand];
+        }
+    }
+    else
+    {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 #pragma mark - public methods
