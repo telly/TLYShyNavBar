@@ -20,9 +20,13 @@
 // Thanks to SO user, MattDiPasquale
 // http://stackoverflow.com/questions/12991935/how-to-programmatically-get-ios-status-bar-height/16598350#16598350
 
-static inline CGFloat AACStatusBarHeight()
+static inline CGFloat AACStatusBarHeight(UIViewController *viewController)
 {
     if ([UIApplication sharedApplication].statusBarHidden)
+    {
+        return 0.f;
+    }
+    if (viewController.presentingViewController != nil)
     {
         return 0.f;
     }
@@ -96,10 +100,12 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         
         self.navBarController = [[TLYShyViewController alloc] init];
         self.navBarController.hidesSubviews = YES;
+        __weak __typeof(self) weakSelf = self;
+
         self.navBarController.expandedCenter = ^(UIView *view)
         {
             return CGPointMake(CGRectGetMidX(view.bounds),
-                               CGRectGetMidY(view.bounds) + AACStatusBarHeight());
+                               CGRectGetMidY(view.bounds) + AACStatusBarHeight(weakSelf.viewController));
         };
         
         self.navBarController.contractionAmount = ^(UIView *view)
@@ -119,7 +125,6 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
             return CGRectGetHeight(view.bounds);
         };
         
-        __weak __typeof(self) weakSelf = self;
         self.extensionController.expandedCenter = ^(UIView *view)
         {
             return CGPointMake(CGRectGetMidX(view.bounds),
@@ -290,7 +295,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 
             deltaY = MIN(0, availableResistance + deltaY);
         }
-        else if (self.scrollView.contentOffset.y > -AACStatusBarHeight())
+        else if (self.scrollView.contentOffset.y > -AACStatusBarHeight(self.viewController))
         {
             CGFloat availableResistance = self.expansionResistance - self.resistanceConsumed;
             self.resistanceConsumed = MIN(self.expansionResistance, self.resistanceConsumed + deltaY);
