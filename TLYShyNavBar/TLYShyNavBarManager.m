@@ -362,8 +362,11 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         
         self.extensionViewContainer.frame = bounds;
         [self.extensionViewContainer addSubview:view];
-        
+
+        BOOL wasDisabled = self.disable;
+        self.disable = YES;
         [self layoutViews];
+        self.disable = wasDisabled;
     }
 }
 
