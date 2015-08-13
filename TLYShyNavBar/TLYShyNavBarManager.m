@@ -215,9 +215,10 @@ static inline CGFloat AACStatusBarHeight()
     _stickyExtensionView = stickyExtensionView;
     
     if (self.navBarController) {
-        self.navBarController.stickyExtensionView = YES;
+        self.navBarController.stickyExtensionView = _stickyExtensionView;
     }
 }
+
 
 #pragma mark - Private methods
 
