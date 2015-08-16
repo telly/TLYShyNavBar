@@ -362,8 +362,13 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         
         self.extensionViewContainer.frame = bounds;
         [self.extensionViewContainer addSubview:view];
-        
+
+        /* Disable scroll handling temporarily while laying out views to avoid double-changing content
+         * offsets in _handleScrolling. */
+        BOOL wasDisabled = self.disable;
+        self.disable = YES;
         [self layoutViews];
+        self.disable = wasDisabled;
     }
 }
 
