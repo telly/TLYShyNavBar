@@ -110,8 +110,16 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 
         self.navBarController.expandedCenter = ^(UIView *view)
         {
+            CGFloat statusBarHeight = AACStatusBarHeight(weakSelf.viewController);
+            /* The standard status bar is 20 pixels. The navigation bar extends 20 pixels up so it is overlapped by the status bar.
+             * When there is a larger than 20 pixel status bar (e.g. a phone call is in progress or GPS is active), the center needs
+             * to shift up 20 pixels to avoid this 'dead space' being visible above the usual nav bar.
+             */
+            if (statusBarHeight > 20)
+                statusBarHeight -= 20;
+
             return CGPointMake(CGRectGetMidX(view.bounds),
-                               CGRectGetMidY(view.bounds) + AACStatusBarHeight(weakSelf.viewController));
+                               CGRectGetMidY(view.bounds) + statusBarHeight);
         };
         
         self.navBarController.contractionAmount = ^(UIView *view)
