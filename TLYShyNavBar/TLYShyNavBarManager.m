@@ -28,15 +28,17 @@ static inline CGFloat AACStatusBarHeight(UIViewController *viewController)
     }
     
     // Modal views do not overlap the status bar, so no allowance need be made for it
+    CGSize  statusBarSize = [UIApplication sharedApplication].statusBarFrame.size;
+    CGFloat statusBarHeight = MIN(statusBarSize.width, statusBarSize.height);
+    
     UIView *view = viewController.view;
     CGRect frame = [view.superview convertRect:view.frame toView:view.window];
-    BOOL viewOverlapsStatusBar = frame.origin.y < 20.f;
+    BOOL viewOverlapsStatusBar = frame.origin.y < statusBarHeight;
     if (!viewOverlapsStatusBar) {
         return 0.f;
     }
     
-    CGSize statusBarSize = [UIApplication sharedApplication].statusBarFrame.size;
-    return MIN(MIN(statusBarSize.width, statusBarSize.height), 20.0f);
+    return statusBarHeight;
 }
 
 static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManagerKVOContext;
