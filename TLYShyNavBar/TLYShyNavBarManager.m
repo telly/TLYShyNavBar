@@ -437,6 +437,12 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     }
 }
 
+- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView
+{
+    [self.scrollView scrollRectToVisible:CGRectMake(0,0,1,1) animated:YES];
+    [self.scrollView flashScrollIndicators];
+}
+
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     [self _handleScrollingEnded];
