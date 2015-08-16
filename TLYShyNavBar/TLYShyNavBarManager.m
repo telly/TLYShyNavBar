@@ -240,9 +240,10 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     _stickyExtensionView = stickyExtensionView;
     
     if (self.navBarController) {
-        self.navBarController.stickyExtensionView = YES;
+        self.navBarController.stickyExtensionView = _stickyExtensionView;
     }
 }
+
 
 #pragma mark - Private methods
 
