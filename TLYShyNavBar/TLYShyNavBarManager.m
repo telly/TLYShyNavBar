@@ -100,6 +100,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         self.contractionResistance = 0.f;
         
         self.alphaFadeEnabled = YES;
+        self.alphaFadeEntireNavBar = NO;
         
         self.previousScrollInsets = UIEdgeInsetsZero;
         self.previousYOffset = NAN;
@@ -320,6 +321,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         
         // 6 - Update the shyViewController
         self.navBarController.alphaFadeEnabled = self.alphaFadeEnabled;
+        self.navBarController.alphaFadeEntireNavBar = self.alphaFadeEntireNavBar;
         [self.navBarController updateYOffset:deltaY];
     }
     
@@ -382,6 +384,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         
         self.extensionViewContainer.frame = bounds;
         [self.extensionViewContainer addSubview:view];
+        self.extensionViewContainer.userInteractionEnabled = view.userInteractionEnabled;
 
         /* Disable scroll handling temporarily while laying out views to avoid double-changing content
          * offsets in _handleScrolling. */

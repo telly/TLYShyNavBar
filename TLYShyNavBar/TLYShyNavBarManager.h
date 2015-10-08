@@ -56,6 +56,7 @@
  * Defaults to YES
  */
 @property (nonatomic, getter = isAlphaFadeEnabled) BOOL alphaFadeEnabled;
+@property (nonatomic, getter = isAlphaFadeEntireNavBarEnabled) BOOL alphaFadeEntireNavBar;
 
 @property (nonatomic) BOOL disable;
 
