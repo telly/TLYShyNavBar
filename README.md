@@ -47,6 +47,18 @@ This component helps you mimick the navigation bar auto scrolling that you see i
 
 ![](resources/ShyNavBar-6.gif)
 
++ Sticky extension view (Thanks @yukaliao !)
+
+![](resources/ShyNavBar-7.gif)
+
++ Fade the entire navbar (Thanks [__@longsview__](https://github.com/longsview) !)
+
+![](resources/ShyNavBar-8.gif)
+
+You can test some of these features in the Objective-C demo:
+
+![](resources/features-testing.png)
+
 ## Quick Start
 
 1. Get the component
