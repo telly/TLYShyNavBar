@@ -14,6 +14,17 @@ extern const CGFloat contractionVelocity;
 typedef CGPoint(^TLYShyViewControllerExpandedCenterBlock)(UIView *view);
 typedef CGFloat(^TLYShyViewControllerContractionAmountBlock)(UIView *view);
 
+
+/** This enum is duplicated in the manager header, as to not cause headaches
+ *  for users looking to update the library in Cocoapods.
+ */
+typedef NS_ENUM(NSInteger, TLYShyNavViewControllerFade) {
+    
+    TLYShyNavViewControllerFadeDisabled,
+    TLYShyNavViewControllerFadeSubviews,
+    TLYShyNavViewControllerFadeNavbar,
+};
+
 /*  CLASS DESCRIPTION:
  *  ==================
  *      A shy view is a view that contracts when a scrolling event is
@@ -33,11 +44,7 @@ typedef CGFloat(^TLYShyViewControllerContractionAmountBlock)(UIView *view);
 @property (nonatomic, copy) TLYShyViewControllerExpandedCenterBlock expandedCenter;
 @property (nonatomic, copy) TLYShyViewControllerContractionAmountBlock contractionAmount;
 
-@property (nonatomic) BOOL hidesSubviews;
-@property (nonatomic) BOOL hidesAfterContraction;
-
-@property (nonatomic) BOOL alphaFadeEnabled;
-@property (nonatomic) BOOL alphaFadeEntireNavBar;
+@property (nonatomic) TLYShyNavViewControllerFade fadeBehavior;
 
 @property (nonatomic, readonly) CGFloat totalHeight;
 

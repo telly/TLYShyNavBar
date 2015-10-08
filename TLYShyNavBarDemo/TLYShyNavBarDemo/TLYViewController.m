@@ -25,6 +25,9 @@
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
+        
+        self.fadeBehavior = TLYShyNavBarFadeSubviews;
+        
         self.title = @"WTFox Say";
     }
     return self;
@@ -43,6 +46,8 @@
     [self.shyNavBarManager setExtensionView:view];
     /* Make the extension view stick to the top */
     [self.shyNavBarManager setStickyExtensionView:self.stickyExtensionView];
+    /* Navigation bar fade behavior */
+    [self.shyNavBarManager setFadeBehavior:self.fadeBehavior];
 }
 
 - (void)viewDidLayoutSubviews

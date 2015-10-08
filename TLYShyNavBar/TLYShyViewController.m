@@ -59,14 +59,31 @@ const CGFloat contractionVelocity = 300.f;
 
 #pragma mark - Private methods
 
+- (void)_onAlphaUpdate:(CGFloat)alpha
+{
+    switch (self.fadeBehavior) {
+            
+        case TLYShyNavViewControllerFadeDisabled:
+            self.view.alpha = 1.f;
+            [self _updateSubviewsAlpha:1.f];
+            break;
+            
+        case TLYShyNavViewControllerFadeSubviews:
+            self.view.alpha = 1.f;
+            [self _updateSubviewsAlpha:alpha];
+            break;
+            
+        case TLYShyNavViewControllerFadeNavbar:
+            self.view.alpha = alpha;
+            [self _updateSubviewsAlpha:1.f];
+            break;
+    }
+}
+
 // This method is courtesy of GTScrollNavigationBar
 // https://github.com/luugiathuy/GTScrollNavigationBar
-- (void)_updateViewsToAlpha:(CGFloat)alpha
+- (void)_updateSubviewsAlpha:(CGFloat)alpha
 {
-    if (_alphaFadeEntireNavBar) {
-        self.view.alpha = alpha;
-    }
-
     for (UIView* view in self.view.subviews)
     {
         bool isBackgroundView = view == self.view.subviews[0];
@@ -81,13 +98,13 @@ const CGFloat contractionVelocity = 300.f;
 
 #pragma mark - Public methods
 
-- (void)setAlphaFadeEnabled:(BOOL)alphaFadeEnabled
+- (void)setFadeBehavior:(TLYShyNavViewControllerFade)fadeBehavior
 {
-    _alphaFadeEnabled = alphaFadeEnabled;
+    _fadeBehavior = fadeBehavior;
     
-    if (!alphaFadeEnabled)
+    if (fadeBehavior == TLYShyNavViewControllerFadeDisabled)
     {
-        [self _updateViewsToAlpha:1.f];
+        [self _onAlphaUpdate:1.f];
     }
 }
 
@@ -96,7 +113,7 @@ const CGFloat contractionVelocity = 300.f;
     if (self.child && deltaY < 0 && !self.stickyExtensionView)
     {
         deltaY = [self.child updateYOffset:deltaY];
-        self.child.view.hidden = (deltaY) < 0;
+        self.child.view.hidden = deltaY < 0;
     }
     
     CGFloat newYOffset = self.view.center.y + deltaY;
@@ -104,22 +121,18 @@ const CGFloat contractionVelocity = 300.f;
     
     self.view.center = CGPointMake(self.expandedCenterValue.x, newYCenter);
     
-    if (self.stickyExtensionView) {
+    if (self.stickyExtensionView)
+    {
         CGFloat newChildYOffset = self.child.view.center.y + deltaY;
         CGFloat newChildYCenter = MAX(MIN(self.child.expandedCenterValue.y, newChildYOffset), self.child.contractedCenterValue.y);
+        
         self.child.view.center = CGPointMake(self.child.expandedCenterValue.x, newChildYCenter);
     }
     
-    if (self.hidesSubviews)
-    {
-        CGFloat newAlpha = 1.f - (self.expandedCenterValue.y - self.view.center.y) / self.contractionAmountValue;
-        newAlpha = MIN(MAX(FLT_EPSILON, newAlpha), 1.f);
-        
-        if (self.alphaFadeEnabled)
-        {
-            [self _updateViewsToAlpha:newAlpha];
-        }
-    }
+    CGFloat newAlpha = 1.f - (self.expandedCenterValue.y - self.view.center.y) / self.contractionAmountValue;
+    newAlpha = MIN(MAX(FLT_EPSILON, newAlpha), 1.f);
+    
+    [self _onAlphaUpdate:newAlpha];
     
     CGFloat residual = newYOffset - newYCenter;
     
@@ -165,10 +178,7 @@ const CGFloat contractionVelocity = 300.f;
 {
     self.view.hidden = NO;
     
-    if (self.hidesSubviews && self.alphaFadeEnabled)
-    {
-        [self _updateViewsToAlpha:1.f];
-    }
+    [self _onAlphaUpdate:1.f];
     
     CGFloat amountToMove = self.expandedCenterValue.y - self.view.center.y;
 

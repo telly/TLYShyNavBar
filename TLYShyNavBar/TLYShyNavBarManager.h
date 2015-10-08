@@ -9,7 +9,18 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-/*  CLASS DESCRIPTION:
+
+/** This enum helps control the navigation bar fade behavior.
+ *  NOTE: It is duplicated in the ShyNavController header for now.
+ */
+typedef NS_ENUM(NSInteger, TLYShyNavBarFade) {
+    
+    TLYShyNavBarFadeDisabled,
+    TLYShyNavBarFadeSubviews,
+    TLYShyNavBarFadeNavbar,
+};
+
+/** CLASS DESCRIPTION:
  *  ==================
  *      Manages the relationship between a scrollView and a view
  *  controller. Must be instantiated and assigned the scrollView
@@ -20,7 +31,6 @@
  *  viewController.shyNavManager = ...;
  *
  */
-
 @interface TLYShyNavBarManager : NSObject
 
 /* The view controller that is part of the navigation stack
@@ -52,18 +62,20 @@
 @property (nonatomic) CGFloat expansionResistance;      // default 200
 @property (nonatomic) CGFloat contractionResistance;    // default 0
 
-/* Turn on or off the alpha fade as the navbar contracts/expands. 
- * Defaults to YES
+/* Choose how the navbar fades as it contracts/expands.
+ * Defaults to FadeSubviews
  */
-@property (nonatomic, getter = isAlphaFadeEnabled) BOOL alphaFadeEnabled;
-@property (nonatomic, getter = isAlphaFadeEntireNavBarEnabled) BOOL alphaFadeEntireNavBar;
+@property (nonatomic) TLYShyNavBarFade fadeBehavior;
 
+/* Set NO to disable shyNavBar behavior temporarily.
+ * Defaults to NO
+ */
 @property (nonatomic) BOOL disable;
 
 @end
 
 
-/*  CATEGORY DESCRIPTION:
+/** CATEGORY DESCRIPTION:
  *  =====================
  *      The category described in the TLYShyNavBarManager usage, and it
  *  simply uses associated objects to attatch a TLYShyNavBar to the 
@@ -78,5 +90,21 @@
 
 /* Initially, this is nil, but created for you when you access it */
 @property (nonatomic, strong) TLYShyNavBarManager *shyNavBarManager;
+
+@end
+
+
+/*  DEPRECATED:
+ *  ===========
+ *      Please move away from using these properties, as they will be
+ *  removed in the next major release.
+ */
+@interface TLYShyNavBarManager (Deprecated)
+
+@property (nonatomic, getter = isAlphaFadeEnabled) BOOL alphaFadeEnabled
+DEPRECATED_MSG_ATTRIBUTE("use fadeBehavior = TLYShyNavBarFade(Subviews or None)");
+
+@property (nonatomic, getter = isAlphaFadeEntireNavBarEnabled) BOOL alphaFadeEntireNavBar
+DEPRECATED_MSG_ATTRIBUTE("use fadeBehavior = TLYShyNavBarFadeNavbar");
 
 @end

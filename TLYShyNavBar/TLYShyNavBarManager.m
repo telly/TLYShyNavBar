@@ -99,14 +99,13 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         self.expansionResistance = 200.f;
         self.contractionResistance = 0.f;
         
-        self.alphaFadeEnabled = YES;
-        self.alphaFadeEntireNavBar = NO;
+        self.fadeBehavior = TLYShyNavBarFadeSubviews;
         
         self.previousScrollInsets = UIEdgeInsetsZero;
         self.previousYOffset = NAN;
         
         self.navBarController = [[TLYShyViewController alloc] init];
-        self.navBarController.hidesSubviews = YES;
+
         __weak __typeof(self) weakSelf = self;
 
         self.navBarController.expandedCenter = ^(UIView *view)
@@ -134,7 +133,6 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         
         self.extensionController = [[TLYShyViewController alloc] init];
         self.extensionController.view = self.extensionViewContainer;
-        self.extensionController.hidesAfterContraction = YES;
         self.extensionController.contractionAmount = ^(UIView *view)
         {
             return CGRectGetHeight(view.bounds);
@@ -319,9 +317,9 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
             deltaY = MAX(0, deltaY - availableResistance);
         }
         
-        // 6 - Update the shyViewController
-        self.navBarController.alphaFadeEnabled = self.alphaFadeEnabled;
-        self.navBarController.alphaFadeEntireNavBar = self.alphaFadeEntireNavBar;
+        // 6 - Update the navigation bar shyViewController
+        self.navBarController.fadeBehavior = (TLYShyNavViewControllerFade)self.fadeBehavior;
+        
         [self.navBarController updateYOffset:deltaY];
     }
     
@@ -530,6 +528,33 @@ static char shyNavBarManagerKey;
 - (TLYShyNavBarManager *)_internalShyNavBarManager
 {
     return objc_getAssociatedObject(self, &shyNavBarManagerKey);
+}
+
+@end
+
+
+#pragma mark - Deprecated -
+
+@implementation TLYShyNavBarManager (Deprecated)
+
+- (BOOL)isAlphaFadeEnabled
+{
+    return self.fadeBehavior != TLYShyNavBarFadeDisabled;
+}
+
+- (void)setAlphaFadeEnabled:(BOOL)alphaFadeEnabled
+{
+    self.fadeBehavior = alphaFadeEnabled ? TLYShyNavBarFadeSubviews : TLYShyNavBarFadeDisabled;
+}
+
+- (BOOL)isAlphaFadeEntireNavBarEnabled
+{
+    return self.fadeBehavior != TLYShyNavBarFadeNavbar;
+}
+
+- (void)setAlphaFadeEntireNavBar:(BOOL)alphaFadeEntireNavBar
+{
+    self.fadeBehavior = alphaFadeEntireNavBar ? TLYShyNavBarFadeNavbar : TLYShyNavBarFadeDisabled;
 }
 
 @end
