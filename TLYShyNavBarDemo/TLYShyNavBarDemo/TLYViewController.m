@@ -10,6 +10,10 @@
 
 @interface TLYViewController ()
 
+/* we set this in the xib as a runtime property */
+@property (nonatomic, assign) IBInspectable BOOL stickyExtensionView;
+@property (nonatomic, assign) IBInspectable NSInteger fadeBehavior;
+
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
@@ -38,7 +42,7 @@
     /* Can then be remove by setting the ExtensionView to nil */
     [self.shyNavBarManager setExtensionView:view];
     /* Make the extension view stick to the top */
-    [self.shyNavBarManager setStickyExtensionView:YES];
+    [self.shyNavBarManager setStickyExtensionView:self.stickyExtensionView];
 }
 
 - (void)viewDidLayoutSubviews
