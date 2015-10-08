@@ -280,7 +280,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         CGFloat start = -self.scrollView.contentInset.top;
         if (self.previousYOffset < start)
         {
-            deltaY = MIN(0, deltaY - self.previousYOffset - start);
+            deltaY = MIN(0, deltaY - (self.previousYOffset - start));
         }
         
         /* rounding to resolve a dumb issue with the contentOffset value */
