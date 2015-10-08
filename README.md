@@ -74,6 +74,7 @@ You can test some of these features in the Objective-C demo:
     I suggest adding it to your pch file, or wherever you want to use the component.
  
 3. Write one line of code to get started!!
+
 ```objc
 /* In your UIViewController viewDidLoad or after creating the scroll view. */
 self.shyNavBarManager.scrollView = self.scrollView;
