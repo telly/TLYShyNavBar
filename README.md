@@ -19,6 +19,8 @@ This component helps you mimick the navigation bar auto scrolling that you see i
 + **[A Deeper Look](#a-deeper-look)**: You're invensted in this now and want to make the most out of it.
 + **[How it Works](#how-it-works)**: The deep stuff...
 + **[Remarks](#remarks)**: Read this before losing all hope.
++ **[Contributors](#contributors)**: Developers that donated their valuable time.
++ **[Author](#author)**: Watashi-da!
 + **[Similar Projects](#similar-projects)**: Similar projects that influenced the project in some way.
 
 ## Features
@@ -217,6 +219,32 @@ shyManager.expansionResistance = 777.f;
 /* ... sometime after the view controller is added to the hierarchy  */
 viewController.shyNavBarManager = shyManager;
 ```
+
+## Contributors
+
+Thanks for everyone who opened an issue, shot me an email, and submitted a PR. Special thanks to those who submitted code that got checked in!
+
+_Sorted vaguely based on contribution according to [this](http://www.commandlinefu.com/commands/view/4519/list-all-authors-of-a-particular-git-project)_
+
++ Evan D. Schoenberg, M.D 
++ Tony Nuzzi 
++ Xurxo Méndez Pérez 
++ Richard Das 
++ Garret Riddle 
++ Aleksey Kozhevnikov 
++ modastic 
++ Yukan 
++ Remigiusz Herba 
++ Nicholas Long 
++ Koen Buddelmeijer 
++ Anton Sokolchenko 
++ Andrii Novoselskyi 
++ Alek Slater 
++ Aaron Satterfield 
+
+## Author
+
+Mazyod ([@Mazyod](http://twitter.com/mazyod))
 
 ## Similar Projects
 
