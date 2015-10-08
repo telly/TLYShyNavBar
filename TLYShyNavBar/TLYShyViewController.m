@@ -61,8 +61,12 @@ const CGFloat contractionVelocity = 300.f;
 
 // This method is courtesy of GTScrollNavigationBar
 // https://github.com/luugiathuy/GTScrollNavigationBar
-- (void)_updateSubviewsToAlpha:(CGFloat)alpha
+- (void)_updateViewsToAlpha:(CGFloat)alpha
 {
+    if (_alphaFadeEntireNavBar) {
+        self.view.alpha = alpha;
+    }
+
     for (UIView* view in self.view.subviews)
     {
         bool isBackgroundView = view == self.view.subviews[0];
@@ -83,7 +87,7 @@ const CGFloat contractionVelocity = 300.f;
     
     if (!alphaFadeEnabled)
     {
-        [self _updateSubviewsToAlpha:1.f];
+        [self _updateViewsToAlpha:1.f];
     }
 }
 
@@ -113,7 +117,7 @@ const CGFloat contractionVelocity = 300.f;
         
         if (self.alphaFadeEnabled)
         {
-            [self _updateSubviewsToAlpha:newAlpha];
+            [self _updateViewsToAlpha:newAlpha];
         }
     }
     
@@ -163,7 +167,7 @@ const CGFloat contractionVelocity = 300.f;
     
     if (self.hidesSubviews && self.alphaFadeEnabled)
     {
-        [self _updateSubviewsToAlpha:1.f];
+        [self _updateViewsToAlpha:1.f];
     }
     
     CGFloat amountToMove = self.expandedCenterValue.y - self.view.center.y;

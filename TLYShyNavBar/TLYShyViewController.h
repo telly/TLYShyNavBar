@@ -37,6 +37,7 @@ typedef CGFloat(^TLYShyViewControllerContractionAmountBlock)(UIView *view);
 @property (nonatomic) BOOL hidesAfterContraction;
 
 @property (nonatomic) BOOL alphaFadeEnabled;
+@property (nonatomic) BOOL alphaFadeEntireNavBar;
 
 @property (nonatomic, readonly) CGFloat totalHeight;
 
