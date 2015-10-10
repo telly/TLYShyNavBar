@@ -77,7 +77,7 @@ You can test some of these features in the Objective-C demo:
     Download the project/git submodules, and drag the `TLYShyNavBar` folder to your project. <br />
     Import the header `#import "TLYShyNavBarManager.h"`
  
- 2. Write one line of code to get started!!
+2. Write one line of code to get started!!
 
 ```objc
 /* In your UIViewController viewDidLoad or after creating the scroll view. */
