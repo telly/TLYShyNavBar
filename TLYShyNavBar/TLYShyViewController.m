@@ -168,7 +168,11 @@ const CGFloat contractionVelocity = 300.f;
         if ((contract && self.child.isContracted) ||
             (!contract && !self.isExpanded))
         {
-            deltaY = [self.child contract];
+            if (self.stickyNavigatiobBar){
+                deltaY = [self.child contract];
+            } else {
+                deltaY = [self contract];
+            }
         }
         else
         {
