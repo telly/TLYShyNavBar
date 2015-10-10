@@ -119,14 +119,18 @@ const CGFloat contractionVelocity = 300.f;
     CGFloat newYOffset = self.view.center.y + deltaY;
     CGFloat newYCenter = MAX(MIN(self.expandedCenterValue.y, newYOffset), self.contractedCenterValue.y);
     
-    self.view.center = CGPointMake(self.expandedCenterValue.x, newYCenter);
-    
+    if (!self.stickyNavigatiobBar){
+        self.view.center = CGPointMake(self.expandedCenterValue.x, newYCenter);
+    }
+        
     if (self.stickyExtensionView)
     {
         CGFloat newChildYOffset = self.child.view.center.y + deltaY;
         CGFloat newChildYCenter = MAX(MIN(self.child.expandedCenterValue.y, newChildYOffset), self.child.contractedCenterValue.y);
         
-        self.child.view.center = CGPointMake(self.child.expandedCenterValue.x, newChildYCenter);
+        if (!self.stickyNavigatiobBar){
+            self.child.view.center = CGPointMake(self.child.expandedCenterValue.x, newChildYCenter);
+        }
     }
     
     CGFloat newAlpha = 1.f - (self.expandedCenterValue.y - self.view.center.y) / self.contractionAmountValue;
@@ -161,9 +165,14 @@ const CGFloat contractionVelocity = 300.f;
     __block CGFloat deltaY;
     [UIView animateWithDuration:0.2 animations:^
     {
-        if ((contract && self.child.isContracted) || (!contract && !self.isExpanded))
+        if ((contract && self.child.isContracted) ||
+            (!contract && !self.isExpanded))
         {
-            deltaY = [self contract];
+            if (self.stickyNavigatiobBar){
+                deltaY = [self.child contract];
+            } else {
+                deltaY = [self contract];
+            }
         }
         else
         {

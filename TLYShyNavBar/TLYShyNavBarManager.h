@@ -56,6 +56,10 @@ typedef NS_ENUM(NSInteger, TLYShyNavBarFade) {
  */
 @property (nonatomic) BOOL stickyExtensionView;
 
+/* Sticky navigation bar
+ */
+@property (nonatomic) BOOL stickyNavigatiobBar;
+
 /* Control the resistance when scrolling up/down before the navbar 
  * expands/contracts again.
  */

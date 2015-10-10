@@ -45,7 +45,10 @@
     /* Can then be remove by setting the ExtensionView to nil */
     [self.shyNavBarManager setExtensionView:view];
     /* Make the extension view stick to the top */
-    [self.shyNavBarManager setStickyExtensionView:self.stickyExtensionView];
+    [self.shyNavBarManager setExpansionResistance:0.f];
+    [self.shyNavBarManager setContractionResistance:0.f];
+    [self.shyNavBarManager setStickyExtensionView:NO];
+    [self.shyNavBarManager setStickyNavigatiobBar:YES];
     /* Navigation bar fade behavior */
     [self.shyNavBarManager setFadeBehavior:self.fadeBehavior];
 }
