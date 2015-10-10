@@ -69,15 +69,15 @@ You can test some of these features in the Objective-C demo:
 
 1. Get the component
   + Using [CocoaPods](http://cocoapods.org):<br />
-    Add the following to you [Podfile](http://guides.cocoapods.org/using/the-podfile.html) `pod 'TLYShyNavBar'`
+    Add the following to you [Podfile](http://guides.cocoapods.org/using/the-podfile.html) `pod 'TLYShyNavBar'`<br />
+    Import the header `#import <TLYShyNavBar/TLYShyNavBarManager.h>`
+
 
   + Using Submodules:<br />
-    Download the project/git submodules, and drag the `TLYShyNavBar` folder to your project.
-
-2. `#import "TLYShyNavBarManager.h"` <br />
-    I suggest adding it to your pch file, or wherever you want to use the component.
+    Download the project/git submodules, and drag the `TLYShyNavBar` folder to your project. <br />
+    Import the header `#import "TLYShyNavBarManager.h"`
  
-3. Write one line of code to get started!!
+ 2. Write one line of code to get started!!
 
 ```objc
 /* In your UIViewController viewDidLoad or after creating the scroll view. */

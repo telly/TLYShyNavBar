@@ -22,6 +22,8 @@
 
 @implementation TLYViewController
 
+#pragma mark - Init & Dealloc
+
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
@@ -36,6 +38,8 @@
     }
     return self;
 }
+
+#pragma mark - View Life Cycle
 
 - (void)viewDidLoad
 {
