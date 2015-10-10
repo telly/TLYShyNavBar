@@ -10,7 +10,8 @@
 
 @interface TLYViewController ()
 
-/* we set this in the xib as a runtime property */
+@property (nonatomic, assign) IBInspectable BOOL disableExtensionView;
+@property (nonatomic, assign) IBInspectable BOOL stickyNavigationBar;
 @property (nonatomic, assign) IBInspectable BOOL stickyExtensionView;
 @property (nonatomic, assign) IBInspectable NSInteger fadeBehavior;
 
@@ -26,6 +27,9 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         
+        self.disableExtensionView = NO;
+        self.stickyNavigationBar = NO;
+        self.stickyExtensionView = NO;
         self.fadeBehavior = TLYShyNavBarFadeSubviews;
         
         self.title = @"WTFox Say";
@@ -37,13 +41,20 @@
 {
     [super viewDidLoad];
     
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 44.f)];
-    view.backgroundColor = [UIColor redColor];
+    UIView *view = nil;
+    
+    if (!self.disableExtensionView)
+    {
+        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 44.f)];
+        view.backgroundColor = [UIColor redColor];
+    }
     
     /* Library code */
     self.shyNavBarManager.scrollView = self.scrollView;
     /* Can then be remove by setting the ExtensionView to nil */
     [self.shyNavBarManager setExtensionView:view];
+    /* Make navbar stick to the top */
+    [self.shyNavBarManager setStickyNavigationBar:self.stickyNavigationBar];
     /* Make the extension view stick to the top */
     [self.shyNavBarManager setStickyExtensionView:self.stickyExtensionView];
     /* Navigation bar fade behavior */

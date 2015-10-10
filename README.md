@@ -53,6 +53,10 @@ This component helps you mimick the navigation bar auto scrolling that you see i
 
 ![](resources/ShyNavBar-7.gif)
 
++ Sticky navigation bar (Thanks [@TiagoVeloso](https://github.com/TiagoVeloso) !)
+
+![](resources/ShyNavBar-9.gif)
+
 + Fade the entire navbar (Thanks [__@longsview__](https://github.com/longsview) !)
 
 ![](resources/ShyNavBar-8.gif)

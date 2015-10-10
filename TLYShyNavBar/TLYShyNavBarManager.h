@@ -52,7 +52,14 @@ typedef NS_ENUM(NSInteger, TLYShyNavBarFade) {
  */
 @property (nonatomic, readonly) CGRect extensionViewBounds;
 
-/* Sticky extension view
+/* Make the navigation bar stick to the top without collapsing
+ * Deatuls to NO
+ */
+@property (nonatomic) BOOL stickyNavigationBar;
+
+/* Make the extension view stick to the bottom of the navbar without
+ * collapsing
+ * Defaults to NO
  */
 @property (nonatomic) BOOL stickyExtensionView;
 
