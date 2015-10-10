@@ -45,8 +45,15 @@
     
     if (!self.disableExtensionView)
     {
-        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 44.f)];
+        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 100.f)];
         view.backgroundColor = [UIColor redColor];
+        
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+        button.frame = view.bounds;
+        [button addTarget:self action:@selector(extensionViewTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [button setTitle:@"Click Me!" forState:UIControlStateNormal];
+        
+        [view addSubview:button];
     }
     
     /* Library code */
@@ -65,6 +72,13 @@
 {
     [super viewDidLayoutSubviews];
     self.scrollView.contentSize = self.imageView.bounds.size;
+}
+
+#pragma mark - Action methods
+
+- (void)extensionViewTapped:(id)sender
+{
+    [[[UIAlertView alloc] initWithTitle:@"it works" message:nil delegate:nil cancelButtonTitle:@"OK!" otherButtonTitles:nil] show];
 }
 
 @end
