@@ -243,6 +243,13 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     }
 }
 
+- (void)setStickyNavigatiobBar:(BOOL)stickyNavigatiobBar{
+    _stickyNavigatiobBar = stickyNavigatiobBar;
+    
+    if (self.navBarController) {
+        self.navBarController.stickyNavigatiobBar = _stickyNavigatiobBar;
+    }
+}
 
 #pragma mark - Private methods
 

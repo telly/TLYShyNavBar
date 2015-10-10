@@ -52,6 +52,10 @@ typedef NS_ENUM(NSInteger, TLYShyNavViewControllerFade) {
  */
 @property (nonatomic) BOOL stickyExtensionView;
 
+/* Sticky navigation bar
+ */
+@property (nonatomic) BOOL stickyNavigatiobBar;
+
 - (CGFloat)updateYOffset:(CGFloat)deltaY;
 
 - (CGFloat)snap:(BOOL)contract;
