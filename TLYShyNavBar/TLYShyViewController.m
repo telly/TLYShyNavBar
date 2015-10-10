@@ -8,7 +8,16 @@
 
 #import "TLYShyViewController.h"
 
-const CGFloat contractionVelocity = 300.f;
+
+@implementation TLYShyViewController (AsParent)
+
+- (CGFloat)viewMaxY
+{
+    return CGRectGetMaxY(self.view.frame);
+}
+
+@end
+
 
 @interface TLYShyViewController ()
 
@@ -29,12 +38,17 @@ const CGFloat contractionVelocity = 300.f;
 // convenience
 - (CGPoint)expandedCenterValue
 {
-    return self.expandedCenter(self.view);
+    CGPoint center = CGPointMake(CGRectGetMidX(self.view.bounds),
+                                 CGRectGetMidY(self.view.bounds));
+    
+    center.y += self.parent.viewMaxY;
+    
+    return center;
 }
 
 - (CGFloat)contractionAmountValue
 {
-    return self.contractionAmount(self.view);
+    return self.sticky ? 0.f : CGRectGetHeight(self.view.bounds);
 }
 
 - (CGPoint)contractedCenterValue
@@ -61,6 +75,13 @@ const CGFloat contractionVelocity = 300.f;
 
 - (void)_onAlphaUpdate:(CGFloat)alpha
 {
+    if (self.sticky)
+    {
+        self.view.alpha = 1.f;
+        [self _updateSubviewsAlpha:1.f];
+        return;
+    }
+    
     switch (self.fadeBehavior) {
             
         case TLYShyNavViewControllerFadeDisabled:
@@ -96,6 +117,15 @@ const CGFloat contractionVelocity = 300.f;
     }
 }
 
+- (void)_updateCenter:(CGPoint)newCenter
+{
+    CGPoint currentCenter = self.view.center;
+    CGPoint deltaPoint = CGPointMake(newCenter.x - currentCenter.x,
+                                     newCenter.y - currentCenter.y);
+    
+    [self offsetCenterBy:deltaPoint];
+}
+
 #pragma mark - Public methods
 
 - (void)setFadeBehavior:(TLYShyNavViewControllerFade)fadeBehavior
@@ -108,26 +138,26 @@ const CGFloat contractionVelocity = 300.f;
     }
 }
 
-- (CGFloat)updateYOffset:(CGFloat)deltaY
+- (void)offsetCenterBy:(CGPoint)deltaPoint
 {
-    if (self.child && deltaY < 0 && !self.stickyExtensionView)
+    [self.child offsetCenterBy:deltaPoint];
+    
+    self.view.center = CGPointMake(self.view.center.x + deltaPoint.x,
+                                   self.view.center.y + deltaPoint.y);
+}
+
+- (CGFloat)updateYOffset:(CGFloat)deltaY
+{    
+    if (self.child && deltaY < 0)
     {
         deltaY = [self.child updateYOffset:deltaY];
-        self.child.view.hidden = deltaY < 0;
+        self.child.view.hidden = (!self.child.sticky && deltaY < 0);
     }
     
     CGFloat newYOffset = self.view.center.y + deltaY;
     CGFloat newYCenter = MAX(MIN(self.expandedCenterValue.y, newYOffset), self.contractedCenterValue.y);
     
-    self.view.center = CGPointMake(self.expandedCenterValue.x, newYCenter);
-    
-    if (self.stickyExtensionView)
-    {
-        CGFloat newChildYOffset = self.child.view.center.y + deltaY;
-        CGFloat newChildYCenter = MAX(MIN(self.child.expandedCenterValue.y, newChildYOffset), self.child.contractedCenterValue.y);
-        
-        self.child.view.center = CGPointMake(self.child.expandedCenterValue.x, newChildYCenter);
-    }
+    [self _updateCenter:CGPointMake(self.expandedCenterValue.x, newYCenter)];
     
     CGFloat newAlpha = 1.f - (self.expandedCenterValue.y - self.view.center.y) / self.contractionAmountValue;
     newAlpha = MIN(MAX(FLT_EPSILON, newAlpha), 1.f);
@@ -136,10 +166,14 @@ const CGFloat contractionVelocity = 300.f;
     
     CGFloat residual = newYOffset - newYCenter;
     
-    if (self.child && deltaY > 0 && residual > 0 && !self.stickyExtensionView)
+    if (self.child && deltaY > 0 && residual > 0)
     {
         residual = [self.child updateYOffset:residual];
-        self.child.view.hidden = residual - (newYOffset - newYCenter) > FLT_EPSILON;
+        self.child.view.hidden = (!self.child.sticky && residual - (newYOffset - newYCenter) > FLT_EPSILON);
+    }
+    else if (self.child.sticky && deltaY > 0)
+    {
+        [self.child updateYOffset:deltaY];
     }
     
     return residual;
@@ -182,7 +216,7 @@ const CGFloat contractionVelocity = 300.f;
     
     CGFloat amountToMove = self.expandedCenterValue.y - self.view.center.y;
 
-    self.view.center = self.expandedCenterValue;
+    [self _updateCenter:self.expandedCenterValue];
     [self.child expand];
     
     return amountToMove;
@@ -192,7 +226,7 @@ const CGFloat contractionVelocity = 300.f;
 {
     CGFloat amountToMove = self.contractedCenterValue.y - self.view.center.y;
 
-    self.view.center = self.contractedCenterValue;
+    [self _updateCenter:self.contractedCenterValue];
     [self.child contract];
     
     return amountToMove;

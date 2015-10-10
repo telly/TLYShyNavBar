@@ -53,6 +53,10 @@ This component helps you mimick the navigation bar auto scrolling that you see i
 
 ![](resources/ShyNavBar-7.gif)
 
++ Sticky navigation bar (Thanks [@TiagoVeloso](https://github.com/TiagoVeloso) !)
+
+![](resources/ShyNavBar-9.gif)
+
 + Fade the entire navbar (Thanks [__@longsview__](https://github.com/longsview) !)
 
 ![](resources/ShyNavBar-8.gif)
@@ -159,7 +163,7 @@ You can control that using the following properties on the `shyNavBarManager`:
 
 ## How it Works
 
-OK, I'll admit that I added this section purely to rant about how this project came together, and the desicion making process behind it.
+OK, I'll admit that I added this section purely to rant about how this project came together, and the decision making process behind it.
 
 #### THE BASICS
 
@@ -191,15 +195,17 @@ When you assign the `scrollView` property to the TLYShyNavBarManager, we attach 
 
 #### THE DRAWER CONCEPT
 
-The way the offsets are applied to the navigation bar and extension view is through an elegent linked list implementation. We set the offset to the first node (navigation bar), and ...
+The way the offsets are applied to the navigation bar and extension view is through an elegant doubly linked list implementation. We set the offset to the first node (navigation bar), and ...
 
 + If it is contracting:
-  - We pass the contraction amount to the next node, and it returned a residual amount.
+  - We pass the contraction amount to the next node, and it returns a residual amount.
 
 + If we are expanding:
   - We process the offset in the first node, and pass the residual to the next node. 
 
 It is a simple concept. Say we dragged down by 100 px, and the nav bar was contracted. The navigation bar would take 64 px of that to expand, and then pass the residual 36 px to the next node (extension view) to calculate its offset. The same goes for contracting, but it starts from the last node, all the way up to the navigation bar.
+
+We also add a parent relationship for a single purpose: Make the child follow its parent's offset. So, if the parent (e.g. navigation bar) is scrolling away to the top, we make sure the child accommodates the parent's offset in the calculation, so it appears as if the child is a subview of the parent.
 
 *Note:* Even though there might be an illusion that the views are expanding and contracting, it's really just a translation (scrolling) of the views. There might be an advantage to actually resizing the bounds, so the extension view doesn't appear behind the navigation bar, for example, so that approach might be explored in the future.
 

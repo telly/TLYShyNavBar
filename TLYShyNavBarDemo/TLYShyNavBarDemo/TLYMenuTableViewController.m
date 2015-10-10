@@ -29,16 +29,13 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return 7;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *cellId = [@(indexPath.row) stringValue];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId
-                                                            forIndexPath:indexPath];
-    
-    return cell;
+    return [tableView dequeueReusableCellWithIdentifier:cellId forIndexPath:indexPath];
 }
 
 @end

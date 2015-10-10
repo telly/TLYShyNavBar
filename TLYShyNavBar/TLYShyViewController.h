@@ -25,6 +25,12 @@ typedef NS_ENUM(NSInteger, TLYShyNavViewControllerFade) {
     TLYShyNavViewControllerFadeNavbar,
 };
 
+@protocol TLYShyViewControllerParent <NSObject>
+
+@property (nonatomic, readonly) CGFloat viewMaxY;
+
+@end
+
 /*  CLASS DESCRIPTION:
  *  ==================
  *      A shy view is a view that contracts when a scrolling event is
@@ -39,24 +45,27 @@ typedef NS_ENUM(NSInteger, TLYShyNavViewControllerFade) {
 @interface TLYShyViewController : NSObject
 
 @property (nonatomic, weak) TLYShyViewController *child;
+@property (nonatomic, weak) id<TLYShyViewControllerParent> parent;
 @property (nonatomic, weak) UIView *view;
-
-@property (nonatomic, copy) TLYShyViewControllerExpandedCenterBlock expandedCenter;
-@property (nonatomic, copy) TLYShyViewControllerContractionAmountBlock contractionAmount;
 
 @property (nonatomic) TLYShyNavViewControllerFade fadeBehavior;
 
 @property (nonatomic, readonly) CGFloat totalHeight;
 
-/* Sticky extension view
+/* Sticky means it will always stay in expanded state
  */
-@property (nonatomic) BOOL stickyExtensionView;
+@property (nonatomic) BOOL sticky;
 
 - (CGFloat)updateYOffset:(CGFloat)deltaY;
+- (void)offsetCenterBy:(CGPoint)deltaPoint;
 
 - (CGFloat)snap:(BOOL)contract;
 
 - (CGFloat)expand;
 - (CGFloat)contract;
 
+@end
+
+
+@interface TLYShyViewController (AsParent) <TLYShyViewControllerParent>
 @end
