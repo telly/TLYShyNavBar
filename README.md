@@ -25,41 +25,17 @@ This component helps you mimick the navigation bar auto scrolling that you see i
 
 ## Features
 
-+ Optional extension view to the `UINavigationBar`!
-
-![](resources/ShyNavBar-1.gif)
-
-+ Auto expand if below threshold
-
-![](resources/ShyNavBar-2.gif)
-
-+ Auto contract if below threshold
-
-![](resources/ShyNavBar-3.gif)
-
-+ Very responsive, resilient and robust
-
-![](resources/ShyNavBar-4.gif)
-
-+ Adjustable expansion resistance
-
-![](resources/ShyNavBar-5.gif)
-
-+ Plays well with `pushViewController`
-
-![](resources/ShyNavBar-6.gif)
-
-+ Sticky extension view (Thanks @yukaliao !)
-
-![](resources/ShyNavBar-7.gif)
-
-+ Sticky navigation bar (Thanks [@TiagoVeloso](https://github.com/TiagoVeloso) !)
-
-![](resources/ShyNavBar-9.gif)
-
-+ Fade the entire navbar (Thanks [__@longsview__](https://github.com/longsview) !)
-
-![](resources/ShyNavBar-8.gif)
+| Feature | Demo |
+|---------|---------------------------------------------------------------------------------------------------------
+| Optional extension view to the `UINavigationBar`!                               | ![](resources/ShyNavBar-1.gif) |
+| Auto expand if below threshold                                                  | ![](resources/ShyNavBar-2.gif) |
+| Auto contract if below threshold                                                | ![](resources/ShyNavBar-3.gif) |
+| Very responsive, resilient and robust                                           | ![](resources/ShyNavBar-4.gif) |
+| Adjustable expansion resistance                                                 | ![](resources/ShyNavBar-5.gif) |
+| Plays well with `pushViewController`                                            | ![](resources/ShyNavBar-6.gif) |
+| Sticky extension view (Thanks @yukaliao !)                                      | ![](resources/ShyNavBar-7.gif) |
+| Sticky navigation bar (Thanks [@TiagoVeloso](https://github.com/TiagoVeloso)!)  | ![](resources/ShyNavBar-9.gif) |
+| Fade the entire navbar (Thanks [__@longsview__](https://github.com/longsview)!) | ![](resources/ShyNavBar-8.gif) |
 
 You can test some of these features in the Objective-C demo:
 
