@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8262C8551BD730DD00B610A0 /* TLYCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8262C8541BD730DD00B610A0 /* TLYCollectionViewController.m */; settings = {ASSET_TAGS = (); }; };
 		8268FA02194C926F004EC0E4 /* TLYShyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8268FA01194C926F004EC0E4 /* TLYShyViewController.m */; };
 		8268FA13194DBA58004EC0E4 /* TLYShyNavBarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8268FA12194DBA58004EC0E4 /* TLYShyNavBarManager.m */; };
 		828F57201949C37B009EB8DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828F571F1949C37B009EB8DD /* Foundation.framework */; };
@@ -40,6 +41,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8262C8531BD730DD00B610A0 /* TLYCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYCollectionViewController.h; sourceTree = "<group>"; };
+		8262C8541BD730DD00B610A0 /* TLYCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLYCollectionViewController.m; sourceTree = "<group>"; };
 		8268FA00194C926F004EC0E4 /* TLYShyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYShyViewController.h; sourceTree = "<group>"; };
 		8268FA01194C926F004EC0E4 /* TLYShyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLYShyViewController.m; sourceTree = "<group>"; };
 		8268FA11194DBA58004EC0E4 /* TLYShyNavBarManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYShyNavBarManager.h; sourceTree = "<group>"; };
@@ -97,6 +100,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8262C8521BD730CB00B610A0 /* CollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				8262C8531BD730DD00B610A0 /* TLYCollectionViewController.h */,
+				8262C8541BD730DD00B610A0 /* TLYCollectionViewController.m */,
+			);
+			name = CollectionView;
+			sourceTree = "<group>";
+		};
 		828F57131949C37B009EB8DD = {
 			isa = PBXGroup;
 			children = (
@@ -131,6 +143,7 @@
 		828F57251949C37B009EB8DD /* TLYShyNavBarDemo */ = {
 			isa = PBXGroup;
 			children = (
+				8262C8521BD730CB00B610A0 /* CollectionView */,
 				828F572E1949C37B009EB8DD /* TLYAppDelegate.h */,
 				828F572F1949C37B009EB8DD /* TLYAppDelegate.m */,
 				828F57311949C37B009EB8DD /* Main.storyboard */,
@@ -305,6 +318,7 @@
 				8268FA02194C926F004EC0E4 /* TLYShyViewController.m in Sources */,
 				829FEE001957DF620017E186 /* NSObject+TLYSwizzlingHelpers.m in Sources */,
 				828F57361949C37B009EB8DD /* TLYViewController.m in Sources */,
+				8262C8551BD730DD00B610A0 /* TLYCollectionViewController.m in Sources */,
 				828F572C1949C37B009EB8DD /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
