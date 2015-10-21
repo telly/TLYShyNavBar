@@ -179,7 +179,7 @@ The way the offsets are applied to the navigation bar and extension view is thro
 + If we are expanding:
   - We process the offset in the first node, and pass the residual to the next node. 
 
-It is a simple concept. Say we dragged down by 100 px, and the nav bar was contracted. The navigation bar would take 64 px of that to expand, and then pass the residual 36 px to the next node (extension view) to calculate its offset. The same goes for contracting, but it starts from the last node, all the way up to the navigation bar.
+It is a simple concept. Say we dragged down by 100 px while the navbar was contracted. The navigation bar would take 44 px of that to expand, and then pass the residual 56 px to the next node (extension view) to calculate its offset. The same goes for contracting, but it starts from the last node, all the way up to the navigation bar.
 
 We also add a parent relationship for a single purpose: Make the child follow its parent's offset. So, if the parent (e.g. navigation bar) is scrolling away to the top, we make sure the child accommodates the parent's offset in the calculation, so it appears as if the child is a subview of the parent.
 
