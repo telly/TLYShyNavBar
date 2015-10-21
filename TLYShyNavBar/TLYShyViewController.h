@@ -29,6 +29,8 @@ typedef NS_ENUM(NSInteger, TLYShyNavViewControllerFade) {
 
 @property (nonatomic, readonly) CGFloat viewMaxY;
 
+- (CGFloat)calculateTotalHeightRecursively;
+
 @end
 
 /*  CLASS DESCRIPTION:
@@ -56,8 +58,8 @@ typedef NS_ENUM(NSInteger, TLYShyNavViewControllerFade) {
  */
 @property (nonatomic) BOOL sticky;
 
-- (CGFloat)updateYOffset:(CGFloat)deltaY;
 - (void)offsetCenterBy:(CGPoint)deltaPoint;
+- (CGFloat)updateYOffset:(CGFloat)deltaY;
 
 - (CGFloat)snap:(BOOL)contract;
 

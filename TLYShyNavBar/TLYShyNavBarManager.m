@@ -72,7 +72,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 
 @implementation TLYShyStatusBarController
 
-- (CGFloat)viewMaxY
+- (CGFloat)_statusBarHeight
 {
     CGFloat statusBarHeight = AACStatusBarHeight(self.viewController);
     /* The standard status bar is 20 pixels. The navigation bar extends 20 pixels up so it is overlapped by the status bar.
@@ -85,6 +85,16 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     }
     
     return statusBarHeight;
+}
+
+- (CGFloat)viewMaxY
+{
+    return [self _statusBarHeight];
+}
+
+- (CGFloat)calculateTotalHeightRecursively
+{
+    return [self _statusBarHeight];
 }
 
 @end
@@ -417,7 +427,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 - (void)layoutViews
 {
     UIEdgeInsets scrollInsets = self.scrollView.contentInset;
-    scrollInsets.top = self.extensionController.viewMaxY;
+    scrollInsets.top = [self.extensionController calculateTotalHeightRecursively];
     
     if (UIEdgeInsetsEqualToEdgeInsets(scrollInsets, self.previousScrollInsets))
     {

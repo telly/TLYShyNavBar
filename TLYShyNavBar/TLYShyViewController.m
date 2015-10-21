@@ -16,6 +16,11 @@
     return CGRectGetMaxY(self.view.frame);
 }
 
+- (CGFloat)calculateTotalHeightRecursively
+{
+    return CGRectGetHeight(self.view.bounds) + [self.parent calculateTotalHeightRecursively];
+}
+
 @end
 
 
