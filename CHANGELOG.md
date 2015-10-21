@@ -1,4 +1,10 @@
 
+## v0.10.1
+
+#### Fixes
+
++ Hot fix an issue with UIViewControllers that have a UIScrollView subclass as their view property (i.e. collectionView, tableView, ...) that caused shyNavBar to be stubbornNavBar, refusing to contract.
+
 ## v0.10.0
 
 #### Enhancements
