@@ -1,6 +1,7 @@
 
 # TODO
 
++ Explore setting ViewController.view as a child, somehow
 + UITableView demo
 + Hidden status bar demo
 + expanded status bar demo
