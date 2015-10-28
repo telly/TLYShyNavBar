@@ -10,8 +10,8 @@
 #import "TLYShyViewController.h"
 #import "TLYDelegateProxy.h"
 
-#import "UIViewController+BetterLayoutGuides.h"
-#import "NSObject+TLYSwizzlingHelpers.h"
+#import "Categories/UIViewController+BetterLayoutGuides.h"
+#import "Categories/NSObject+TLYSwizzlingHelpers.h"
 
 #import <objc/runtime.h>
 
