@@ -293,7 +293,9 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     {
         return;
     }
-    
+
+    CGFloat statusBarHeight = AACStatusBarHeight(self.viewController);
+	
     if (!isnan(self.previousYOffset))
     {
         // 1 - Calculate the delta
@@ -334,7 +336,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 
             deltaY = MIN(0, availableResistance + deltaY);
         }
-        else if (self.scrollView.contentOffset.y > -AACStatusBarHeight(self.viewController))
+        else if (self.scrollView.contentOffset.y > statusBarHeight)
         {
             CGFloat availableResistance = self.expansionResistance - self.resistanceConsumed;
             self.resistanceConsumed = MIN(self.expansionResistance, self.resistanceConsumed + deltaY);
@@ -350,6 +352,32 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     }
     
     self.previousYOffset = self.scrollView.contentOffset.y;
+
+	CGFloat navBarHeight = self.viewController.navigationController.navigationBar.frame.size.height;
+
+	if (self.scrollView.contentOffset.y > -(navBarHeight + statusBarHeight))
+	{
+		UIEdgeInsets inset = self.scrollView.contentInset;
+
+		if (self.extensionView)
+		{
+			CGFloat maxExtensionBar = CGRectGetMaxY([self.extensionView convertRect:self.extensionView.bounds
+			toView:self.scrollView.superview])-self.scrollView.frame.origin.y;
+
+			inset.top = MAX(MIN(CGRectGetHeight(self.viewController.view.frame) + statusBarHeight,
+			maxExtensionBar),statusBarHeight);
+		}
+		else
+		{
+			CGFloat maxNavBar = CGRectGetMaxY([self.navBarController.view convertRect:self.navBarController.view.bounds
+			toView:self.scrollView.superview])-self.scrollView.frame.origin.y;
+
+			inset.top = MAX(MIN(CGRectGetHeight(self.viewController.view.frame) + statusBarHeight,
+			maxNavBar),statusBarHeight);
+		}
+
+		self.scrollView.contentInset = self.scrollView.scrollIndicatorInsets = inset;
+	}
 }
 
 - (void)_handleScrollingEnded
