@@ -26,13 +26,13 @@
 
 @interface TLYShyViewController ()
 
-@property (nonatomic) CGPoint expandedCenterValue;
-@property (nonatomic) CGFloat contractionAmountValue;
+@property (nonatomic, assign) CGPoint expandedCenterValue;
+@property (nonatomic, assign) CGFloat contractionAmountValue;
 
-@property (nonatomic) CGPoint contractedCenterValue;
+@property (nonatomic, assign) CGPoint contractedCenterValue;
 
-@property (nonatomic, getter = isContracted) BOOL contracted;
-@property (nonatomic, getter = isExpanded) BOOL expanded;
+@property (nonatomic, assign) BOOL contracted;
+@property (nonatomic, assign) BOOL expanded;
 
 @end
 
@@ -61,12 +61,12 @@
     return CGPointMake(self.expandedCenterValue.x, self.expandedCenterValue.y - self.contractionAmountValue);
 }
 
-- (BOOL)isContracted
+- (BOOL)contracted
 {
     return fabs(self.view.center.y - self.contractedCenterValue.y) < FLT_EPSILON;
 }
 
-- (BOOL)isExpanded
+- (BOOL)expanded
 {
     return fabs(self.view.center.y - self.expandedCenterValue.y) < FLT_EPSILON;
 }
@@ -89,17 +89,17 @@
     
     switch (self.fadeBehavior) {
             
-        case TLYShyNavViewControllerFadeDisabled:
+        case TLYShyNavBarFadeDisabled:
             self.view.alpha = 1.f;
             [self _updateSubviewsAlpha:1.f];
             break;
             
-        case TLYShyNavViewControllerFadeSubviews:
+        case TLYShyNavBarFadeSubviews:
             self.view.alpha = 1.f;
             [self _updateSubviewsAlpha:alpha];
             break;
             
-        case TLYShyNavViewControllerFadeNavbar:
+        case TLYShyNavBarFadeNavbar:
             self.view.alpha = alpha;
             [self _updateSubviewsAlpha:1.f];
             break;
@@ -133,11 +133,11 @@
 
 #pragma mark - Public methods
 
-- (void)setFadeBehavior:(TLYShyNavViewControllerFade)fadeBehavior
+- (void)setFadeBehavior:(TLYShyNavBarFade)fadeBehavior
 {
     _fadeBehavior = fadeBehavior;
     
-    if (fadeBehavior == TLYShyNavViewControllerFadeDisabled)
+    if (fadeBehavior == TLYShyNavBarFadeDisabled)
     {
         [self _onAlphaUpdate:1.f];
     }
@@ -153,10 +153,10 @@
 
 - (CGFloat)updateYOffset:(CGFloat)deltaY
 {    
-    if (self.child && deltaY < 0)
+    if (self.child && !self.child.sticky && deltaY < 0)
     {
         deltaY = [self.child updateYOffset:deltaY];
-        self.child.view.hidden = (!self.child.sticky && deltaY < 0);
+        self.child.view.hidden = deltaY < 0;
     }
     
     CGFloat newYOffset = self.view.center.y + deltaY;
@@ -171,14 +171,11 @@
     
     CGFloat residual = newYOffset - newYCenter;
     
-    if (self.child && deltaY > 0 && residual > 0)
+    if (self.child && !self.child.sticky && deltaY > 0 && residual > 0)
     {
-        residual = [self.child updateYOffset:residual];
-        self.child.view.hidden = (!self.child.sticky && residual - (newYOffset - newYCenter) > FLT_EPSILON);
-    }
-    else if (self.child.sticky && deltaY > 0)
-    {
-        [self.child updateYOffset:deltaY];
+        CGFloat newResidual = [self.child updateYOffset:residual];
+        self.child.view.hidden = newResidual - residual > FLT_EPSILON;
+        residual = newResidual;
     }
     
     return residual;
@@ -200,7 +197,7 @@
     __block CGFloat deltaY;
     [UIView animateWithDuration:0.2 animations:^
     {
-        if ((contract && self.child.isContracted) || (!contract && !self.isExpanded))
+        if ((contract && self.child.contracted) || (!contract && !self.expanded))
         {
             deltaY = [self contract];
         }

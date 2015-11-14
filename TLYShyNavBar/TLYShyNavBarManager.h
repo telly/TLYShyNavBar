@@ -8,17 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "TLYShyNavBarFade.h"
 
-
-/** This enum helps control the navigation bar fade behavior.
- *  NOTE: It is duplicated in the ShyNavController header for now.
- */
-typedef NS_ENUM(NSInteger, TLYShyNavBarFade) {
-    
-    TLYShyNavBarFadeDisabled,
-    TLYShyNavBarFadeSubviews,
-    TLYShyNavBarFadeNavbar,
-};
 
 /** CLASS DESCRIPTION:
  *  ==================
@@ -100,18 +91,3 @@ typedef NS_ENUM(NSInteger, TLYShyNavBarFade) {
 
 @end
 
-
-/*  DEPRECATED:
- *  ===========
- *      Please move away from using these properties, as they will be
- *  removed in the next major release.
- */
-@interface TLYShyNavBarManager (Deprecated)
-
-@property (nonatomic, getter = isAlphaFadeEnabled) BOOL alphaFadeEnabled
-DEPRECATED_MSG_ATTRIBUTE("use fadeBehavior = TLYShyNavBarFade(Subviews or None)");
-
-@property (nonatomic, getter = isAlphaFadeEntireNavBarEnabled) BOOL alphaFadeEntireNavBar
-DEPRECATED_MSG_ATTRIBUTE("use fadeBehavior = TLYShyNavBarFadeNavbar");
-
-@end

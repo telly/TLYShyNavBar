@@ -95,7 +95,7 @@ Pod::Spec.new do |s|
   s.source_files  = "TLYShyNavBar/**/*"
   s.exclude_files = ""
 
-  s.public_header_files = "TLYShyNavBar/TLYShyNavBarManager.h"
+  s.public_header_files = "TLYShyNavBar/*.h"
 
 
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #

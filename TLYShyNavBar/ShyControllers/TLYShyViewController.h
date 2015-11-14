@@ -8,30 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "TLYShyParent.h"
+#import "../TLYShyNavBarFade.h"
+
 
 extern const CGFloat contractionVelocity;
 
 typedef CGPoint(^TLYShyViewControllerExpandedCenterBlock)(UIView *view);
 typedef CGFloat(^TLYShyViewControllerContractionAmountBlock)(UIView *view);
 
-
-/** This enum is duplicated in the manager header, as to not cause headaches
- *  for users looking to update the library in Cocoapods.
- */
-typedef NS_ENUM(NSInteger, TLYShyNavViewControllerFade) {
-    
-    TLYShyNavViewControllerFadeDisabled,
-    TLYShyNavViewControllerFadeSubviews,
-    TLYShyNavViewControllerFadeNavbar,
-};
-
-@protocol TLYShyViewControllerParent <NSObject>
-
-@property (nonatomic, readonly) CGFloat viewMaxY;
-
-- (CGFloat)calculateTotalHeightRecursively;
-
-@end
 
 /*  CLASS DESCRIPTION:
  *  ==================
@@ -47,10 +32,10 @@ typedef NS_ENUM(NSInteger, TLYShyNavViewControllerFade) {
 @interface TLYShyViewController : NSObject
 
 @property (nonatomic, weak) TLYShyViewController *child;
-@property (nonatomic, weak) id<TLYShyViewControllerParent> parent;
+@property (nonatomic, weak) id<TLYShyParent> parent;
 @property (nonatomic, weak) UIView *view;
 
-@property (nonatomic) TLYShyNavViewControllerFade fadeBehavior;
+@property (nonatomic) TLYShyNavBarFade fadeBehavior;
 
 @property (nonatomic, readonly) CGFloat totalHeight;
 
@@ -69,5 +54,5 @@ typedef NS_ENUM(NSInteger, TLYShyNavViewControllerFade) {
 @end
 
 
-@interface TLYShyViewController (AsParent) <TLYShyViewControllerParent>
+@interface TLYShyViewController (AsParent) <TLYShyParent>
 @end

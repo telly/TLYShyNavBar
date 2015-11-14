@@ -7,104 +7,26 @@
 //
 
 #import "TLYShyNavBarManager.h"
-#import "TLYShyViewController.h"
-#import "TLYDelegateProxy.h"
 
+#import "ShyControllers/TLYShyViewController.h"
+#import "ShyControllers/TLYShyStatusBarController.h"
+
+#import "Categories/TLYDelegateProxy.h"
 #import "Categories/UIViewController+BetterLayoutGuides.h"
 #import "Categories/NSObject+TLYSwizzlingHelpers.h"
+#import "Categories/UIScrollView+Helpers.h"
 
 #import <objc/runtime.h>
 
-#pragma mark - Helper functions
-
-// Thanks to SO user, MattDiPasquale
-// http://stackoverflow.com/questions/12991935/how-to-programmatically-get-ios-status-bar-height/16598350#16598350
-
-static inline CGFloat AACStatusBarHeight(UIViewController *viewController)
-{
-    if ([UIApplication sharedApplication].statusBarHidden)
-    {
-        return 0.f;
-    }
-    
-    // Modal views do not overlap the status bar, so no allowance need be made for it
-    CGSize  statusBarSize = [UIApplication sharedApplication].statusBarFrame.size;
-    CGFloat statusBarHeight = MIN(statusBarSize.width, statusBarSize.height);
-    
-    UIView *view = viewController.view;
-    CGRect frame = [view.superview convertRect:view.frame toView:view.window];
-    
-    BOOL viewOverlapsStatusBar = frame.origin.y < statusBarHeight;
-    
-    if (!viewOverlapsStatusBar)
-    {
-        return 0.f;
-    }
-    
-    return statusBarHeight;
-}
 
 static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManagerKVOContext;
-
-@implementation UIScrollView(Helper)
-
-// Modify contentInset and scrollIndicatorInsets while preserving visual content offset
-- (void)tly_smartSetInsets:(UIEdgeInsets)contentAndScrollIndicatorInsets
-{
-    if (contentAndScrollIndicatorInsets.top != self.contentInset.top)
-    {
-        CGPoint contentOffset = self.contentOffset;
-        contentOffset.y -= contentAndScrollIndicatorInsets.top - self.contentInset.top;
-        self.contentOffset = contentOffset;
-    }
-
-    self.contentInset = self.scrollIndicatorInsets = contentAndScrollIndicatorInsets;
-}
-
-@end
-
-
-@interface TLYShyStatusBarController : NSObject <TLYShyViewControllerParent>
-
-@property (nonatomic, weak) UIViewController *viewController;
-
-@end
-
-@implementation TLYShyStatusBarController
-
-- (CGFloat)_statusBarHeight
-{
-    CGFloat statusBarHeight = AACStatusBarHeight(self.viewController);
-    /* The standard status bar is 20 pixels. The navigation bar extends 20 pixels up so it is overlapped by the status bar.
-     * When there is a larger than 20 pixel status bar (e.g. a phone call is in progress or GPS is active), the center needs
-     * to shift up 20 pixels to avoid this 'dead space' being visible above the usual nav bar.
-     */
-    if (statusBarHeight > 20)
-    {
-        statusBarHeight -= 20;
-    }
-    
-    return statusBarHeight;
-}
-
-- (CGFloat)viewMaxY
-{
-    return [self _statusBarHeight];
-}
-
-- (CGFloat)calculateTotalHeightRecursively
-{
-    return [self _statusBarHeight];
-}
-
-@end
 
 
 #pragma mark - TLYShyNavBarManager class
 
 @interface TLYShyNavBarManager () <UIScrollViewDelegate>
 
-@property (nonatomic, strong) id<TLYShyViewControllerParent> statusBarController;
+@property (nonatomic, strong) id<TLYShyParent> statusBarController;
 @property (nonatomic, strong) TLYShyViewController *navBarController;
 @property (nonatomic, strong) TLYShyViewController *extensionController;
 
@@ -116,7 +38,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 @property (nonatomic) CGFloat previousYOffset;
 @property (nonatomic) CGFloat resistanceConsumed;
 
-@property (nonatomic, getter = isContracting) BOOL contracting;
+@property (nonatomic, assign) BOOL contracting;
 @property (nonatomic) BOOL previousContractionState;
 
 @property (nonatomic, readonly) BOOL isViewControllerVisible;
@@ -284,6 +206,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     {
         return NO;
     }
+    
     return (self.isViewControllerVisible && [self _scrollViewIsSuffecientlyLong]);
 }
 
@@ -320,21 +243,23 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         }
         
         // 4 - Check if contracting state changed, and do stuff if so
-        if (self.isContracting != self.previousContractionState)
+        if (self.contracting != self.previousContractionState)
         {
-            self.previousContractionState = self.isContracting;
+            self.previousContractionState = self.contracting;
             self.resistanceConsumed = 0;
         }
 
         // 5 - Apply resistance
-        if (self.isContracting)
+        // 5.1 - Always apply resistance when contracting
+        if (self.contracting)
         {
             CGFloat availableResistance = self.contractionResistance - self.resistanceConsumed;
             self.resistanceConsumed = MIN(self.contractionResistance, self.resistanceConsumed - deltaY);
 
             deltaY = MIN(0, availableResistance + deltaY);
         }
-        else if (self.scrollView.contentOffset.y > -AACStatusBarHeight(self.viewController))
+        // 5.2 - Only apply resistance if expanding above the status bar
+        else if (self.scrollView.contentOffset.y > -[self.statusBarController calculateTotalHeightRecursively])
         {
             CGFloat availableResistance = self.expansionResistance - self.resistanceConsumed;
             self.resistanceConsumed = MIN(self.expansionResistance, self.resistanceConsumed + deltaY);
@@ -343,7 +268,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         }
         
         // 6 - Update the navigation bar shyViewController
-        self.navBarController.fadeBehavior = (TLYShyNavViewControllerFade)self.fadeBehavior;
+        self.navBarController.fadeBehavior = (TLYShyNavBarFade)self.fadeBehavior;
         
         
         [self.navBarController updateYOffset:deltaY];
@@ -361,7 +286,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     
     self.resistanceConsumed = 0;
     
-    CGFloat deltaY = [self.navBarController snap:self.isContracting];
+    CGFloat deltaY = [self.navBarController snap:self.contracting];
     CGPoint newContentOffset = self.scrollView.contentOffset;
     
     newContentOffset.y -= deltaY;
@@ -554,33 +479,6 @@ static char shyNavBarManagerKey;
 - (TLYShyNavBarManager *)_internalShyNavBarManager
 {
     return objc_getAssociatedObject(self, &shyNavBarManagerKey);
-}
-
-@end
-
-
-#pragma mark - Deprecated -
-
-@implementation TLYShyNavBarManager (Deprecated)
-
-- (BOOL)isAlphaFadeEnabled
-{
-    return self.fadeBehavior != TLYShyNavBarFadeDisabled;
-}
-
-- (void)setAlphaFadeEnabled:(BOOL)alphaFadeEnabled
-{
-    self.fadeBehavior = alphaFadeEnabled ? TLYShyNavBarFadeSubviews : TLYShyNavBarFadeDisabled;
-}
-
-- (BOOL)isAlphaFadeEntireNavBarEnabled
-{
-    return self.fadeBehavior != TLYShyNavBarFadeNavbar;
-}
-
-- (void)setAlphaFadeEntireNavBar:(BOOL)alphaFadeEntireNavBar
-{
-    self.fadeBehavior = alphaFadeEntireNavBar ? TLYShyNavBarFadeNavbar : TLYShyNavBarFadeDisabled;
 }
 
 @end
