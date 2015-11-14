@@ -11,16 +11,19 @@
 @implementation UIScrollView (Helpers)
 
 // Modify contentInset and scrollIndicatorInsets while preserving visual content offset
-- (void)tly_smartSetInsets:(UIEdgeInsets)contentAndScrollIndicatorInsets
+- (void)tly_smartSetInsets:(UIEdgeInsets)contentInsets
 {
-    if (contentAndScrollIndicatorInsets.top != self.contentInset.top)
+    if (contentInsets.top != self.contentInset.top)
     {
-        CGPoint contentOffset = self.contentOffset;
-        contentOffset.y -= contentAndScrollIndicatorInsets.top - self.contentInset.top;
-        self.contentOffset = contentOffset;
+        CGFloat offsetDelta = contentInsets.top - self.contentInset.top;
+        
+        CGRect bounds = self.bounds;
+        bounds.origin.y -= offsetDelta;
+        self.bounds = bounds;
     }
     
-    self.contentInset = self.scrollIndicatorInsets = contentAndScrollIndicatorInsets;
+    self.contentInset = contentInsets;
+    self.scrollIndicatorInsets = contentInsets;
 }
 
 @end
