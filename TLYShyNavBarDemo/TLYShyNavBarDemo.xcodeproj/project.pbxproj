@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8262C8551BD730DD00B610A0 /* TLYCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8262C8541BD730DD00B610A0 /* TLYCollectionViewController.m */; settings = {ASSET_TAGS = (); }; };
+		821A4D771BF6CCEC00E675DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 821A4D761BF6CCEC00E675DB /* LaunchScreen.storyboard */; };
+		8262C8551BD730DD00B610A0 /* TLYCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8262C8541BD730DD00B610A0 /* TLYCollectionViewController.m */; };
 		8268FA02194C926F004EC0E4 /* TLYShyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8268FA01194C926F004EC0E4 /* TLYShyViewController.m */; };
 		8268FA13194DBA58004EC0E4 /* TLYShyNavBarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8268FA12194DBA58004EC0E4 /* TLYShyNavBarManager.m */; };
 		828F57201949C37B009EB8DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828F571F1949C37B009EB8DD /* Foundation.framework */; };
@@ -25,7 +26,7 @@
 		828F57491949C37B009EB8DD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 828F57471949C37B009EB8DD /* InfoPlist.strings */; };
 		828F574B1949C37B009EB8DD /* TLYShyNavBarDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 828F574A1949C37B009EB8DD /* TLYShyNavBarDemoTests.m */; };
 		829FEE001957DF620017E186 /* NSObject+TLYSwizzlingHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 829FEDFF1957DF620017E186 /* NSObject+TLYSwizzlingHelpers.m */; };
-		82A893861BC6F939004C37E3 /* TLYMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A893851BC6F939004C37E3 /* TLYMenuTableViewController.m */; settings = {ASSET_TAGS = (); }; };
+		82A893861BC6F939004C37E3 /* TLYMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A893851BC6F939004C37E3 /* TLYMenuTableViewController.m */; };
 		82B01ED3195D449F00C3C10C /* TLYDelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B01ED2195D449F00C3C10C /* TLYDelegateProxy.m */; };
 		82C882091955FDA60046C49D /* UIViewController+BetterLayoutGuides.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C882081955FDA60046C49D /* UIViewController+BetterLayoutGuides.m */; };
 /* End PBXBuildFile section */
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		821A4D761BF6CCEC00E675DB /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8262C8531BD730DD00B610A0 /* TLYCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYCollectionViewController.h; sourceTree = "<group>"; };
 		8262C8541BD730DD00B610A0 /* TLYCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLYCollectionViewController.m; sourceTree = "<group>"; };
 		8268FA00194C926F004EC0E4 /* TLYShyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYShyViewController.h; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				828F57271949C37B009EB8DD /* TLYShyNavBarDemo-Info.plist */,
+				821A4D761BF6CCEC00E675DB /* LaunchScreen.storyboard */,
 				828F57281949C37B009EB8DD /* InfoPlist.strings */,
 				828F572B1949C37B009EB8DD /* main.m */,
 				828F572D1949C37B009EB8DD /* TLYShyNavBarDemo-Prefix.pch */,
@@ -290,6 +293,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				828F57381949C37B009EB8DD /* Images.xcassets in Resources */,
+				821A4D771BF6CCEC00E675DB /* LaunchScreen.storyboard in Resources */,
 				828F572A1949C37B009EB8DD /* InfoPlist.strings in Resources */,
 				828F57331949C37B009EB8DD /* Main.storyboard in Resources */,
 			);

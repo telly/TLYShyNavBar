@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="7bU-2Z-BIA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="7bU-2Z-BIA">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -18,10 +18,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d0u-JZ-WMw">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d0u-JZ-WMw">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sample" translatesAutoresizingMaskIntoConstraints="NO" id="RWp-Z1-nNI">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sample" translatesAutoresizingMaskIntoConstraints="NO" id="RWp-Z1-nNI">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="800"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RdB-YX-eef">
@@ -35,6 +35,12 @@
                                         </connections>
                                     </button>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="RWp-Z1-nNI" secondAttribute="bottom" constant="-232" id="A4N-1N-ByC"/>
+                                    <constraint firstItem="RWp-Z1-nNI" firstAttribute="top" secondItem="d0u-JZ-WMw" secondAttribute="top" id="Aws-4X-zhy"/>
+                                    <constraint firstItem="RWp-Z1-nNI" firstAttribute="leading" secondItem="d0u-JZ-WMw" secondAttribute="leading" id="I70-Es-KW4"/>
+                                    <constraint firstAttribute="trailing" secondItem="RWp-Z1-nNI" secondAttribute="trailing" id="nUd-mM-q10"/>
+                                </constraints>
                                 <connections>
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="kxr-NG-k4Q"/>
                                 </connections>
@@ -244,10 +250,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vbb-xa-3sQ">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vbb-xa-3sQ">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sample" translatesAutoresizingMaskIntoConstraints="NO" id="ZgL-2W-u0P">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sample" translatesAutoresizingMaskIntoConstraints="NO" id="ZgL-2W-u0P">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="800"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tCN-lm-psW">
@@ -261,6 +267,12 @@
                                         </connections>
                                     </button>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="ZgL-2W-u0P" firstAttribute="top" secondItem="vbb-xa-3sQ" secondAttribute="top" id="Gog-4t-mWr"/>
+                                    <constraint firstAttribute="trailing" secondItem="ZgL-2W-u0P" secondAttribute="trailing" id="HRx-CS-Oza"/>
+                                    <constraint firstItem="ZgL-2W-u0P" firstAttribute="leading" secondItem="vbb-xa-3sQ" secondAttribute="leading" id="UXV-wK-XtE"/>
+                                    <constraint firstAttribute="bottom" secondItem="ZgL-2W-u0P" secondAttribute="bottom" constant="-232" id="vRu-ew-sLd"/>
+                                </constraints>
                                 <connections>
                                     <outlet property="delegate" destination="K7e-Au-F1w" id="Ljb-VD-J2V"/>
                                 </connections>
@@ -347,10 +359,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Zp-9c-eDS">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Zp-9c-eDS">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sample" translatesAutoresizingMaskIntoConstraints="NO" id="ZOG-dK-zfA">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sample" translatesAutoresizingMaskIntoConstraints="NO" id="ZOG-dK-zfA">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="800"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cyG-i1-1i9">
@@ -364,6 +376,12 @@
                                         </connections>
                                     </button>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="ZOG-dK-zfA" firstAttribute="top" secondItem="6Zp-9c-eDS" secondAttribute="top" id="Del-af-CgC"/>
+                                    <constraint firstItem="ZOG-dK-zfA" firstAttribute="leading" secondItem="6Zp-9c-eDS" secondAttribute="leading" id="KYS-x9-Jad"/>
+                                    <constraint firstAttribute="trailing" secondItem="ZOG-dK-zfA" secondAttribute="trailing" id="SMj-gB-5vd"/>
+                                    <constraint firstAttribute="bottom" secondItem="ZOG-dK-zfA" secondAttribute="bottom" constant="-232" id="kj5-VT-Ir7"/>
+                                </constraints>
                                 <connections>
                                     <outlet property="delegate" destination="YrI-BX-jJR" id="UNz-BN-zMp"/>
                                 </connections>
@@ -405,10 +423,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p6u-pz-ec0">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p6u-pz-ec0">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sample" translatesAutoresizingMaskIntoConstraints="NO" id="iiY-8B-e2T">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sample" translatesAutoresizingMaskIntoConstraints="NO" id="iiY-8B-e2T">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="800"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sz2-8s-bu4">
@@ -422,6 +440,12 @@
                                         </connections>
                                     </button>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="iiY-8B-e2T" secondAttribute="trailing" id="cJU-Wz-K3u"/>
+                                    <constraint firstAttribute="bottom" secondItem="iiY-8B-e2T" secondAttribute="bottom" constant="-232" id="rBn-gA-pFx"/>
+                                    <constraint firstItem="iiY-8B-e2T" firstAttribute="top" secondItem="p6u-pz-ec0" secondAttribute="top" id="t6e-3c-mYy"/>
+                                    <constraint firstItem="iiY-8B-e2T" firstAttribute="leading" secondItem="p6u-pz-ec0" secondAttribute="leading" id="yxg-zM-6BO"/>
+                                </constraints>
                                 <connections>
                                     <outlet property="delegate" destination="7f1-kX-LN4" id="Em9-iO-CRq"/>
                                 </connections>
@@ -464,10 +488,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gDa-ud-MJA">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gDa-ud-MJA">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sample" translatesAutoresizingMaskIntoConstraints="NO" id="53M-22-p92">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sample" translatesAutoresizingMaskIntoConstraints="NO" id="53M-22-p92">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="800"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vdy-g9-wQL">
@@ -481,6 +505,12 @@
                                         </connections>
                                     </button>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="53M-22-p92" firstAttribute="leading" secondItem="gDa-ud-MJA" secondAttribute="leading" id="4Nm-kW-QPn"/>
+                                    <constraint firstAttribute="bottom" secondItem="53M-22-p92" secondAttribute="bottom" constant="-232" id="5Mh-2b-a9D"/>
+                                    <constraint firstItem="53M-22-p92" firstAttribute="top" secondItem="gDa-ud-MJA" secondAttribute="top" id="76q-JF-l7d"/>
+                                    <constraint firstAttribute="trailing" secondItem="53M-22-p92" secondAttribute="trailing" id="zr2-9G-qlL"/>
+                                </constraints>
                                 <connections>
                                     <outlet property="delegate" destination="Vir-3r-RAn" id="zC7-46-HJO"/>
                                 </connections>
