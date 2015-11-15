@@ -35,16 +35,7 @@
     if (normalizedY > -FLT_EPSILON && !UIEdgeInsetsEqualToEdgeInsets(insets, self.scrollView.contentInset))
     {
         CGFloat delta = insets.top - self.scrollView.contentInset.top;
-        
-        if (intelligently)
-        {
-            [self.scrollView tly_smartSetInsets:insets];
-        }
-        else
-        {
-            self.scrollView.contentInset = insets;
-            self.scrollView.scrollIndicatorInsets = insets;
-        }
+        [self.scrollView tly_setInsets:insets preserveOffset:intelligently];
         
         return delta;
     }
