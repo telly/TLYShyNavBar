@@ -267,6 +267,9 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
             self.resistanceConsumed = 0;
         }
 
+        // GTH: Calculate the exact point to avoid expansion resistance
+        // CGFloat statusBarHeight = [self.statusBarController calculateTotalHeightRecursively];
+        
         // 5 - Apply resistance
         // 5.1 - Always apply resistance when contracting
         if (self.contracting)
@@ -277,7 +280,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
             deltaY = MIN(0, availableResistance + deltaY);
         }
         // 5.2 - Only apply resistance if expanding above the status bar
-        else if (self.scrollView.contentOffset.y > -[self.statusBarController calculateTotalHeightRecursively])
+        else if (self.scrollView.contentOffset.y > 0)
         {
             CGFloat availableResistance = self.expansionResistance - self.resistanceConsumed;
             self.resistanceConsumed = MIN(self.expansionResistance, self.resistanceConsumed + deltaY);
