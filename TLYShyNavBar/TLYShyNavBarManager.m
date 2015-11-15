@@ -121,9 +121,17 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 {
     _viewController = viewController;
     
-    UIView *navbar = viewController.navigationController.navigationBar;
-    NSAssert(navbar != nil, @"You are using the component wrong... Please see the README file.");
+    if ([viewController isKindOfClass:[UITableViewController class]]
+        || [viewController.view isKindOfClass:[UITableViewController class]])
+    {
+        NSLog(@"*** WARNING: Please consider using a UIViewController with a UITableView as a subview ***");
+    }
     
+    UIView *navbar = viewController.navigationController.navigationBar;
+    NSAssert(navbar != nil, @"Please make sure the viewController is already attached to a navigation controller.");
+    
+    viewController.extendedLayoutIncludesOpaqueBars = YES;
+
     [self.extensionViewContainer removeFromSuperview];
     [self.viewController.view addSubview:self.extensionViewContainer];
     
@@ -269,17 +277,16 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
             deltaY = MIN(0, availableResistance + deltaY);
         }
         // 5.2 - Only apply resistance if expanding above the status bar
-#warning - TODO
-//        else if (self.scrollView.contentOffset.y > -[self.statusBarController calculateTotalHeightRecursively])
-//        {
-//            CGFloat availableResistance = self.expansionResistance - self.resistanceConsumed;
-//            self.resistanceConsumed = MIN(self.expansionResistance, self.resistanceConsumed + deltaY);
-//            
-//            deltaY = MAX(0, deltaY - availableResistance);
-//        }
+        else if (self.scrollView.contentOffset.y > -[self.statusBarController calculateTotalHeightRecursively])
+        {
+            CGFloat availableResistance = self.expansionResistance - self.resistanceConsumed;
+            self.resistanceConsumed = MIN(self.expansionResistance, self.resistanceConsumed + deltaY);
+            
+            deltaY = MAX(0, deltaY - availableResistance);
+        }
         
         // 6 - Update the navigation bar shyViewController
-        self.navBarController.fadeBehavior = (TLYShyNavBarFade)self.fadeBehavior;
+        self.navBarController.fadeBehavior = self.fadeBehavior;
         
         
         [self.navBarController updateYOffset:deltaY];
@@ -296,16 +303,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     }
     
     self.resistanceConsumed = 0;
-    
-    CGFloat deltaY = [self.navBarController snap:self.contracting];
-    CGPoint newContentOffset = self.scrollView.contentOffset;
-    
-    newContentOffset.y -= deltaY;
-    
-    [UIView animateWithDuration:0.2
-                     animations:^{
-                         self.scrollView.contentOffset = newContentOffset;
-                     }];
+    [self.navBarController snap:self.contracting];
 }
 
 #pragma mark - KVO
@@ -362,7 +360,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 
 - (void)layoutViews
 {
-    if ([self.scrollViewController updateLayoutIfNeeded:YES])
+    if (fabs([self.scrollViewController updateLayoutIfNeeded:YES]) > FLT_EPSILON)
     {
         [self.navBarController expand];
         [self.extensionViewContainer.superview bringSubviewToFront:self.extensionViewContainer];

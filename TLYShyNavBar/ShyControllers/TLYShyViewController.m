@@ -234,6 +234,8 @@
 {
     CGFloat amountToMove = self.contractedCenterValue.y - self.view.center.y;
 
+    [self _onAlphaUpdate:FLT_EPSILON];
+
     [self _updateCenter:self.contractedCenterValue];
     [self.subShyController contract];
     

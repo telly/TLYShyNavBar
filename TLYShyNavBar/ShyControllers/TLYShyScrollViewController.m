@@ -10,12 +10,6 @@
 #import "../Categories/UIScrollView+Helpers.h"
 
 
-@interface TLYShyScrollViewController ()
-
-@property (nonatomic, assign) UIEdgeInsets previousScrollInsets;
-
-@end
-
 @implementation TLYShyScrollViewController
 
 - (void)offsetCenterBy:(CGPoint)deltaPoint
@@ -23,19 +17,28 @@
     [self updateLayoutIfNeeded:NO];
 }
 
-- (BOOL)updateLayoutIfNeeded:(BOOL)intelligently
+- (CGFloat)updateLayoutIfNeeded:(BOOL)intelligently
 {
+    if (self.scrollView.contentSize.height < FLT_EPSILON
+        && ([self.scrollView isKindOfClass:[UITableView class]]
+            || [self.scrollView isKindOfClass:[UICollectionView class]])
+        )
+    {
+        return 0.f;
+    }
+    
     CGFloat parentMaxY = [self.parent maxYRelativeToView:self.scrollView.superview];
     CGFloat normalizedY = parentMaxY - self.scrollView.frame.origin.y;
     UIEdgeInsets insets = self.scrollView.contentInset;
     insets.top = normalizedY;
     
-    if (normalizedY > 0 && !UIEdgeInsetsEqualToEdgeInsets(insets, self.previousScrollInsets))
+    if (normalizedY > -FLT_EPSILON && !UIEdgeInsetsEqualToEdgeInsets(insets, self.scrollView.contentInset))
     {
+        CGFloat delta = insets.top - self.scrollView.contentInset.top;
+        
         if (intelligently)
         {
             [self.scrollView tly_smartSetInsets:insets];
-            self.previousScrollInsets = insets;
         }
         else
         {
@@ -43,7 +46,7 @@
             self.scrollView.scrollIndicatorInsets = insets;
         }
         
-        return true;
+        return delta;
     }
     
     if (normalizedY < 0)
@@ -52,10 +55,10 @@
         frame = UIEdgeInsetsInsetRect(frame, insets);
         
         self.scrollView.frame = frame;
-        return true;
+        return [self updateLayoutIfNeeded:YES];
     }
     
-    return false;
+    return 0.f;
 }
 
 @end
