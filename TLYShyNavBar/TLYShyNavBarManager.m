@@ -10,6 +10,7 @@
 
 #import "ShyControllers/TLYShyViewController.h"
 #import "ShyControllers/TLYShyStatusBarController.h"
+#import "ShyControllers/TLYShyScrollViewController.h"
 
 #import "Categories/TLYDelegateProxy.h"
 #import "Categories/UIViewController+BetterLayoutGuides.h"
@@ -29,17 +30,17 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 @property (nonatomic, strong) id<TLYShyParent> statusBarController;
 @property (nonatomic, strong) TLYShyViewController *navBarController;
 @property (nonatomic, strong) TLYShyViewController *extensionController;
+@property (nonatomic, strong) TLYShyScrollViewController *scrollViewController;
 
 @property (nonatomic, strong) TLYDelegateProxy *delegateProxy;
 
 @property (nonatomic, strong) UIView *extensionViewContainer;
 
-@property (nonatomic) UIEdgeInsets previousScrollInsets;
-@property (nonatomic) CGFloat previousYOffset;
-@property (nonatomic) CGFloat resistanceConsumed;
+@property (nonatomic, assign) CGFloat previousYOffset;
+@property (nonatomic, assign) CGFloat resistanceConsumed;
 
 @property (nonatomic, assign) BOOL contracting;
-@property (nonatomic) BOOL previousContractionState;
+@property (nonatomic, assign) BOOL previousContractionState;
 
 @property (nonatomic, readonly) BOOL isViewControllerVisible;
 
@@ -56,6 +57,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     {
         self.delegateProxy = [[TLYDelegateProxy alloc] initWithMiddleMan:self];
         
+        /* Initialize defaults */
         self.contracting = NO;
         self.previousContractionState = YES;
         
@@ -63,25 +65,31 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         self.contractionResistance = 0.f;
         
         self.fadeBehavior = TLYShyNavBarFadeSubviews;
-        
-        self.previousScrollInsets = UIEdgeInsetsZero;
         self.previousYOffset = NAN;
         
+        /* Initialize shy controllers */
         self.statusBarController = [[TLYShyStatusBarController alloc] init];
-        
+        self.scrollViewController = [[TLYShyScrollViewController alloc] init];
         self.navBarController = [[TLYShyViewController alloc] init];
-        self.navBarController.parent = self.statusBarController;
-        
+
         self.extensionViewContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100.f, 0.f)];
         self.extensionViewContainer.backgroundColor = [UIColor clearColor];
         self.extensionViewContainer.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
         
         self.extensionController = [[TLYShyViewController alloc] init];
         self.extensionController.view = self.extensionViewContainer;
-        self.extensionController.parent = self.navBarController;
-
-        self.navBarController.child = self.extensionController;
         
+        /* hierarchy setup */
+        /* StatusBar <-- navbar <-->> extension <--> scrollView
+         */
+        self.navBarController.parent = self.statusBarController;
+        self.navBarController.child = self.extensionController;
+        self.navBarController.subShyController = self.extensionController;
+        self.extensionController.parent = self.navBarController;
+        self.extensionController.child = self.scrollViewController;
+        self.scrollViewController.parent = self.extensionController;
+        
+        /* Notification helpers */
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(applicationDidBecomeActive:)
                                                      name:UIApplicationDidBecomeActiveNotification
@@ -113,9 +121,17 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 {
     _viewController = viewController;
     
-    UIView *navbar = viewController.navigationController.navigationBar;
-    NSAssert(navbar != nil, @"You are using the component wrong... Please see the README file.");
+    if ([viewController isKindOfClass:[UITableViewController class]]
+        || [viewController.view isKindOfClass:[UITableViewController class]])
+    {
+        NSLog(@"*** WARNING: Please consider using a UIViewController with a UITableView as a subview ***");
+    }
     
+    UIView *navbar = viewController.navigationController.navigationBar;
+    NSAssert(navbar != nil, @"Please make sure the viewController is already attached to a navigation controller.");
+    
+    viewController.extendedLayoutIncludesOpaqueBars = YES;
+
     [self.extensionViewContainer removeFromSuperview];
     [self.viewController.view addSubview:self.extensionViewContainer];
     
@@ -134,12 +150,14 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     }
     
     _scrollView = scrollView;
+    self.scrollViewController.scrollView = scrollView;
     
     if (_scrollView.delegate != self.delegateProxy)
     {
         self.delegateProxy.originalDelegate = _scrollView.delegate;
         _scrollView.delegate = (id)self.delegateProxy;
     }
+    
     [self cleanup];
     [self layoutViews];
     
@@ -197,7 +215,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 {
     CGRect scrollFrame = UIEdgeInsetsInsetRect(self.scrollView.bounds, self.scrollView.contentInset);
     CGFloat scrollableAmount = self.scrollView.contentSize.height - CGRectGetHeight(scrollFrame);
-    return (scrollableAmount > self.navBarController.totalHeight);
+    return (scrollableAmount > [self.extensionController calculateTotalHeightRecursively]);
 }
 
 - (BOOL)_shouldHandleScrolling
@@ -249,6 +267,9 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
             self.resistanceConsumed = 0;
         }
 
+        // GTH: Calculate the exact point to avoid expansion resistance
+        // CGFloat statusBarHeight = [self.statusBarController calculateTotalHeightRecursively];
+        
         // 5 - Apply resistance
         // 5.1 - Always apply resistance when contracting
         if (self.contracting)
@@ -259,7 +280,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
             deltaY = MIN(0, availableResistance + deltaY);
         }
         // 5.2 - Only apply resistance if expanding above the status bar
-        else if (self.scrollView.contentOffset.y > -[self.statusBarController calculateTotalHeightRecursively])
+        else if (self.scrollView.contentOffset.y > 0)
         {
             CGFloat availableResistance = self.expansionResistance - self.resistanceConsumed;
             self.resistanceConsumed = MIN(self.expansionResistance, self.resistanceConsumed + deltaY);
@@ -268,7 +289,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         }
         
         // 6 - Update the navigation bar shyViewController
-        self.navBarController.fadeBehavior = (TLYShyNavBarFade)self.fadeBehavior;
+        self.navBarController.fadeBehavior = self.fadeBehavior;
         
         
         [self.navBarController updateYOffset:deltaY];
@@ -285,16 +306,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     }
     
     self.resistanceConsumed = 0;
-    
-    CGFloat deltaY = [self.navBarController snap:self.contracting];
-    CGPoint newContentOffset = self.scrollView.contentOffset;
-    
-    newContentOffset.y -= deltaY;
-    
-    [UIView animateWithDuration:0.2
-                     animations:^{
-                         self.scrollView.contentOffset = newContentOffset;
-                     }];
+    [self.navBarController snap:self.contracting];
 }
 
 #pragma mark - KVO
@@ -351,28 +363,17 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 
 - (void)layoutViews
 {
-    UIEdgeInsets scrollInsets = self.scrollView.contentInset;
-    scrollInsets.top = [self.extensionController calculateTotalHeightRecursively];
-    
-    if (UIEdgeInsetsEqualToEdgeInsets(scrollInsets, self.previousScrollInsets))
+    if (fabs([self.scrollViewController updateLayoutIfNeeded:YES]) > FLT_EPSILON)
     {
-        return;
+        [self.navBarController expand];
+        [self.extensionViewContainer.superview bringSubviewToFront:self.extensionViewContainer];
     }
-    
-    self.previousScrollInsets = scrollInsets;
-    
-    [self.navBarController expand];
-    [self.extensionViewContainer.superview bringSubviewToFront:self.extensionViewContainer];
-
-    [self.scrollView tly_smartSetInsets:scrollInsets];
 }
 
 - (void)cleanup
 {
     [self.navBarController expand];
-    
     self.previousYOffset = NAN;
-    self.previousScrollInsets = UIEdgeInsetsZero;
 }
 
 #pragma mark - UIScrollViewDelegate methods

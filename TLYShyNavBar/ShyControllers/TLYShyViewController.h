@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "TLYShyParent.h"
+#import "TLYShyChild.h"
 #import "../TLYShyNavBarFade.h"
 
 
@@ -29,15 +30,14 @@ typedef CGFloat(^TLYShyViewControllerContractionAmountBlock)(UIView *view);
  *  child to an already childified node is not supported.
  */
 
-@interface TLYShyViewController : NSObject
+@interface TLYShyViewController : NSObject <TLYShyChild>
 
-@property (nonatomic, weak) TLYShyViewController *child;
+@property (nonatomic, weak) id<TLYShyChild> child;
 @property (nonatomic, weak) id<TLYShyParent> parent;
+@property (nonatomic, weak) TLYShyViewController *subShyController;
 @property (nonatomic, weak) UIView *view;
 
 @property (nonatomic) TLYShyNavBarFade fadeBehavior;
-
-@property (nonatomic, readonly) CGFloat totalHeight;
 
 /* Sticky means it will always stay in expanded state
  */

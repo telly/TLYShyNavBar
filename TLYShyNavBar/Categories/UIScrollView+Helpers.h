@@ -11,6 +11,6 @@
 
 @interface UIScrollView (Helpers)
 
-- (void)tly_smartSetInsets:(UIEdgeInsets)contentAndScrollIndicatorInsets;
+- (void)tly_setInsets:(UIEdgeInsets)contentInsets preserveOffset:(BOOL)preserveOffset;
 
 @end

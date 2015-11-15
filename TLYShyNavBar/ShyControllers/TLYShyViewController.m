@@ -11,9 +11,12 @@
 
 @implementation TLYShyViewController (AsParent)
 
-- (CGFloat)viewMaxY
+- (CGFloat)maxYRelativeToView:(UIView *)superview
 {
-    return CGRectGetMaxY(self.view.frame);
+    CGPoint maxEdge = CGPointMake(0, CGRectGetHeight(self.view.bounds));
+    CGPoint normalizedMaxEdge = [superview convertPoint:maxEdge fromView:self.view];
+    
+    return normalizedMaxEdge.y;
 }
 
 - (CGFloat)calculateTotalHeightRecursively
@@ -46,7 +49,7 @@
     CGPoint center = CGPointMake(CGRectGetMidX(self.view.bounds),
                                  CGRectGetMidY(self.view.bounds));
     
-    center.y += self.parent.viewMaxY;
+    center.y += [self.parent maxYRelativeToView:self.view.superview];
     
     return center;
 }
@@ -69,11 +72,6 @@
 - (BOOL)expanded
 {
     return fabs(self.view.center.y - self.expandedCenterValue.y) < FLT_EPSILON;
-}
-
-- (CGFloat)totalHeight
-{
-    return self.child.totalHeight + (self.expandedCenterValue.y - self.contractedCenterValue.y);
 }
 
 #pragma mark - Private methods
@@ -145,37 +143,45 @@
 
 - (void)offsetCenterBy:(CGPoint)deltaPoint
 {
-    [self.child offsetCenterBy:deltaPoint];
-    
     self.view.center = CGPointMake(self.view.center.x + deltaPoint.x,
                                    self.view.center.y + deltaPoint.y);
+    
+    [self.child offsetCenterBy:deltaPoint];
 }
 
 - (CGFloat)updateYOffset:(CGFloat)deltaY
 {    
-    if (self.child && !self.child.sticky && deltaY < 0)
+    if (self.subShyController && deltaY < 0)
     {
-        deltaY = [self.child updateYOffset:deltaY];
-        self.child.view.hidden = deltaY < 0;
+        deltaY = [self.subShyController updateYOffset:deltaY];
     }
     
-    CGFloat newYOffset = self.view.center.y + deltaY;
-    CGFloat newYCenter = MAX(MIN(self.expandedCenterValue.y, newYOffset), self.contractedCenterValue.y);
+    CGFloat residual = deltaY;
     
-    [self _updateCenter:CGPointMake(self.expandedCenterValue.x, newYCenter)];
-    
-    CGFloat newAlpha = 1.f - (self.expandedCenterValue.y - self.view.center.y) / self.contractionAmountValue;
-    newAlpha = MIN(MAX(FLT_EPSILON, newAlpha), 1.f);
-    
-    [self _onAlphaUpdate:newAlpha];
-    
-    CGFloat residual = newYOffset - newYCenter;
-    
-    if (self.child && !self.child.sticky && deltaY > 0 && residual > 0)
+    if (!self.sticky)
     {
-        CGFloat newResidual = [self.child updateYOffset:residual];
-        self.child.view.hidden = newResidual - residual > FLT_EPSILON;
-        residual = newResidual;
+        CGFloat newYOffset = self.view.center.y + deltaY;
+        CGFloat newYCenter = MAX(MIN(self.expandedCenterValue.y, newYOffset), self.contractedCenterValue.y);
+        
+        [self _updateCenter:CGPointMake(self.expandedCenterValue.x, newYCenter)];
+        
+        CGFloat newAlpha = 1.f - (self.expandedCenterValue.y - self.view.center.y) / self.contractionAmountValue;
+        newAlpha = MIN(MAX(FLT_EPSILON, newAlpha), 1.f);
+        
+        [self _onAlphaUpdate:newAlpha];
+        
+        residual = newYOffset - newYCenter;
+        
+        // QUICK FIX: Only the extensionView is hidden
+        if (!self.subShyController)
+        {
+            self.view.hidden = residual < 0;
+        }
+    }
+    
+    if (self.subShyController && deltaY > 0 && residual > 0)
+    {
+        residual = [self.subShyController updateYOffset:residual];
     }
     
     return residual;
@@ -197,13 +203,13 @@
     __block CGFloat deltaY;
     [UIView animateWithDuration:0.2 animations:^
     {
-        if ((contract && self.child.contracted) || (!contract && !self.expanded))
+        if ((contract && self.subShyController.contracted) || (!contract && !self.expanded))
         {
             deltaY = [self contract];
         }
         else
         {
-            deltaY = [self.child expand];
+            deltaY = [self.subShyController expand];
         }
     }];
     
@@ -219,7 +225,7 @@
     CGFloat amountToMove = self.expandedCenterValue.y - self.view.center.y;
 
     [self _updateCenter:self.expandedCenterValue];
-    [self.child expand];
+    [self.subShyController expand];
     
     return amountToMove;
 }
@@ -228,8 +234,10 @@
 {
     CGFloat amountToMove = self.contractedCenterValue.y - self.view.center.y;
 
+    [self _onAlphaUpdate:FLT_EPSILON];
+
     [self _updateCenter:self.contractedCenterValue];
-    [self.child contract];
+    [self.subShyController contract];
     
     return amountToMove;
 }

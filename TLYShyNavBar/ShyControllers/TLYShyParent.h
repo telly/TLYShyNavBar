@@ -9,10 +9,15 @@
 #ifndef TLYShyParent_h
 #define TLYShyParent_h
 
+#import <UIKit/UIKit.h>
+
+/** A shy parent can be asked for its maxY and height so the 
+ *  child can pin itself to the bottom and calculate the total
+ *  height.
+ */
 @protocol TLYShyParent <NSObject>
 
-@property (nonatomic, readonly) CGFloat viewMaxY;
-
+- (CGFloat)maxYRelativeToView:(UIView *)superview;
 - (CGFloat)calculateTotalHeightRecursively;
 
 @end

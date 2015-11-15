@@ -29,13 +29,23 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 7;
+    return 8;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *cellId = [@(indexPath.row) stringValue];
     return [tableView dequeueReusableCellWithIdentifier:cellId forIndexPath:indexPath];
+}
+
+#pragma mark - Action methods
+
+- (IBAction)translucencyToggled:(id)sender
+{
+    BOOL translucent = !self.navigationController.navigationBar.translucent;
+    self.navigationController.navigationBar.translucent = translucent;
+
+    [sender setTitle:translucent ? @"😏" : @"😎"];
 }
 
 @end

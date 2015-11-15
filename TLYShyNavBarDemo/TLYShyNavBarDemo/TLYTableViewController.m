@@ -10,6 +10,8 @@
 
 @interface TLYTableViewController () <UITableViewDataSource, UITableViewDelegate>
 
+@property (nonatomic, assign) IBInspectable BOOL shortScrollView;
+
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 
 @end
@@ -25,7 +27,6 @@
     UIView *view = view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 40.f)];
     view.backgroundColor = [UIColor redColor];
     
-    
     /* Library code */
     self.shyNavBarManager.scrollView = self.tableView;
     /* Can then be remove by setting the ExtensionView to nil */
@@ -36,7 +37,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 6;
+    return self.shortScrollView ? 1 : 6;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
