@@ -15,7 +15,13 @@ class TableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let view = UIView(frame: CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 40))
+        view.backgroundColor = UIColor.redColor()
+        
+        
+        /* Library code */
         self.shyNavBarManager.scrollView = self.tableView;
+        self.shyNavBarManager.extensionView = view
     }
 }
 

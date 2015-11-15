@@ -49,7 +49,7 @@
     
     if (!self.disableExtensionView)
     {
-        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 100.f)];
+        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 40.f)];
         view.backgroundColor = [UIColor redColor];
         
         UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
