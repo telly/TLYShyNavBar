@@ -1,10 +1,12 @@
 
-# TLYShyNavBar
+![TLYShyNavBar banner](http://imgur.com/UVxJLxu.png)<br />
+__v1.0, Finally! With better code design, and fully featured!__
+-----
 
 ![Pod Version](https://cocoapod-badges.herokuapp.com/v/TLYShyNavBar/badge.png)
 ![Pod License](https://img.shields.io/badge/license-MIT-blue.svg)
 
-This component helps you mimick the navigation bar auto scrolling that you see in the facebook, instagram and other apps. Not only that, but with the ability to add an additional extension that scrolls along as well! It is designed for **ease of use**, and is battle tested in our own [Telly app](https://itunes.apple.com/us/app/telly/id524552885?mt=8)<sup>[1]</sup>!
+This component helps you mimic the navigation bar auto scrolling that you see in the Facebook, Instagram, 9gag (which uses this!) and other apps. Not only that, but with the ability to add an additional extension that scrolls along as well! It is designed for **ease of use**, and is battle tested in our own [Telly app](https://itunes.apple.com/us/app/telly/id524552885?mt=8)<sup>[1]</sup>!
 
 ![Battle Tested!!](resources/battle-tested-demo.gif)
 
@@ -19,23 +21,24 @@ This component helps you mimick the navigation bar auto scrolling that you see i
 + **[A Deeper Look](#a-deeper-look)**: You're invensted in this now and want to make the most out of it.
 + **[How it Works](#how-it-works)**: The deep stuff...
 + **[Remarks](#remarks)**: Read this before losing all hope.
-+ **[Contributors](#contributors)**: Developers that donated their valuable time.
++ **[Contributing](#contributing)**: Together, making iOS better.
 + **[Author](#author)**: Watashi-da!
 + **[Similar Projects](#similar-projects)**: Similar projects that influenced the project in some way.
 
 ## Features
 
 | Feature | Demo |
-|---------|---------------------------------------------------------------------------------------------------------
-| Optional extension view to the `UINavigationBar`!                               | ![](resources/ShyNavBar-1.gif) |
-| Auto expand if below threshold                                                  | ![](resources/ShyNavBar-2.gif) |
-| Auto contract if below threshold                                                | ![](resources/ShyNavBar-3.gif) |
-| Very responsive, resilient and robust                                           | ![](resources/ShyNavBar-4.gif) |
-| Adjustable expansion resistance                                                 | ![](resources/ShyNavBar-5.gif) |
-| Plays well with `pushViewController`                                            | ![](resources/ShyNavBar-6.gif) |
-| Sticky extension view (Thanks @yukaliao !)                                      | ![](resources/ShyNavBar-7.gif) |
-| Sticky navigation bar (Thanks [@TiagoVeloso](https://github.com/TiagoVeloso)!)  | ![](resources/ShyNavBar-9.gif) |
-| Fade the entire navbar (Thanks [__@longsview__](https://github.com/longsview)!) | ![](resources/ShyNavBar-8.gif) |
+|---|---|
+| Scroll a `UINavigationBar` with an extension view | ![](resources/basic-feature.gif) |
+| Support opaque and translucent `UINavigationBar`s | ![](resources/opaque-supported.gif) |
+| Fully featured, with animations and variable resistance | ![](resources/fully-featured.gif) |
+| Responsive, resilient and robust | ![](resources/robust.gif) |
+| Supports `UITableView`, with headers, too! | ![](resources/tableview.gif) |
+| `UICollectionView` is more than welcome | ![](resources/collectionView.gif) |
+| In-call status bar? No problem! | ![](resources/in-app-call.gif) |
+| Sticky extension view (Thanks @yukaliao !) | ![](resources/sticky-extension.gif) |
+| Sticky navigation bar (Thanks [@TiagoVeloso](https://github.com/TiagoVeloso)!)  | ![](resources/sticky-navbar.gif) |
+| Fade the entire navbar (Thanks [__@longsview__](https://github.com/longsview)!) | ![](resources/fade-navbar.gif) |
 
 You can test some of these features in the Objective-C demo:
 
@@ -60,34 +63,20 @@ You can test some of these features in the Objective-C demo:
 self.shyNavBarManager.scrollView = self.scrollView;
 ```
 
-**IMPORTANT!!** If you are assigning a delegate to your scrollView, do that **before** assigning the scrollView to the `TLYShyNavBarManager`! To learn more, [see below](#how-it-works).
+**IMPORTANT NOTES!!** 
+
+1. Don't use with `UITableViewController`. Add a `UITableView` as a subview of `UIViewController` instead.
+2. If you are assigning a delegate to your scrollView, do that **before** assigning the scrollView to the `TLYShyNavBarManager`! To learn more, [see below](#how-it-works).
 
 ### Using TLYShyNavBar in Swift
-If you are building apps in Swift and targeting apps to iOS7 Apples [hidesBarsOnSwipe](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UINavigationController_Class/#//apple_ref/occ/instp/UINavigationController/hidesBarsOnSwipe) will not work because it is in an iOS 8 feature.  As an alternative you can use TLYShyNavBar component in lieu of Apples feature.
 
-To use this component in Swift
+Nothing special is needed, really. Just make sure you have a [Bridging Header](http://stackoverflow.com/questions/31716413/xcode-not-automatically-creating-bridging-header) setup, and import:
 
-1. Clone this git repository locally: `git clone https://github.com/telly/TLYShyNavBar.git`
-2. Copy the `TLYShyNavBar` directory into your Swift project. <br />![](resources/Swift-project.png)
-3. Create a new header file called `Bridging-Header.h` and add the headers from `TLYShyNavBar` folder.[see headers below](#bridge-headers).
-4. Add the bridging header file to the project's build settings.  Search `Bridging Header` in `Build Settings` and add `Bridging-Header.h`. <br />![](resources/Bridged-Header.png)
-
-Now your project is setup to use the TLYShyNavBar component.  Next all you need to do is set the scrollview property in your UIViewController like it was an Objective-c project.
-
-```
-/* In your UIViewController viewDidLoad or after creating the scroll view. */
-self.shyNavBarManager.scrollView = self.scrollView;
-```
-
-#### Bridge Headers
-```
+```objc
 #import "TLYShyNavBarManager.h"
-#import "TLYShyViewController.h"
-#import "TLYDelegateProxy.h"
-#import "NSObject+TLYSwizzlingHelpers.h"
-#import "UIViewController+BetterLayoutGuides.h"
 ```
 
+Then, you should be able to follow the Objective-C instructions, since the code is almost identical.
 
 ## Design Goals
 
@@ -97,7 +86,7 @@ self.shyNavBarManager.scrollView = self.scrollView;
 
 ## A Deeper Look
 
-The above example, while small, is complete! It makes the navigation bar enriched with humbility, that it will start getting out of the way when the scroll view starts scrolling. But, you may want to do more than that!
+The above example, while small, is complete! It makes the navigation bar enriched with humility, that it will start getting out of the way when the scroll view starts scrolling. But, you may want to do more than that!
 
 #### ACCESS THE MANAGER OF SHYNESS
 
@@ -135,6 +124,17 @@ You can control that using the following properties on the `shyNavBarManager`:
  */
 @property (nonatomic) CGFloat expansionResistance;      // default 200
 @property (nonatomic) CGFloat contractionResistance;    // default 0
+```
+
+#### CONTROLLING THE FADE BEHAVIOR
+
+You can customize the fade behavior of the `UINavigationBar` through this property:
+
+```objc
+/* Choose how the navbar fades as it contracts/expands.
+ * Defaults to FadeSubviews
+ */
+@property (nonatomic) TLYShyNavBarFade fadeBehavior;
 ```
 
 ## How it Works
@@ -187,10 +187,10 @@ We also add a parent relationship for a single purpose: Make the child follow it
 
 ## Remarks
 
-There are downsides in making this component as easy to use as it is. If you have read the how it works section carefully, you'd realize that trying to configure the the `shyNavBarManager` before it is included in the `UINavigationController` heirarchy, will break the component, since within the component, we cannot find the navigation bar, and an assert is triggered:
+There are downsides in making this component as easy to use as it is. If you have read the how it works section carefully, you'd realize that trying to configure the the `shyNavBarManager` before it is included in the `UINavigationController` hierarchy, will break the component, since within the component, we cannot find the navigation bar, and an assert is triggered:
 
 ```objc
-NSAssert(navbar != nil, @"You are using the component wrong... Please see the README file.");
+NSAssert(navbar != nil, @"Please make sure the viewController is already attached to a navigation controller.");
 ```
 
 Of course, that can be avoided by creating your own `TLYShyNavBarManager`, like so:
@@ -203,27 +203,13 @@ shyManager.expansionResistance = 777.f;
 viewController.shyNavBarManager = shyManager;
 ```
 
-## Contributors
+## Contributing
 
-Thanks for everyone who opened an issue, shot me an email, and submitted a PR. Special thanks to those who submitted code that got checked in!
+PRs are welcome! It is important to test changes, though. Simply go over the demo, make sure nothing is broken. Please do check both translucent and opaque modes. Once all is good, you're good to go!
 
-_Sorted vaguely based on contribution according to [this](http://www.commandlinefu.com/commands/view/4519/list-all-authors-of-a-particular-git-project)_
+If it is a feature or bug, it would be greatly appreciated if a new view is added to the demo project demonstrating the bug/feature.
 
-+ Evan D. Schoenberg, M.D 
-+ Tony Nuzzi 
-+ Xurxo Méndez Pérez 
-+ Richard Das 
-+ Garret Riddle 
-+ Aleksey Kozhevnikov 
-+ modastic 
-+ Yukan 
-+ Remigiusz Herba 
-+ Nicholas Long 
-+ Koen Buddelmeijer 
-+ Anton Sokolchenko 
-+ Andrii Novoselskyi 
-+ Alek Slater 
-+ Aaron Satterfield 
+Thanks for everyone who opened an issue, shot me an email, and submitted a PR. Special thanks to those who submitted code that got checked in! This project was made possible with your help. ([See contributors graph](https://github.com/telly/TLYShyNavBar/graphs/contributors))
 
 ## Author
 
