@@ -51,6 +51,9 @@ You can test some of these features in the Objective-C demo:
     Add the following to you [Podfile](http://guides.cocoapods.org/using/the-podfile.html) `pod 'TLYShyNavBar'`<br />
     Import the header `#import <TLYShyNavBar/TLYShyNavBarManager.h>`
 
+  + Using [Carthage](https://github.com/Carthage/Carthage):<br />
+    Add the following to your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md) `github "telly/TLYShyNavBar"`<br />
+    Import the header `#import <TLYShyNavBar/TLYShyNavBar.h>`
 
   + Using Submodules:<br />
     Download the project/git submodules, and drag the `TLYShyNavBar` folder to your project. <br />
