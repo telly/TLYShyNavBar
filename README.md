@@ -5,6 +5,7 @@ __v1.0, Finally! With better code design, and fully featured!__
 
 ![Pod Version](https://cocoapod-badges.herokuapp.com/v/TLYShyNavBar/badge.png)
 ![Pod License](https://img.shields.io/badge/license-MIT-blue.svg)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 This component helps you mimic the navigation bar auto scrolling that you see in the Facebook, Instagram, 9gag (which uses this!) and other apps. Not only that, but with the ability to add an additional extension that scrolls along as well! It is designed for **ease of use**, and is battle tested in our own [Telly app](https://itunes.apple.com/us/app/telly/id524552885?mt=8)<sup>[1]</sup>!
 
