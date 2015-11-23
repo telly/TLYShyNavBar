@@ -3,7 +3,7 @@
 __v1.0, Finally! With better code design, and fully featured!__
 -----
 
-![Pod Version](https://cocoapod-badges.herokuapp.com/v/TLYShyNavBar/badge.png)
+![Pod Version](https://img.shields.io/cocoapods/v/TLYShyNavBar.svg)
 ![Pod License](https://img.shields.io/badge/license-MIT-blue.svg)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
