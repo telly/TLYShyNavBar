@@ -7,7 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8268FA02194C926F004EC0E4 /* TLYShyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8268FA01194C926F004EC0E4 /* TLYShyViewController.m */; };
+		821A4D771BF6CCEC00E675DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 821A4D761BF6CCEC00E675DB /* LaunchScreen.storyboard */; };
+		821A4D7B1BF6D01600E675DB /* TLYTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 821A4D7A1BF6D01600E675DB /* TLYTableViewController.m */; };
+		821A4D7F1BF6D70100E675DB /* TLYShyStatusBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 821A4D7E1BF6D70100E675DB /* TLYShyStatusBarController.m */; };
+		821A4D841BF6D89E00E675DB /* TLYShyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 821A4D831BF6D89E00E675DB /* TLYShyViewController.m */; };
+		821A4D881BF6DA2700E675DB /* UIScrollView+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 821A4D871BF6DA2700E675DB /* UIScrollView+Helpers.m */; };
+		821A4D8B1BF6E5D400E675DB /* TLYDelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 821A4D8A1BF6E5D400E675DB /* TLYDelegateProxy.m */; };
+		821A4D901BF6F3DF00E675DB /* TLYShyScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 821A4D8F1BF6F3DF00E675DB /* TLYShyScrollViewController.m */; };
+		8262C8551BD730DD00B610A0 /* TLYCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8262C8541BD730DD00B610A0 /* TLYCollectionViewController.m */; };
 		8268FA13194DBA58004EC0E4 /* TLYShyNavBarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8268FA12194DBA58004EC0E4 /* TLYShyNavBarManager.m */; };
 		828F57201949C37B009EB8DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828F571F1949C37B009EB8DD /* Foundation.framework */; };
 		828F57221949C37B009EB8DD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828F57211949C37B009EB8DD /* CoreGraphics.framework */; };
@@ -24,7 +31,7 @@
 		828F57491949C37B009EB8DD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 828F57471949C37B009EB8DD /* InfoPlist.strings */; };
 		828F574B1949C37B009EB8DD /* TLYShyNavBarDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 828F574A1949C37B009EB8DD /* TLYShyNavBarDemoTests.m */; };
 		829FEE001957DF620017E186 /* NSObject+TLYSwizzlingHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 829FEDFF1957DF620017E186 /* NSObject+TLYSwizzlingHelpers.m */; };
-		82B01ED3195D449F00C3C10C /* TLYDelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B01ED2195D449F00C3C10C /* TLYDelegateProxy.m */; };
+		82A893861BC6F939004C37E3 /* TLYMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A893851BC6F939004C37E3 /* TLYMenuTableViewController.m */; };
 		82C882091955FDA60046C49D /* UIViewController+BetterLayoutGuides.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C882081955FDA60046C49D /* UIViewController+BetterLayoutGuides.m */; };
 /* End PBXBuildFile section */
 
@@ -39,8 +46,24 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8268FA00194C926F004EC0E4 /* TLYShyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYShyViewController.h; sourceTree = "<group>"; };
-		8268FA01194C926F004EC0E4 /* TLYShyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLYShyViewController.m; sourceTree = "<group>"; };
+		821A4D761BF6CCEC00E675DB /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		821A4D791BF6D01600E675DB /* TLYTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYTableViewController.h; sourceTree = "<group>"; };
+		821A4D7A1BF6D01600E675DB /* TLYTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLYTableViewController.m; sourceTree = "<group>"; };
+		821A4D7D1BF6D70100E675DB /* TLYShyStatusBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYShyStatusBarController.h; sourceTree = "<group>"; };
+		821A4D7E1BF6D70100E675DB /* TLYShyStatusBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLYShyStatusBarController.m; sourceTree = "<group>"; };
+		821A4D801BF6D72900E675DB /* TLYShyParent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLYShyParent.h; sourceTree = "<group>"; };
+		821A4D821BF6D89E00E675DB /* TLYShyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYShyViewController.h; sourceTree = "<group>"; };
+		821A4D831BF6D89E00E675DB /* TLYShyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLYShyViewController.m; sourceTree = "<group>"; };
+		821A4D861BF6DA2700E675DB /* UIScrollView+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+Helpers.h"; sourceTree = "<group>"; };
+		821A4D871BF6DA2700E675DB /* UIScrollView+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+Helpers.m"; sourceTree = "<group>"; };
+		821A4D891BF6E5D400E675DB /* TLYDelegateProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYDelegateProxy.h; sourceTree = "<group>"; };
+		821A4D8A1BF6E5D400E675DB /* TLYDelegateProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLYDelegateProxy.m; sourceTree = "<group>"; };
+		821A4D8C1BF6E5F300E675DB /* TLYShyNavBarFade.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLYShyNavBarFade.h; sourceTree = "<group>"; };
+		821A4D8D1BF6EDE800E675DB /* TLYShyChild.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLYShyChild.h; sourceTree = "<group>"; };
+		821A4D8E1BF6F3DF00E675DB /* TLYShyScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYShyScrollViewController.h; sourceTree = "<group>"; };
+		821A4D8F1BF6F3DF00E675DB /* TLYShyScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLYShyScrollViewController.m; sourceTree = "<group>"; };
+		8262C8531BD730DD00B610A0 /* TLYCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYCollectionViewController.h; sourceTree = "<group>"; };
+		8262C8541BD730DD00B610A0 /* TLYCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLYCollectionViewController.m; sourceTree = "<group>"; };
 		8268FA11194DBA58004EC0E4 /* TLYShyNavBarManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYShyNavBarManager.h; sourceTree = "<group>"; };
 		8268FA12194DBA58004EC0E4 /* TLYShyNavBarManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLYShyNavBarManager.m; sourceTree = "<group>"; };
 		828F571C1949C37B009EB8DD /* TLYShyNavBarDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TLYShyNavBarDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -64,8 +87,8 @@
 		828F574A1949C37B009EB8DD /* TLYShyNavBarDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TLYShyNavBarDemoTests.m; sourceTree = "<group>"; };
 		829FEDFE1957DF620017E186 /* NSObject+TLYSwizzlingHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+TLYSwizzlingHelpers.h"; sourceTree = "<group>"; };
 		829FEDFF1957DF620017E186 /* NSObject+TLYSwizzlingHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+TLYSwizzlingHelpers.m"; sourceTree = "<group>"; };
-		82B01ED1195D449F00C3C10C /* TLYDelegateProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYDelegateProxy.h; sourceTree = "<group>"; };
-		82B01ED2195D449F00C3C10C /* TLYDelegateProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLYDelegateProxy.m; sourceTree = "<group>"; };
+		82A893841BC6F939004C37E3 /* TLYMenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYMenuTableViewController.h; sourceTree = "<group>"; };
+		82A893851BC6F939004C37E3 /* TLYMenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLYMenuTableViewController.m; sourceTree = "<group>"; };
 		82C882071955FDA60046C49D /* UIViewController+BetterLayoutGuides.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+BetterLayoutGuides.h"; sourceTree = "<group>"; };
 		82C882081955FDA60046C49D /* UIViewController+BetterLayoutGuides.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+BetterLayoutGuides.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -94,6 +117,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		821A4D781BF6CFF200E675DB /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				821A4D791BF6D01600E675DB /* TLYTableViewController.h */,
+				821A4D7A1BF6D01600E675DB /* TLYTableViewController.m */,
+			);
+			name = TableView;
+			sourceTree = "<group>";
+		};
+		821A4D7C1BF6D6D200E675DB /* ShyControllers */ = {
+			isa = PBXGroup;
+			children = (
+				821A4D801BF6D72900E675DB /* TLYShyParent.h */,
+				821A4D8D1BF6EDE800E675DB /* TLYShyChild.h */,
+				821A4D7D1BF6D70100E675DB /* TLYShyStatusBarController.h */,
+				821A4D7E1BF6D70100E675DB /* TLYShyStatusBarController.m */,
+				821A4D821BF6D89E00E675DB /* TLYShyViewController.h */,
+				821A4D831BF6D89E00E675DB /* TLYShyViewController.m */,
+				821A4D8E1BF6F3DF00E675DB /* TLYShyScrollViewController.h */,
+				821A4D8F1BF6F3DF00E675DB /* TLYShyScrollViewController.m */,
+			);
+			path = ShyControllers;
+			sourceTree = "<group>";
+		};
+		8262C8521BD730CB00B610A0 /* CollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				8262C8531BD730DD00B610A0 /* TLYCollectionViewController.h */,
+				8262C8541BD730DD00B610A0 /* TLYCollectionViewController.m */,
+			);
+			name = CollectionView;
+			sourceTree = "<group>";
+		};
 		828F57131949C37B009EB8DD = {
 			isa = PBXGroup;
 			children = (
@@ -128,9 +184,13 @@
 		828F57251949C37B009EB8DD /* TLYShyNavBarDemo */ = {
 			isa = PBXGroup;
 			children = (
+				821A4D781BF6CFF200E675DB /* TableView */,
+				8262C8521BD730CB00B610A0 /* CollectionView */,
 				828F572E1949C37B009EB8DD /* TLYAppDelegate.h */,
 				828F572F1949C37B009EB8DD /* TLYAppDelegate.m */,
 				828F57311949C37B009EB8DD /* Main.storyboard */,
+				82A893841BC6F939004C37E3 /* TLYMenuTableViewController.h */,
+				82A893851BC6F939004C37E3 /* TLYMenuTableViewController.m */,
 				828F57341949C37B009EB8DD /* TLYViewController.h */,
 				828F57351949C37B009EB8DD /* TLYViewController.m */,
 				828F57371949C37B009EB8DD /* Images.xcassets */,
@@ -143,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				828F57271949C37B009EB8DD /* TLYShyNavBarDemo-Info.plist */,
+				821A4D761BF6CCEC00E675DB /* LaunchScreen.storyboard */,
 				828F57281949C37B009EB8DD /* InfoPlist.strings */,
 				828F572B1949C37B009EB8DD /* main.m */,
 				828F572D1949C37B009EB8DD /* TLYShyNavBarDemo-Prefix.pch */,
@@ -171,13 +232,11 @@
 		828F57541949C381009EB8DD /* TLYShyNavBar */ = {
 			isa = PBXGroup;
 			children = (
+				821A4D7C1BF6D6D200E675DB /* ShyControllers */,
 				82B01EDB195D580000C3C10C /* Categories */,
+				821A4D8C1BF6E5F300E675DB /* TLYShyNavBarFade.h */,
 				8268FA11194DBA58004EC0E4 /* TLYShyNavBarManager.h */,
 				8268FA12194DBA58004EC0E4 /* TLYShyNavBarManager.m */,
-				8268FA00194C926F004EC0E4 /* TLYShyViewController.h */,
-				8268FA01194C926F004EC0E4 /* TLYShyViewController.m */,
-				82B01ED1195D449F00C3C10C /* TLYDelegateProxy.h */,
-				82B01ED2195D449F00C3C10C /* TLYDelegateProxy.m */,
 			);
 			name = TLYShyNavBar;
 			path = ../TLYShyNavBar;
@@ -186,10 +245,14 @@
 		82B01EDB195D580000C3C10C /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				821A4D891BF6E5D400E675DB /* TLYDelegateProxy.h */,
+				821A4D8A1BF6E5D400E675DB /* TLYDelegateProxy.m */,
 				82C882071955FDA60046C49D /* UIViewController+BetterLayoutGuides.h */,
 				82C882081955FDA60046C49D /* UIViewController+BetterLayoutGuides.m */,
 				829FEDFE1957DF620017E186 /* NSObject+TLYSwizzlingHelpers.h */,
 				829FEDFF1957DF620017E186 /* NSObject+TLYSwizzlingHelpers.m */,
+				821A4D861BF6DA2700E675DB /* UIScrollView+Helpers.h */,
+				821A4D871BF6DA2700E675DB /* UIScrollView+Helpers.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -239,7 +302,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = TLY;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Telly, Inc.";
 				TargetAttributes = {
 					828F573C1949C37B009EB8DD = {
@@ -272,6 +335,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				828F57381949C37B009EB8DD /* Images.xcassets in Resources */,
+				821A4D771BF6CCEC00E675DB /* LaunchScreen.storyboard in Resources */,
 				828F572A1949C37B009EB8DD /* InfoPlist.strings in Resources */,
 				828F57331949C37B009EB8DD /* Main.storyboard in Resources */,
 			);
@@ -292,14 +356,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82A893861BC6F939004C37E3 /* TLYMenuTableViewController.m in Sources */,
+				821A4D8B1BF6E5D400E675DB /* TLYDelegateProxy.m in Sources */,
+				821A4D7B1BF6D01600E675DB /* TLYTableViewController.m in Sources */,
 				8268FA13194DBA58004EC0E4 /* TLYShyNavBarManager.m in Sources */,
 				82C882091955FDA60046C49D /* UIViewController+BetterLayoutGuides.m in Sources */,
+				821A4D7F1BF6D70100E675DB /* TLYShyStatusBarController.m in Sources */,
 				828F57301949C37B009EB8DD /* TLYAppDelegate.m in Sources */,
-				82B01ED3195D449F00C3C10C /* TLYDelegateProxy.m in Sources */,
-				8268FA02194C926F004EC0E4 /* TLYShyViewController.m in Sources */,
 				829FEE001957DF620017E186 /* NSObject+TLYSwizzlingHelpers.m in Sources */,
+				821A4D901BF6F3DF00E675DB /* TLYShyScrollViewController.m in Sources */,
 				828F57361949C37B009EB8DD /* TLYViewController.m in Sources */,
+				821A4D841BF6D89E00E675DB /* TLYShyViewController.m in Sources */,
+				8262C8551BD730DD00B610A0 /* TLYCollectionViewController.m in Sources */,
 				828F572C1949C37B009EB8DD /* main.m in Sources */,
+				821A4D881BF6DA2700E675DB /* UIScrollView+Helpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,6 +437,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -427,6 +498,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TLYShyNavBarDemo/TLYShyNavBarDemo-Prefix.pch";
 				INFOPLIST_FILE = "TLYShyNavBarDemo/TLYShyNavBarDemo-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.telly.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -440,6 +512,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TLYShyNavBarDemo/TLYShyNavBarDemo-Prefix.pch";
 				INFOPLIST_FILE = "TLYShyNavBarDemo/TLYShyNavBarDemo-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.telly.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -461,6 +534,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "TLYShyNavBarDemoTests/TLYShyNavBarDemoTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.telly.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -479,6 +553,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TLYShyNavBarDemo/TLYShyNavBarDemo-Prefix.pch";
 				INFOPLIST_FILE = "TLYShyNavBarDemoTests/TLYShyNavBarDemoTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.telly.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
