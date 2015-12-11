@@ -13,7 +13,7 @@
 
 @protocol TLYShyNavBarManagerDelegate;
 
-/*  CLASS DESCRIPTION:
+/** CLASS DESCRIPTION:
  *  ==================
  *      Manages the relationship between a scrollView and a view
  *  controller. Must be instantiated and assigned the scrollView
