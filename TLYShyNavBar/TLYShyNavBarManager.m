@@ -319,10 +319,10 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         return;
     }
 
-    __weak typeof(self) weakSelf;
+    __weak __typeof(self) weakSelf;
     void (^completion)() = ^
     {
-        typeof(self) strongSelf = weakSelf;
+        __typeof(self) strongSelf = weakSelf;
         if (strongSelf) {
             if (strongSelf.contracting) {
                 if ([strongSelf.delegate respondsToSelector:@selector(shyNavBarManagerDidFinishContracting:)]) {
