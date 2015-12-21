@@ -189,6 +189,11 @@
 
 - (CGFloat)snap:(BOOL)contract
 {
+    return [self snap:contract completion:nil];
+}
+
+- (CGFloat)snap:(BOOL)contract completion:(void (^)())completion
+{
     /* "The Facebook" UX dictates that:
      *
      *      1 - When you contract:
@@ -210,6 +215,12 @@
         else
         {
             deltaY = [self.subShyController expand];
+        }
+    }
+                     completion:^(BOOL finished)
+    {
+        if (completion && finished) {
+            completion();
         }
     }];
     

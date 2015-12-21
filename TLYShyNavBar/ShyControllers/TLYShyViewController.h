@@ -47,6 +47,7 @@ typedef CGFloat(^TLYShyViewControllerContractionAmountBlock)(UIView *view);
 - (CGFloat)updateYOffset:(CGFloat)deltaY;
 
 - (CGFloat)snap:(BOOL)contract;
+- (CGFloat)snap:(BOOL)contract completion:(void (^)())completion;
 
 - (CGFloat)expand;
 - (CGFloat)contract;

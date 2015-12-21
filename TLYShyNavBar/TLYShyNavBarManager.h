@@ -11,6 +11,8 @@
 #import "TLYShyNavBarFade.h"
 
 
+@protocol TLYShyNavBarManagerDelegate;
+
 /** CLASS DESCRIPTION:
  *  ==================
  *      Manages the relationship between a scrollView and a view
@@ -54,7 +56,7 @@
  */
 @property (nonatomic) BOOL stickyExtensionView;
 
-/* Control the resistance when scrolling up/down before the navbar 
+/* Control the resistance when scrolling up/down before the navbar
  * expands/contracts again.
  */
 @property (nonatomic) CGFloat expansionResistance;      // default 200
@@ -69,6 +71,25 @@
  * Defaults to NO
  */
 @property (nonatomic) BOOL disable;
+
+/* Use this to be notified about contraction and expansion events.
+ */
+@property (nonatomic, weak) id<TLYShyNavBarManagerDelegate> delegate;
+
+@end
+
+/* PROTOCOL DESCRIPTION:
+ * =====================
+ *     This protocol is used to notify an optional TLYShyNavBarManager's delegate
+ * when a contraction or expansion finishes animating.
+ */
+@protocol TLYShyNavBarManagerDelegate <NSObject>
+
+@optional
+
+- (void)shyNavBarManagerDidBecomeFullyContracted:(TLYShyNavBarManager *) shyNavBarManager;
+- (void)shyNavBarManagerDidFinishContracting:(TLYShyNavBarManager *) shyNavBarManager;
+- (void)shyNavBarManagerDidFinishExpanding:(TLYShyNavBarManager *) shyNavBarManager;
 
 @end
 
@@ -90,4 +111,3 @@
 @property (nonatomic, strong) TLYShyNavBarManager *shyNavBarManager;
 
 @end
-
