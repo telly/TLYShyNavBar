@@ -189,10 +189,10 @@
 
 - (CGFloat)snap:(BOOL)contract
 {
-    return [self snap:contract completion:nil];
+    return [self snap:contract offset:nil completion:nil];
 }
 
-- (CGFloat)snap:(BOOL)contract completion:(void (^)())completion
+- (CGFloat)snap:(BOOL)contract offset:(void (^)(CGFloat deltaY))offset completion:(void (^)())completion
 {
     /* "The Facebook" UX dictates that:
      *
@@ -215,9 +215,14 @@
         else
         {
             deltaY = [self.subShyController expand];
+            if (offset) {
+                offset(deltaY);
+            }
         }
+       
+
     }
-                     completion:^(BOOL finished)
+    completion:^(BOOL finished)
     {
         if (completion && finished) {
             completion();

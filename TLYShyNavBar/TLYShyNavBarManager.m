@@ -319,8 +319,8 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         return;
     }
 
-    __weak __typeof(self) weakSelf;
-    void (^completion)() = ^
+    __weak __typeof(self) weakSelf = self;
+    void (^completion)() = ^()
     {
         __typeof(self) strongSelf = weakSelf;
         if (strongSelf) {
@@ -336,8 +336,18 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         }
     };
 
+    
+    void (^offset)(CGFloat deltaY) = ^(CGFloat deltaY)
+    {
+        __typeof(self) strongSelf = weakSelf;
+        if (strongSelf) {
+            [strongSelf.scrollView setContentOffset:CGPointMake(0, strongSelf.scrollView.contentOffset.y - deltaY)];
+        }
+    };
+
+    
     self.resistanceConsumed = 0;
-    [self.navBarController snap:self.contracting completion:completion];
+    [self.navBarController snap:self.contracting offset:offset completion:completion];
 }
 
 #pragma mark - KVO
