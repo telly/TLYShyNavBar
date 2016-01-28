@@ -37,16 +37,21 @@
 @property (nonatomic, assign) CGFloat contractionAmountValue;
 
 @property (nonatomic, assign) CGPoint contractedCenterValue;
-
-@property (nonatomic, assign) BOOL contracted;
-@property (nonatomic, assign) BOOL expanded;
+@property (nonatomic, readwrite, assign) BOOL isContracted;
 
 @end
 
 @implementation TLYShyViewController
 
 #pragma mark - Properties
-
+- (id) init
+{
+    self = [super init];
+    if (self){
+        self.isContracted = YES;
+    }
+    return self;
+}
 // convenience
 - (CGPoint)expandedCenterValue
 {
@@ -245,8 +250,8 @@
     CGFloat amountToMove = self.expandedCenterValue.y - self.view.center.y;
 
     [self _updateCenter:self.expandedCenterValue];
-    [self.subShyController expand];
-    
+    amountToMove += [self.subShyController expand];
+    self.isContracted = NO;
     return amountToMove;
 }
 
@@ -257,8 +262,8 @@
     [self _onAlphaUpdate:FLT_EPSILON];
 
     [self _updateCenter:self.contractedCenterValue];
-    [self.subShyController contract];
-    
+    amountToMove += [self.subShyController contract];
+    self.isContracted = YES;
     return amountToMove;
 }
 

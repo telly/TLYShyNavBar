@@ -158,7 +158,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         _scrollView.delegate = (id)self.delegateProxy;
     }
 
-    [self cleanup];
+    [self cleanup: YES];
     [self layoutViews];
 
     [_scrollView addObserver:self forKeyPath:@"contentSize" options:0 context:kTLYShyNavBarManagerKVOContext];
@@ -399,7 +399,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 
 - (void)prepareForDisplay
 {
-    [self cleanup];
+    [self cleanup: YES];
 }
 
 - (void)layoutViews
@@ -411,9 +411,16 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     }
 }
 
-- (void)cleanup
+- (void)cleanup:(BOOL) expand
 {
-    [self.navBarController expand];
+  
+    CGFloat deltaY = [self.navBarController expand];
+    if (expand){
+        BOOL wasDisabled = self.disable;
+        self.disable = YES;
+        [self.scrollView setContentOffset:CGPointMake(0, self.scrollView.contentOffset.y - deltaY)];
+        self.disable = wasDisabled;
+    }
     self.previousYOffset = NAN;
 }
 
@@ -479,8 +486,9 @@ static char shyNavBarManagerKey;
 
 - (void)tly_swizzledViewWillAppear:(BOOL)animated
 {
-    [[self _internalShyNavBarManager] prepareForDisplay];
-    [self tly_swizzledViewWillAppear:animated];
+        TLYShyNavBarManager * navBarManager = [self _internalShyNavBarManager];
+        [navBarManager cleanup: navBarManager.navBarController.isContracted];
+        [self tly_swizzledViewWillAppear:animated];
 }
 
 - (void)tly_swizzledViewDidLayoutSubviews
@@ -491,7 +499,6 @@ static char shyNavBarManagerKey;
 
 - (void)tly_swizzledViewWillDisappear:(BOOL)animated
 {
-    [[self _internalShyNavBarManager] cleanup];
     [self tly_swizzledViewWillDisappear:animated];
 }
 
