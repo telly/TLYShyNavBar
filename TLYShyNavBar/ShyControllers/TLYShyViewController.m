@@ -14,6 +14,10 @@
 - (CGFloat)maxYRelativeToView:(UIView *)superview
 {
     CGPoint maxEdge = CGPointMake(0, CGRectGetHeight(self.view.bounds));
+    if ([self.view isKindOfClass:[UINavigationBar class]]){
+        return maxEdge.y + self.view.frame.origin.y;
+    }
+    
     CGPoint normalizedMaxEdge = [superview convertPoint:maxEdge fromView:self.view];
     
     return normalizedMaxEdge.y;
