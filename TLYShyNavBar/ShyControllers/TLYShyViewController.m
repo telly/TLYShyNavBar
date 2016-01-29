@@ -159,7 +159,7 @@
 }
 
 - (CGFloat)updateYOffset:(CGFloat)deltaY
-{    
+{
     if (self.subShyController && deltaY < 0)
     {
         deltaY = [self.subShyController updateYOffset:deltaY];
@@ -216,27 +216,28 @@
     
     __block CGFloat deltaY;
     [UIView animateWithDuration:0.2 animations:^
-    {
-        if ((contract && self.subShyController.contracted) || (!contract && !self.expanded))
-        {
-            deltaY = [self contract];
-        }
-        else
-        {
-            deltaY = [self.subShyController expand];
-            if (offset) {
-                offset(deltaY);
-            }
-        }
-       
-
-    }
-    completion:^(BOOL finished)
-    {
-        if (completion && finished) {
-            completion();
-        }
-    }];
+     {
+         if ((contract && self.subShyController.contracted) || (!contract && !self.expanded))
+         {
+             deltaY = [self contract];
+         }
+         else
+         {
+             deltaY = [self.subShyController expand];
+         }
+         //Shift scrollView by delta like Facebook does.
+         if (offset && fabs(deltaY) < FLT_EPSILON) {
+             offset(deltaY);
+         }
+         
+         
+     }
+                     completion:^(BOOL finished)
+     {
+         if (completion && finished) {
+             completion();
+         }
+     }];
     
     return deltaY;
 }
@@ -248,7 +249,7 @@
     [self _onAlphaUpdate:1.f];
     
     CGFloat amountToMove = self.expandedCenterValue.y - self.view.center.y;
-
+    
     [self _updateCenter:self.expandedCenterValue];
     amountToMove += [self.subShyController expand];
     self.isContracted = NO;
@@ -258,9 +259,9 @@
 - (CGFloat)contract
 {
     CGFloat amountToMove = self.contractedCenterValue.y - self.view.center.y;
-
+    
     [self _onAlphaUpdate:FLT_EPSILON];
-
+    
     [self _updateCenter:self.contractedCenterValue];
     amountToMove += [self.subShyController contract];
     self.isContracted = YES;
