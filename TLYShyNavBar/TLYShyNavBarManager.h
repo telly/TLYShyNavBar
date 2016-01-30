@@ -110,4 +110,9 @@
 /* Initially, this is nil, but created for you when you access it */
 @property (nonatomic, strong) TLYShyNavBarManager *shyNavBarManager;
 
+/* Use this to find out if a TLYShyNavBarManager instance was associated
+ * to this view controller, without triggering its creation and association.
+ */
+- (BOOL)isShyNavBarManagerPresent;
+
 @end
