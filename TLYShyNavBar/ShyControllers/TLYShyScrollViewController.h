@@ -17,6 +17,6 @@
 @property (nonatomic, weak) UIScrollView *scrollView;
 @property (nonatomic, weak) TLYShyViewController *parent;
 
-- (CGFloat)updateLayoutIfNeeded:(BOOL)intelligently;
+- (CGFloat)updateLayoutIfNeeded;
 
 @end
