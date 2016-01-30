@@ -224,13 +224,12 @@
          else
          {
              deltaY = [self.subShyController expand];
+             //Shift scrollView by delta like Facebook does.
+             if (offset && fabs(deltaY) > FLT_EPSILON) {
+                 offset(deltaY);
+             }
+
          }
-         //Shift scrollView by delta like Facebook does.
-         if (offset && fabs(deltaY) > FLT_EPSILON) {
-             offset(deltaY);
-         }
-         
-         
      }
                      completion:^(BOOL finished)
      {
