@@ -11,9 +11,9 @@
 @implementation UIScrollView (Helpers)
 
 // Modify contentInset and scrollIndicatorInsets
-- (void)tly_setInsets:(UIEdgeInsets)contentInsets preserveOffset:(BOOL)preserveOffset
+- (void)tly_setInsets:(UIEdgeInsets)contentInsets
 {
-    if (preserveOffset && contentInsets.top != self.contentInset.top)
+    if (!self.isDragging && !self.isDecelerating && contentInsets.top != self.contentInset.top)
     {
         CGFloat offsetDelta = contentInsets.top - self.contentInset.top;
         

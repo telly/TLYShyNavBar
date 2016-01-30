@@ -14,10 +14,10 @@
 
 - (void)offsetCenterBy:(CGPoint)deltaPoint
 {
-    [self updateLayoutIfNeeded:NO];
+    [self updateLayoutIfNeeded];
 }
 
-- (CGFloat)updateLayoutIfNeeded:(BOOL)intelligently
+- (CGFloat)updateLayoutIfNeeded
 {
     if (self.scrollView.contentSize.height < FLT_EPSILON
         && ([self.scrollView isKindOfClass:[UITableView class]]
@@ -35,7 +35,7 @@
     if (normalizedY > -FLT_EPSILON && !UIEdgeInsetsEqualToEdgeInsets(insets, self.scrollView.contentInset))
     {
         CGFloat delta = insets.top - self.scrollView.contentInset.top;
-        [self.scrollView tly_setInsets:insets preserveOffset:intelligently];
+        [self.scrollView tly_setInsets:insets];
         
         return delta;
     }
@@ -46,7 +46,7 @@
         frame = UIEdgeInsetsInsetRect(frame, insets);
         
         self.scrollView.frame = frame;
-        return [self updateLayoutIfNeeded:YES];
+        return [self updateLayoutIfNeeded];
     }
     
     return 0.f;
