@@ -485,6 +485,13 @@ static char shyNavBarManagerKey;
     [self tly_swizzledViewWillDisappear:animated];
 }
 
+#pragma mark - Public methods
+
+- (BOOL)isShyNavBarManagerPresent
+{
+    return [self _internalShyNavBarManager] != nil;
+}
+
 #pragma mark - Properties
 
 - (void)setShyNavBarManager:(TLYShyNavBarManager *)shyNavBarManager
