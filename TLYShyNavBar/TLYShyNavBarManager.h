@@ -110,6 +110,12 @@
 /* Initially, this is nil, but created for you when you access it */
 @property (nonatomic, strong) TLYShyNavBarManager *shyNavBarManager;
 
+/*
+ * Set the TLYShyNavBarManager while also specifying a view controller
+ */
+- (void)setShyNavBarManager:(TLYShyNavBarManager *)shyNavBarManager
+             viewController:(UIViewController *)viewController;
+
 /* Use this to find out if a TLYShyNavBarManager instance was associated
  * to this view controller, without triggering its creation and association.
  */
