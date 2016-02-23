@@ -14,6 +14,10 @@
 - (CGFloat)maxYRelativeToView:(UIView *)superview
 {
     CGPoint maxEdge = CGPointMake(0, CGRectGetHeight(self.view.bounds));
+    if ([self.view isKindOfClass:[UINavigationBar class]]){
+        return maxEdge.y + self.view.frame.origin.y;
+    }
+    
     CGPoint normalizedMaxEdge = [superview convertPoint:maxEdge fromView:self.view];
     
     return normalizedMaxEdge.y;
@@ -33,16 +37,21 @@
 @property (nonatomic, assign) CGFloat contractionAmountValue;
 
 @property (nonatomic, assign) CGPoint contractedCenterValue;
-
-@property (nonatomic, assign) BOOL contracted;
-@property (nonatomic, assign) BOOL expanded;
+@property (nonatomic, readwrite, assign) BOOL isContracted;
 
 @end
 
 @implementation TLYShyViewController
 
 #pragma mark - Properties
-
+- (id) init
+{
+    self = [super init];
+    if (self){
+        self.isContracted = YES;
+    }
+    return self;
+}
 // convenience
 - (CGPoint)expandedCenterValue
 {
@@ -150,7 +159,7 @@
 }
 
 - (CGFloat)updateYOffset:(CGFloat)deltaY
-{    
+{
     if (self.subShyController && deltaY < 0)
     {
         deltaY = [self.subShyController updateYOffset:deltaY];
@@ -189,10 +198,10 @@
 
 - (CGFloat)snap:(BOOL)contract
 {
-    return [self snap:contract completion:nil];
+    return [self snap:contract offset:nil completion:nil];
 }
 
-- (CGFloat)snap:(BOOL)contract completion:(void (^)())completion
+- (CGFloat)snap:(BOOL)contract offset:(void (^)(CGFloat deltaY))offset completion:(void (^)())completion
 {
     /* "The Facebook" UX dictates that:
      *
@@ -207,22 +216,27 @@
     
     __block CGFloat deltaY;
     [UIView animateWithDuration:0.2 animations:^
-    {
-        if ((contract && self.subShyController.contracted) || (!contract && !self.expanded))
-        {
-            deltaY = [self contract];
-        }
-        else
-        {
-            deltaY = [self.subShyController expand];
-        }
-    }
+     {
+         if ((contract && self.subShyController.contracted) || (!contract && !self.expanded))
+         {
+             deltaY = [self contract];
+         }
+         else
+         {
+             deltaY = [self.subShyController expand];
+             //Shift scrollView by delta like Facebook does.
+             if (offset && fabs(deltaY) > FLT_EPSILON) {
+                 offset(deltaY);
+             }
+
+         }
+     }
                      completion:^(BOOL finished)
-    {
-        if (completion && finished) {
-            completion();
-        }
-    }];
+     {
+         if (completion && finished) {
+             completion();
+         }
+     }];
     
     return deltaY;
 }
@@ -234,22 +248,22 @@
     [self _onAlphaUpdate:1.f];
     
     CGFloat amountToMove = self.expandedCenterValue.y - self.view.center.y;
-
-    [self _updateCenter:self.expandedCenterValue];
-    [self.subShyController expand];
     
+    [self _updateCenter:self.expandedCenterValue];
+    amountToMove += [self.subShyController expand];
+    self.isContracted = NO;
     return amountToMove;
 }
 
 - (CGFloat)contract
 {
     CGFloat amountToMove = self.contractedCenterValue.y - self.view.center.y;
-
-    [self _onAlphaUpdate:FLT_EPSILON];
-
-    [self _updateCenter:self.contractedCenterValue];
-    [self.subShyController contract];
     
+    [self _onAlphaUpdate:FLT_EPSILON];
+    
+    [self _updateCenter:self.contractedCenterValue];
+    amountToMove += [self.subShyController contract];
+    self.isContracted = YES;
     return amountToMove;
 }
 

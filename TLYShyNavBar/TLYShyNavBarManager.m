@@ -158,7 +158,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         _scrollView.delegate = (id)self.delegateProxy;
     }
 
-    [self cleanup];
+    [self cleanup: YES];
     [self layoutViews];
 
     [_scrollView addObserver:self forKeyPath:@"contentSize" options:0 context:kTLYShyNavBarManagerKVOContext];
@@ -319,8 +319,8 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         return;
     }
 
-    __weak __typeof(self) weakSelf;
-    void (^completion)() = ^
+    __weak __typeof(self) weakSelf = self;
+    void (^completion)() = ^()
     {
         __typeof(self) strongSelf = weakSelf;
         if (strongSelf) {
@@ -336,8 +336,18 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         }
     };
 
+    
+    void (^offset)(CGFloat deltaY) = ^(CGFloat deltaY)
+    {
+        __typeof(self) strongSelf = weakSelf;
+        if (strongSelf) {
+            [strongSelf.scrollView setContentOffset:CGPointMake(0, strongSelf.scrollView.contentOffset.y - deltaY)];
+        }
+    };
+
+    
     self.resistanceConsumed = 0;
-    [self.navBarController snap:self.contracting completion:completion];
+    [self.navBarController snap:self.contracting offset:offset completion:completion];
 }
 
 #pragma mark - KVO
@@ -389,7 +399,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 
 - (void)prepareForDisplay
 {
-    [self cleanup];
+    [self cleanup: YES];
 }
 
 - (void)layoutViews
@@ -401,9 +411,16 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     }
 }
 
-- (void)cleanup
+- (void)cleanup:(BOOL) expand
 {
-    [self.navBarController expand];
+  
+    CGFloat deltaY = [self.navBarController expand];
+    if (expand){
+        BOOL wasDisabled = self.disable;
+        self.disable = YES;
+        [self.scrollView setContentOffset:CGPointMake(0, self.scrollView.contentOffset.y - deltaY)];
+        self.disable = wasDisabled;
+    }
     self.previousYOffset = NAN;
 }
 
@@ -469,8 +486,9 @@ static char shyNavBarManagerKey;
 
 - (void)tly_swizzledViewWillAppear:(BOOL)animated
 {
-    [[self _internalShyNavBarManager] prepareForDisplay];
-    [self tly_swizzledViewWillAppear:animated];
+        TLYShyNavBarManager * navBarManager = [self _internalShyNavBarManager];
+        [navBarManager cleanup: navBarManager.navBarController.isContracted];
+        [self tly_swizzledViewWillAppear:animated];
 }
 
 - (void)tly_swizzledViewDidLayoutSubviews
@@ -481,7 +499,6 @@ static char shyNavBarManagerKey;
 
 - (void)tly_swizzledViewWillDisappear:(BOOL)animated
 {
-    [[self _internalShyNavBarManager] cleanup];
     [self tly_swizzledViewWillDisappear:animated];
 }
 
