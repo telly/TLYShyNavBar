@@ -19,10 +19,10 @@
 
 - (CGFloat)updateLayoutIfNeeded
 {
-    if ((self.scrollView.contentSize.height < FLT_EPSILON
+    if (self.scrollView.contentSize.height < FLT_EPSILON
          && ([self.scrollView isKindOfClass:[UITableView class]]
              || [self.scrollView isKindOfClass:[UICollectionView class]])
-         ) || (self.scrollView.contentOffset.y <= -64))
+         )
     {
         return 0.f;
     }
@@ -35,7 +35,10 @@
     if (normalizedY > -FLT_EPSILON && !UIEdgeInsetsEqualToEdgeInsets(insets, self.scrollView.contentInset))
     {
         CGFloat delta = insets.top - self.scrollView.contentInset.top;
-        [self.scrollView tly_setInsets:insets];
+
+        if (self.refreshControl == nil || [self.refreshControl isHidden]) {
+            [self.scrollView tly_setInsets:insets];
+        }
         
         return delta;
     }
