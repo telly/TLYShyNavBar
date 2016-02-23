@@ -492,12 +492,19 @@ static char shyNavBarManagerKey;
     return [self _internalShyNavBarManager] != nil;
 }
 
+- (void)setShyNavBarManager:(TLYShyNavBarManager *)shyNavBarManager
+             viewController:(UIViewController *)viewController
+{
+    NSAssert(viewController != nil, @"viewController must not be nil!");
+    shyNavBarManager.viewController = viewController;
+    objc_setAssociatedObject(self, &shyNavBarManagerKey, shyNavBarManager, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
 #pragma mark - Properties
 
 - (void)setShyNavBarManager:(TLYShyNavBarManager *)shyNavBarManager
 {
-    shyNavBarManager.viewController = self;
-    objc_setAssociatedObject(self, &shyNavBarManagerKey, shyNavBarManager, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setShyNavBarManager:shyNavBarManager viewController:self];
 }
 
 - (TLYShyNavBarManager *)shyNavBarManager
