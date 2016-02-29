@@ -113,6 +113,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [_scrollView removeObserver:self forKeyPath:@"contentSize" context:kTLYShyNavBarManagerKVOContext];
+    [_extensionView removeObserver:self forKeyPath:@"frame" context:kTLYShyNavBarManagerKVOContext];
 }
 
 #pragma mark - Properties
@@ -349,9 +350,21 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 {
     if (context == kTLYShyNavBarManagerKVOContext)
     {
-        if (self.isViewControllerVisible && ![self _scrollViewIsSuffecientlyLong])
-        {
-            [self.navBarController expand];
+        if (object == _scrollView) {
+            if (self.isViewControllerVisible && ![self _scrollViewIsSuffecientlyLong])
+            {
+                [self.navBarController expand];
+            }
+
+        } else if (object == _extensionView) {
+            self.extensionViewContainer.frame = _extensionView.frame;
+
+            /* Disable scroll handling temporarily while laying out views to avoid double-changing content
+             * offsets in _handleScrolling. */
+            BOOL wasDisabled = self.disable;
+            self.disable = YES;
+            [self layoutViews];
+            self.disable = wasDisabled;
         }
     }
     else
@@ -366,6 +379,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 {
     if (view != _extensionView)
     {
+        [_extensionView removeObserver:self forKeyPath:@"frame" context:kTLYShyNavBarManagerKVOContext];
         [_extensionView removeFromSuperview];
         _extensionView = view;
 
@@ -378,12 +392,10 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         [self.extensionViewContainer addSubview:view];
         self.extensionViewContainer.userInteractionEnabled = view.userInteractionEnabled;
 
-        /* Disable scroll handling temporarily while laying out views to avoid double-changing content
-         * offsets in _handleScrolling. */
-        BOOL wasDisabled = self.disable;
-        self.disable = YES;
-        [self layoutViews];
-        self.disable = wasDisabled;
+        // Update our extension container view and layout if _extensionView's bounds changes
+        [_extensionView addObserver:self forKeyPath:@"frame"
+                            options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial)
+                            context:kTLYShyNavBarManagerKVOContext];
     }
 }
 
