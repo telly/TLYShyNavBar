@@ -152,6 +152,14 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     _scrollView = scrollView;
     self.scrollViewController.scrollView = scrollView;
 
+    NSUInteger index = [scrollView.subviews indexOfObjectPassingTest:^BOOL (id obj, NSUInteger idx, BOOL *stop) {
+        return [obj isKindOfClass:[UIRefreshControl class]];
+    }];
+
+    if (index != NSNotFound) {
+        self.scrollViewController.refreshControl = [scrollView.subviews objectAtIndex:index];
+    }
+
     if (_scrollView.delegate != self.delegateProxy)
     {
         self.delegateProxy.originalDelegate = _scrollView.delegate;
@@ -492,12 +500,19 @@ static char shyNavBarManagerKey;
     return [self _internalShyNavBarManager] != nil;
 }
 
+- (void)setShyNavBarManager:(TLYShyNavBarManager *)shyNavBarManager
+             viewController:(UIViewController *)viewController
+{
+    NSAssert(viewController != nil, @"viewController must not be nil!");
+    shyNavBarManager.viewController = viewController;
+    objc_setAssociatedObject(self, &shyNavBarManagerKey, shyNavBarManager, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
 #pragma mark - Properties
 
 - (void)setShyNavBarManager:(TLYShyNavBarManager *)shyNavBarManager
 {
-    shyNavBarManager.viewController = self;
-    objc_setAssociatedObject(self, &shyNavBarManagerKey, shyNavBarManager, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setShyNavBarManager:shyNavBarManager viewController:self];
 }
 
 - (TLYShyNavBarManager *)shyNavBarManager
