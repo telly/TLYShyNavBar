@@ -12,7 +12,7 @@
 
 // Modify contentInset and scrollIndicatorInsets
 - (void)tly_setInsets:(UIEdgeInsets)contentInsets
-{    
+{
     self.contentInset = contentInsets;
     self.scrollIndicatorInsets = contentInsets;
 }
