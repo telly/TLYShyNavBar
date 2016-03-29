@@ -18,7 +18,7 @@
 @property (nonatomic, weak) UIRefreshControl *refreshControl;
 @property (nonatomic, weak) TLYShyViewController *parent;
 
-@property (nonatomic, assign) BOOL hasCustomRefreshController;
+@property (nonatomic, assign) BOOL hasCustomRefreshControl;
 
 - (CGFloat)updateLayoutIfNeeded;
 
