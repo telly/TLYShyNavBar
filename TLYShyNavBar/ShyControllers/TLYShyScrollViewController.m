@@ -36,7 +36,7 @@
     {
         CGFloat delta = insets.top - self.scrollView.contentInset.top;
 
-        if (self.refreshControl == nil || [self.refreshControl isHidden]) {
+        if (!self.hasCustomRefreshController && (self.refreshControl == nil || [self.refreshControl isHidden])) {
             [self.scrollView tly_setInsets:insets];
         }
 

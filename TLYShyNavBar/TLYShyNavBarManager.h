@@ -67,6 +67,11 @@
  */
 @property (nonatomic) TLYShyNavBarFade fadeBehavior;
 
+/* Use this to set if the controller have any kind of refresh controller
+ * other than UIRefreshController (this one will be identified automatically)
+ */
+@property (nonatomic) BOOL hasCustomRefreshController;
+
 /* Set NO to disable shyNavBar behavior temporarily.
  * Defaults to NO
  */

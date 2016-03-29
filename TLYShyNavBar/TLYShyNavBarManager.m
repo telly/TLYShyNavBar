@@ -112,7 +112,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     }
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self removeKVOObserver];
+    [_scrollView removeObserver:self forKeyPath:@"contentSize" context:kTLYShyNavBarManagerKVOContext];
 }
 
 #pragma mark - Properties
@@ -142,7 +142,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 
 - (void)setScrollView:(UIScrollView *)scrollView
 {
-    [self removeKVOObserver];
+    [_scrollView removeObserver:self forKeyPath:@"contentSize" context:kTLYShyNavBarManagerKVOContext];
 
     if (_scrollView.delegate == self.delegateProxy)
     {
@@ -169,7 +169,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     [self cleanup];
     [self layoutViews];
 
-    [self addKVOObserver];
+    [_scrollView addObserver:self forKeyPath:@"contentSize" options:0 context:kTLYShyNavBarManagerKVOContext];
 }
 
 - (CGRect)extensionViewBounds
@@ -194,6 +194,18 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     if (!disable) {
         self.previousYOffset = self.scrollView.contentOffset.y;
     }
+}
+
+- (void)setHasCustomRefreshController:(BOOL)hasCustomRefreshController
+{
+    if (_hasCustomRefreshController == hasCustomRefreshController)
+    {
+        return;
+    }
+    
+    _hasCustomRefreshController = hasCustomRefreshController;
+    
+    self.scrollViewController.hasCustomRefreshController = hasCustomRefreshController;
 }
 
 - (BOOL)stickyNavigationBar
@@ -359,25 +371,13 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     {
         if (self.isViewControllerVisible && ![self _scrollViewIsSuffecientlyLong])
         {
-            [self removeKVOObserver];
             [self.navBarController expand];
-            [self addKVOObserver];
         }
     }
     else
     {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
-}
-
-- (void)addKVOObserver
-{
-    [_scrollView addObserver:self forKeyPath:@"contentSize" options:0 context:kTLYShyNavBarManagerKVOContext];
-}
-
-- (void)removeKVOObserver
-{
-    [_scrollView removeObserver:self forKeyPath:@"contentSize" context:kTLYShyNavBarManagerKVOContext];
 }
 
 #pragma mark - public methods
