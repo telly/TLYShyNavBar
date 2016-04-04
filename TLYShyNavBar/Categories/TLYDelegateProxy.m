@@ -26,6 +26,20 @@
     return self;
 }
 
+- (id)forwardingTargetForSelector:(SEL)sel
+{
+    BOOL originalDelegateResponds = [self.originalDelegate respondsToSelector:sel];
+    BOOL middleManResponds = [self.middleMan respondsToSelector:sel];
+    if (originalDelegateResponds && !middleManResponds) {
+        return self.originalDelegate;
+    } else if (!originalDelegateResponds && middleManResponds) {
+        return self.middleMan;
+    } else {
+        // continue with "slow" forwarding
+        return self;
+    }
+}
+
 - (NSInvocation *)_copyInvocation:(NSInvocation *)invocation
 {
     NSInvocation *copy = [NSInvocation invocationWithMethodSignature:[invocation methodSignature]];
