@@ -1,4 +1,10 @@
 
+# Retired
+
+Please see the github releases for release notes
+
+# Legacy
+
 ## v0.10.1
 
 #### Fixes
