@@ -67,6 +67,10 @@
  */
 @property (nonatomic) TLYShyNavBarFade fadeBehavior;
 
+/* Use this to set if the controller have any kind of custom refresh control
+ */
+@property (nonatomic) BOOL hasCustomRefreshControl;
+
 /* Set NO to disable shyNavBar behavior temporarily.
  * Defaults to NO
  */

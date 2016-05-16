@@ -196,6 +196,18 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     }
 }
 
+- (void)setHasCustomRefreshControl:(BOOL)hasCustomRefreshControl
+{
+    if (_hasCustomRefreshControl == hasCustomRefreshControl)
+    {
+        return;
+    }
+    
+    _hasCustomRefreshControl = hasCustomRefreshControl;
+    
+    self.scrollViewController.hasCustomRefreshControl = hasCustomRefreshControl;
+}
+
 - (BOOL)stickyNavigationBar
 {
     return self.navBarController.sticky;
