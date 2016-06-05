@@ -7,6 +7,7 @@
 //
 
 #import "TLYShyViewController.h"
+#import "TLYShyStatusBarController.h"
 
 
 @implementation TLYShyViewController (AsParent)
