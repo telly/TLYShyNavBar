@@ -371,10 +371,8 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     if (context == kTLYShyNavBarManagerKVOContext)
     {
         if (object == _scrollView) {
-            NSLog(@"observe <%@:%p>-%@: %i && %i", NSStringFromClass([object class]), object, keyPath, self.isViewControllerVisible, ![self _scrollViewIsSuffecientlyLong]);
             if (self.isViewControllerVisible && ![self _scrollViewIsSuffecientlyLong])
             {
-                NSLog(@"Expanding");
                 [self.navBarController expand];
             }
 
