@@ -19,6 +19,13 @@
 
 #import <objc/runtime.h>
 
+/* _scrollViewIsSuffecientlyLong attempts to determine if the expansionView can be shown by virtue of 
+ * excess space available in the scrollview relative to its content view. However, it breaks at edge cases,
+ * including if the content is just a bit more than threshold and then the user scrolls down further via
+ * the elastic scrollview... the logic suddenly thinks enough space is available and leads to the extention
+ * expanding. 
+ */
+//#define USE_BROKEN_SCROLLVIEW_LENGTH_LOGIC
 
 static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManagerKVOContext;
 
@@ -222,9 +229,14 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 
 - (BOOL)_scrollViewIsSuffecientlyLong
 {
+#ifdef USE_BROKEN_SCROLLVIEW_LENGTH_LOGIC
     CGRect scrollFrame = UIEdgeInsetsInsetRect(self.scrollView.bounds, self.scrollView.contentInset);
     CGFloat scrollableAmount = self.scrollView.contentSize.height - CGRectGetHeight(scrollFrame);
+    
     return (scrollableAmount > [self.extensionController calculateTotalHeightRecursively]);
+#else
+    return YES;
+#endif
 }
 
 - (BOOL)_shouldHandleScrolling
@@ -359,8 +371,10 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     if (context == kTLYShyNavBarManagerKVOContext)
     {
         if (object == _scrollView) {
+            NSLog(@"observe <%@:%p>-%@: %i && %i", NSStringFromClass([object class]), object, keyPath, self.isViewControllerVisible, ![self _scrollViewIsSuffecientlyLong]);
             if (self.isViewControllerVisible && ![self _scrollViewIsSuffecientlyLong])
             {
+                NSLog(@"Expanding");
                 [self.navBarController expand];
             }
 
