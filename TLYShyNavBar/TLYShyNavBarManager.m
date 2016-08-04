@@ -36,6 +36,7 @@
 @property (nonatomic, assign) CGFloat previousYOffset;
 @property (nonatomic, assign) CGFloat resistanceConsumed;
 
+@property (nonatomic, readonly) CGFloat bottom;
 @property (nonatomic, assign) BOOL contracting;
 @property (nonatomic, assign) BOOL previousContractionState;
 
@@ -218,6 +219,11 @@
 - (CGFloat)height
 {
     return self.extensionController.calculateTotalHeightRecursively;
+}
+
+- (CGFloat)bottom
+{
+    return self.extensionController.calculateBottomRecursively;
 }
 
 
