@@ -37,6 +37,7 @@
 @property (nonatomic, assign) CGFloat resistanceConsumed;
 
 @property (nonatomic, readonly) CGFloat bottom;
+@property (nonatomic, assign) BOOL scrolling;
 @property (nonatomic, assign) BOOL contracting;
 @property (nonatomic, assign) BOOL previousContractionState;
 
@@ -57,6 +58,7 @@
         self.delegateProxy = [[TLYDelegateProxy alloc] initWithMiddleMan:self];
 
         /* Initialize defaults */
+        self.scrolling = NO;
         self.contracting = NO;
         self.previousContractionState = YES;
         self.scaleBehavior = YES;
@@ -254,6 +256,8 @@
 
 - (void)_handleScrolling
 {
+    self.scrolling = YES;
+    
     if (![self _shouldHandleScrolling])
     {
         return;
@@ -339,6 +343,8 @@
 
 - (void)_handleScrollingEnded
 {
+    self.scrolling = NO;
+    
     if (!self.isViewControllerVisible)
     {
         return;
