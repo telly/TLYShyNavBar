@@ -24,7 +24,7 @@
 
 @interface TLYShyNavBarManager () <UIScrollViewDelegate>
 
-@property (nonatomic, strong) id<TLYShyParent> statusBarController;
+@property (nonatomic, strong) TLYShyStatusBarController *statusBarController;
 @property (nonatomic, strong) TLYShyViewController *navBarController;
 @property (nonatomic, strong) TLYShyViewController *extensionController;
 @property (nonatomic, strong) TLYShyScrollViewController *scrollViewController;
@@ -66,6 +66,7 @@
         /* Initialize shy controllers */
         self.statusBarController = [[TLYShyStatusBarController alloc] init];
         self.scrollViewController = [[TLYShyScrollViewController alloc] init];
+        
         self.navBarController = [[TLYShyViewController alloc] init];
 
         self.extensionViewContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100.f, 0.f)];
@@ -360,13 +361,10 @@
     {
         [_extensionView removeFromSuperview];
         _extensionView = view;
+        
+        view.frame = view.bounds;
 
-        CGRect bounds = view.frame;
-        bounds.origin = CGPointZero;
-
-        view.frame = bounds;
-
-        self.extensionViewContainer.frame = bounds;
+        self.extensionViewContainer.frame = view.bounds;
         [self.extensionViewContainer addSubview:view];
         self.extensionViewContainer.userInteractionEnabled = view.userInteractionEnabled;
 
@@ -379,9 +377,10 @@
     }
 }
 
-- (void)prepareForDisplay
+- (void)cleanup
 {
-    [self cleanup];
+    [self.navBarController expand];
+    self.previousYOffset = NAN;
 }
 
 - (void)layoutViews
@@ -393,10 +392,6 @@
     }
 }
 
-- (void)cleanup
-{
-    [self.navBarController expand];
-    self.previousYOffset = NAN;
 }
 
 #pragma mark - UIScrollViewDelegate methods
@@ -463,7 +458,7 @@ static char shyNavBarManagerKey;
 
 - (void)tly_swizzledViewWillAppear:(BOOL)animated
 {
-    [[self _internalShyNavBarManager] prepareForDisplay];
+    [[self _internalShyNavBarManager] cleanup];
     [self tly_swizzledViewWillAppear:animated];
 }
 
