@@ -220,6 +220,11 @@
     self.extensionController.sticky = stickyExtensionView;
 }
 
+- (CGFloat)height
+{
+    return self.extensionController.calculateTotalHeightRecursively;
+}
+
 
 #pragma mark - Private methods
 

@@ -62,6 +62,10 @@
 @property (nonatomic) CGFloat expansionResistance;      // default 200
 @property (nonatomic) CGFloat contractionResistance;    // default 0
 
+/* The combined height of all the nav bar including the extension view and status bar
+ */
+@property (nonatomic, readonly) CGFloat height;
+
 /* Choose how the navbar fades as it contracts/expands.
  * Defaults to FadeSubviews
  */
