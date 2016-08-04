@@ -22,7 +22,7 @@
 
 #pragma mark - TLYShyNavBarManager class
 
-@interface TLYShyNavBarManager () <UIScrollViewDelegate>
+@interface TLYShyNavBarManager () <UIScrollViewDelegate, TLYShyViewControllerDelegate>
 
 @property (nonatomic, strong) TLYShyStatusBarController *statusBarController;
 @property (nonatomic, strong) TLYShyViewController *navBarController;
@@ -72,6 +72,7 @@
         self.scrollViewController = [[TLYShyScrollViewController alloc] init];
         
         self.navBarController = [[TLYShyViewController alloc] init];
+        self.navBarController.delegate = self;
 
         self.extensionViewContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100.f, 0.f)];
         self.extensionViewContainer.backgroundColor = [UIColor clearColor];
@@ -79,6 +80,7 @@
 
         self.extensionController = [[TLYShyViewController alloc] init];
         self.extensionController.view = self.extensionViewContainer;
+        self.extensionController.delegate = self;
 
         /* hierarchy setup */
         /* StatusBar <--> navBar <--> extensionView <--> scrollView
@@ -156,8 +158,8 @@
         self.delegateProxy.originalDelegate = _scrollView.delegate;
         _scrollView.delegate = (id)self.delegateProxy;
     }
-
-    [self cleanup];
+    
+    [self updateScrollViewInsets];
 }
 
 - (CGRect)extensionViewBounds
@@ -334,8 +336,8 @@
 
         [self.navBarController updateYOffset:deltaY];
     }
-
-    self.previousYOffset = self.scrollView.contentOffset.y;
+    
+    [self updateScrollViewInsets];
 }
 
 - (void)_handleScrollingEnded
@@ -388,6 +390,8 @@
         BOOL wasDisabled = self.disable;
         self.disable = YES;
         self.disable = wasDisabled;
+        
+        [self.extensionController expand];
     }
 }
 
@@ -397,9 +401,33 @@
     self.previousYOffset = NAN;
 }
 
+- (void)updateScrollViewInsets
 {
+    if (self.automaticallyAdjustsScrollViewInsets)
     {
+        id<UIScrollViewDelegate> delegate = self.scrollView.delegate;
+        
+        self.scrollView.delegate = nil;
+        
+        self.scrollView.contentInset = UIEdgeInsetsMake(self.bottom,
+                                                        self.scrollView.contentInset.left,
+                                                        self.scrollView.contentInset.bottom,
+                                                        self.scrollView.contentInset.right);
 
+        self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
+        
+        if ((self.scrollView.contentOffset.y == 0 ||
+             self.scrollView.contentOffset.y == -self.navBarController.calculateTotalHeightRecursively ||
+             self.scrollView.contentOffset.y == -self.extensionController.calculateTotalHeightRecursively)
+            && !self.scrolling)
+        {
+            self.scrollView.contentOffset = CGPointMake(self.scrollView.contentOffset.x, -self.scrollView.contentInset.top);
+        }
+        
+        self.scrollView.delegate = delegate;
+    }
+    
+    self.previousYOffset = self.scrollView.contentOffset.y;
 }
 
 #pragma mark - UIScrollViewDelegate methods
@@ -426,6 +454,18 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     [self _handleScrollingEnded];
+}
+
+#pragma mark - TLYShyViewControllerDelegate methods
+
+- (void)shyViewControllerDidExpand:(TLYShyViewController *)shyViewController
+{
+    [self updateScrollViewInsets];
+}
+
+- (void)shyViewControllerDidContract:(TLYShyViewController *)shyViewController
+{
+    [self updateScrollViewInsets];
 }
 
 #pragma mark - NSNotificationCenter methods

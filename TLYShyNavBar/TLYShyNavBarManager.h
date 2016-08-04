@@ -84,6 +84,11 @@
  */
 @property (nonatomic) BOOL hasCustomRefreshControl;
 
+/* Set this to true if you want this control to automatically adjust the scroll view insets
+ * Defaults to NO
+ */
+@property (nonatomic) BOOL automaticallyAdjustsScrollViewInsets;
+
 /* Set NO to disable shyNavBar behavior temporarily.
  * Defaults to NO
  */
