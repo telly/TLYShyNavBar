@@ -131,8 +131,6 @@
     [self.viewController.view addSubview:self.extensionViewContainer];
 
     self.navBarController.view = navbar;
-
-    [self layoutViews];
 }
 
 - (void)setScrollView:(UIScrollView *)scrollView
@@ -160,7 +158,6 @@
     }
 
     [self cleanup];
-    [self layoutViews];
 }
 
 - (CGRect)extensionViewBounds
@@ -390,7 +387,6 @@
          * offsets in _handleScrolling. */
         BOOL wasDisabled = self.disable;
         self.disable = YES;
-        [self layoutViews];
         self.disable = wasDisabled;
     }
 }
@@ -401,14 +397,8 @@
     self.previousYOffset = NAN;
 }
 
-- (void)layoutViews
 {
-    if (fabs([self.scrollViewController updateLayoutIfNeeded]) > FLT_EPSILON)
     {
-        [self.navBarController expand];
-        [self.extensionViewContainer.superview bringSubviewToFront:self.extensionViewContainer];
-    }
-}
 
 }
 
