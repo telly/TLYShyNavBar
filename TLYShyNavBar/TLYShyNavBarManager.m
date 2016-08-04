@@ -79,7 +79,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         self.extensionController.view = self.extensionViewContainer;
 
         /* hierarchy setup */
-        /* StatusBar <-- navbar <-->> extension <--> scrollView
+        /* StatusBar <--> navBar <--> extensionView <--> scrollView
          */
         self.navBarController.parent = self.statusBarController;
         self.navBarController.child = self.extensionController;

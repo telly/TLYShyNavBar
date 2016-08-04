@@ -46,7 +46,7 @@
 @property (nonatomic, readonly) CGRect extensionViewBounds;
 
 /* Make the navigation bar stick to the top without collapsing
- * Deatuls to NO
+ * Defaults to NO
  */
 @property (nonatomic) BOOL stickyNavigationBar;
 
