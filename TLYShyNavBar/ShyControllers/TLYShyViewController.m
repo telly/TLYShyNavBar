@@ -202,7 +202,7 @@
         
         [self _updateCenter:CGPointMake(self.expandedCenterValue.x, newYCenter)];
         
-        CGFloat newAlpha = 1.f - (self.expandedCenterValue.y - self.view.center.y) / self.contractionAmountValue;
+        CGFloat newAlpha = 1.f - (self.expandedCenterValue.y - self.view.center.y) / (self.contractionAmountValue - [UIApplication sharedApplication].statusBarFrame.size.height);
         newAlpha = MIN(MAX(FLT_EPSILON, newAlpha), 1.f);
 
         [self _onProgressUpdate:newAlpha];
