@@ -66,6 +66,10 @@
  */
 @property (nonatomic, readonly) CGFloat height;
 
+/* Check the state of the control
+ */
+@property (nonatomic, readonly) BOOL contracting;
+
 /* Choose how the navbar fades as it contracts/expands.
  * Defaults to FadeSubviews
  */
