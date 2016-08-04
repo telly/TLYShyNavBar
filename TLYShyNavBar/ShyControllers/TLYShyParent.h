@@ -19,6 +19,7 @@
 
 - (CGFloat)maxYRelativeToView:(UIView *)superview;
 - (CGFloat)calculateTotalHeightRecursively;
+- (CGFloat)calculateBottomRecursively;
 
 @end
 

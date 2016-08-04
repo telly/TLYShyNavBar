@@ -64,5 +64,10 @@ static inline CGFloat AACStatusBarHeight(UIViewController *viewController)
     return [self _statusBarHeight];
 }
 
+- (CGFloat)calculateBottomRecursively
+{
+    return [self _statusBarHeight];
+}
+
 @end
 

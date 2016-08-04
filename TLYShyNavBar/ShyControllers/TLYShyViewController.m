@@ -21,7 +21,12 @@
 
 - (CGFloat)calculateTotalHeightRecursively
 {
-    return CGRectGetHeight(self.view.bounds) + [self.parent calculateTotalHeightRecursively];
+    return (self.expanded ? CGRectGetHeight(self.view.bounds) : 0) + [self.parent calculateTotalHeightRecursively];
+}
+
+- (CGFloat)calculateBottomRecursively
+{
+    return (self.sticky || self.expanded) && self.view.subviews.count > 0 ? self.view.frame.origin.y + self.view.frame.size.height : [self.parent calculateBottomRecursively];
 }
 
 @end
