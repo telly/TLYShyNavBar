@@ -273,6 +273,8 @@
     [self _updateCenter:self.expandedCenterValue];
     [self.subShyController expand];
     
+    [self.delegate shyViewControllerDidExpand:self];
+    
     return amountToMove;
 }
 
@@ -284,6 +286,8 @@
 
     [self _updateCenter:self.contractedCenterValue];
     [self.subShyController contract];
+    
+    [self.delegate shyViewControllerDidContract:self];
     
     return amountToMove;
 }
