@@ -109,9 +109,13 @@
 
 @optional
 
-- (void)shyNavBarManagerDidBecomeFullyContracted:(TLYShyNavBarManager *) shyNavBarManager;
+- (void)shyNavBarManagerDidStartContracting:(TLYShyNavBarManager *) shyNavBarManager;
 - (void)shyNavBarManagerDidFinishContracting:(TLYShyNavBarManager *) shyNavBarManager;
+- (void)shyNavBarManagerDidBecomeFullyContracted:(TLYShyNavBarManager *) shyNavBarManager;
+
+- (void)shyNavBarManagerDidStartExpanding:(TLYShyNavBarManager *) shyNavBarManager;
 - (void)shyNavBarManagerDidFinishExpanding:(TLYShyNavBarManager *) shyNavBarManager;
+- (void)shyNavBarManagerDidBecomeFullyExpanded:(TLYShyNavBarManager *) shyNavBarManager;
 
 @end
 

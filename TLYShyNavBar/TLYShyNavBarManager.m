@@ -37,6 +37,12 @@
 @property (nonatomic, assign) CGFloat resistanceConsumed;
 
 @property (nonatomic, readonly) CGFloat bottom;
+
+@property (nonatomic, assign) BOOL startedContracting;
+@property (nonatomic, assign) BOOL startedExpanding;
+@property (nonatomic, assign) BOOL fullyContracted;
+@property (nonatomic, assign) BOOL fullyExpanded;
+
 @property (nonatomic, assign) BOOL scrolling;
 @property (nonatomic, assign) BOOL contracting;
 @property (nonatomic, assign) BOOL previousContractionState;
@@ -58,6 +64,10 @@
         self.delegateProxy = [[TLYDelegateProxy alloc] initWithMiddleMan:self];
 
         /* Initialize defaults */
+        self.startedContracting = NO;
+        self.startedExpanding = NO;
+        self.fullyContracted = NO;
+        self.fullyExpanded = YES;
         self.scrolling = NO;
         self.contracting = NO;
         self.previousContractionState = YES;
@@ -233,6 +243,65 @@
     return self.extensionController.calculateBottomRecursively;
 }
 
+- (void)setStartedContracting:(BOOL)startedContracting
+{
+    if (_startedContracting == startedContracting)
+    {
+        return;
+    }
+    
+    _startedContracting = startedContracting;
+    
+    if (startedContracting && [self.delegate respondsToSelector:@selector(shyNavBarManagerDidStartContracting:)])
+    {
+        [self.delegate shyNavBarManagerDidStartContracting:self];
+    }
+}
+
+- (void)setStartedExpanding:(BOOL)startedExpanding
+{
+    if (_startedExpanding == startedExpanding)
+    {
+        return;
+    }
+    
+    _startedExpanding = startedExpanding;
+    
+    if (startedExpanding && [self.delegate respondsToSelector:@selector(shyNavBarManagerDidStartExpanding:)])
+    {
+        [self.delegate shyNavBarManagerDidStartExpanding:self];
+    }
+}
+
+- (void)setFullyContracted:(BOOL)fullyContracted
+{
+    if (_fullyContracted == fullyContracted)
+    {
+        return;
+    }
+    
+    _fullyContracted = fullyContracted;
+    
+    if (fullyContracted && [self.delegate respondsToSelector:@selector(shyNavBarManagerDidBecomeFullyContracted:)])
+    {
+        [self.delegate shyNavBarManagerDidBecomeFullyContracted:self];
+    }
+}
+
+- (void)setFullyExpanded:(BOOL)fullyExpanded
+{
+    if (_fullyExpanded == fullyExpanded)
+    {
+        return;
+    }
+    
+    _fullyExpanded = fullyExpanded;
+    
+    if (fullyExpanded && [self.delegate respondsToSelector:@selector(shyNavBarManagerDidBecomeFullyExpanded:)])
+    {
+        [self.delegate shyNavBarManagerDidBecomeFullyExpanded:self];
+    }
+}
 
 #pragma mark - Private methods
 
@@ -307,7 +376,7 @@
             deltaY = MIN(0, availableResistance + deltaY);
         }
         // 5.2 - Only apply resistance if expanding above the status bar
-        else if (self.scrollView.contentOffset.y > 0)
+        else if (self.scrollView.contentOffset.y > -self.bottom && !self.isMidTransition)
         {
             CGFloat availableResistance = self.expansionResistance - self.resistanceConsumed;
             self.resistanceConsumed = MIN(self.expansionResistance, self.resistanceConsumed + deltaY);
@@ -328,11 +397,11 @@
         } else {
             visibleTop = MAX(maxNavY, maxExtensionY);
         }
-        if (visibleTop == self.statusBarController.calculateTotalHeightRecursively) {
-            if ([self.delegate respondsToSelector:@selector(shyNavBarManagerDidBecomeFullyContracted:)]) {
-                [self.delegate shyNavBarManagerDidBecomeFullyContracted:self];
-            }
-        }
+        
+        self.startedContracting = deltaY < 0;
+        self.startedExpanding = deltaY > 0;
+        self.fullyContracted = visibleTop == self.statusBarController.calculateTotalHeightRecursively;
+        self.fullyExpanded = visibleTop == self.extensionController.calculateTotalHeightRecursively;
 
         [self.navBarController updateYOffset:deltaY];
     }
