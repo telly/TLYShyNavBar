@@ -39,9 +39,6 @@
 
 @property (nonatomic, assign) CGPoint contractedCenterValue;
 
-@property (nonatomic, assign) BOOL contracted;
-@property (nonatomic, assign) BOOL expanded;
-
 @end
 
 @implementation TLYShyViewController
