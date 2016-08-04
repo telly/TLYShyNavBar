@@ -60,11 +60,10 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         /* Initialize defaults */
         self.contracting = NO;
         self.previousContractionState = YES;
-
+        self.scaleBehavior = YES;
+        self.fadeBehavior = TLYShyNavBarFadeSubviews;
         self.expansionResistance = 200.f;
         self.contractionResistance = 0.f;
-
-        self.fadeBehavior = TLYShyNavBarFadeSubviews;
         self.previousYOffset = NAN;
 
         /* Initialize shy controllers */
@@ -310,6 +309,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 
         // 6 - Update the navigation bar shyViewController
         self.navBarController.fadeBehavior = self.fadeBehavior;
+        self.navBarController.scaleBehaviour = self.scaleBehavior;
 
         // 7 - Inform the delegate if needed
         CGFloat maxNavY = CGRectGetMaxY(self.navBarController.view.frame);

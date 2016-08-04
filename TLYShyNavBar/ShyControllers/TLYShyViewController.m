@@ -76,6 +76,12 @@
 
 #pragma mark - Private methods
 
+- (void)_onProgressUpdate:(CGFloat)progress
+{
+    [self _onAlphaUpdate:progress];
+    [self _onScaleUpdate:progress];
+}
+
 - (void)_onAlphaUpdate:(CGFloat)alpha
 {
     if (self.sticky)
@@ -120,6 +126,26 @@
     }
 }
 
+- (void)_onScaleUpdate:(CGFloat)scale
+{
+    if (self.sticky) {
+        [self _updateSubviewsScale:1.f];
+        return;
+    }
+    
+    [self _updateSubviewsScale:self.scaleBehaviour ? scale : 1.f];
+}
+
+- (void)_updateSubviewsScale:(CGFloat)scale
+{
+    if ([self.view isKindOfClass:[UINavigationBar class]]) {
+        UINavigationBar *navigationBar = (UINavigationBar *)self.view;
+        for (UIView* view in navigationBar.topItem.titleView.subviews) {
+            view.transform = scale < 1 ? CGAffineTransformMakeScale(scale, scale) : CGAffineTransformIdentity;
+        }
+    }
+}
+
 - (void)_updateCenter:(CGPoint)newCenter
 {
     CGPoint currentCenter = self.view.center;
@@ -138,6 +164,15 @@
     if (fadeBehavior == TLYShyNavBarFadeDisabled)
     {
         [self _onAlphaUpdate:1.f];
+    }
+}
+
+- (void)setScaleBehaviour:(BOOL)scaleBehaviour
+{
+    _scaleBehaviour = scaleBehaviour;
+    
+    if (!scaleBehaviour) {
+        [self _onScaleUpdate:1.f];
     }
 }
 
@@ -167,8 +202,8 @@
         
         CGFloat newAlpha = 1.f - (self.expandedCenterValue.y - self.view.center.y) / self.contractionAmountValue;
         newAlpha = MIN(MAX(FLT_EPSILON, newAlpha), 1.f);
-        
-        [self _onAlphaUpdate:newAlpha];
+
+        [self _onProgressUpdate:newAlpha];
         
         residual = newYOffset - newYCenter;
         
@@ -231,7 +266,7 @@
 {
     self.view.hidden = NO;
     
-    [self _onAlphaUpdate:1.f];
+    [self _onProgressUpdate:1.f];
     
     CGFloat amountToMove = self.expandedCenterValue.y - self.view.center.y;
 
@@ -245,7 +280,7 @@
 {
     CGFloat amountToMove = self.contractedCenterValue.y - self.view.center.y;
 
-    [self _onAlphaUpdate:FLT_EPSILON];
+    [self _onProgressUpdate:FLT_EPSILON];
 
     [self _updateCenter:self.contractedCenterValue];
     [self.subShyController contract];

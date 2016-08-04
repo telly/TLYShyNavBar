@@ -67,6 +67,11 @@
  */
 @property (nonatomic) TLYShyNavBarFade fadeBehavior;
 
+/* Choose if the navbar's subviews scale as the navbar contracts/expands.
+ * Defaults to NO
+ */
+@property (nonatomic) BOOL scaleBehavior;
+
 /* Use this to set if the controller have any kind of custom refresh control
  */
 @property (nonatomic) BOOL hasCustomRefreshControl;
