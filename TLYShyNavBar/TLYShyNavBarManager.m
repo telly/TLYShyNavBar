@@ -20,9 +20,6 @@
 #import <objc/runtime.h>
 
 
-static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManagerKVOContext;
-
-
 #pragma mark - TLYShyNavBarManager class
 
 @interface TLYShyNavBarManager () <UIScrollViewDelegate>
@@ -111,7 +108,6 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     }
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [_scrollView removeObserver:self forKeyPath:@"contentSize" context:kTLYShyNavBarManagerKVOContext];
 }
 
 #pragma mark - Properties
@@ -141,8 +137,6 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 
 - (void)setScrollView:(UIScrollView *)scrollView
 {
-    [_scrollView removeObserver:self forKeyPath:@"contentSize" context:kTLYShyNavBarManagerKVOContext];
-
     if (_scrollView.delegate == self.delegateProxy)
     {
         _scrollView.delegate = self.delegateProxy.originalDelegate;
@@ -167,8 +161,6 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 
     [self cleanup];
     [self layoutViews];
-
-    [_scrollView addObserver:self forKeyPath:@"contentSize" options:0 context:kTLYShyNavBarManagerKVOContext];
 }
 
 - (CGRect)extensionViewBounds
@@ -358,26 +350,6 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 
     self.resistanceConsumed = 0;
     [self.navBarController snap:self.contracting completion:completion];
-}
-
-#pragma mark - KVO
-
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context
-{
-    if (context == kTLYShyNavBarManagerKVOContext)
-    {
-        if (self.isViewControllerVisible && ![self _scrollViewIsSuffecientlyLong])
-        {
-            [self.navBarController expand];
-        }
-    }
-    else
-    {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    }
 }
 
 #pragma mark - public methods
