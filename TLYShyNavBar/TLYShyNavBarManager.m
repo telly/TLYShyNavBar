@@ -41,6 +41,7 @@
 @property (nonatomic, assign) BOOL previousContractionState;
 
 @property (nonatomic, readonly) BOOL isViewControllerVisible;
+@property (nonatomic, readonly) BOOL isMidTransition;
 
 @end
 
@@ -168,6 +169,11 @@
 - (BOOL)isViewControllerVisible
 {
     return self.viewController.isViewLoaded && self.viewController.view.window;
+}
+
+- (BOOL)isMidTransition
+{
+    return (!self.navBarController.expanded && !self.navBarController.contracted) || (!self.extensionController.expanded && !self.extensionController.contracted);
 }
 
 - (void)setDisable:(BOOL)disable
