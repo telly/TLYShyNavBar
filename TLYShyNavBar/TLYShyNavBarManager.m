@@ -339,7 +339,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         return;
     }
 
-    __weak __typeof(self) weakSelf;
+    __weak __typeof(self) weakSelf = self;
     void (^completion)() = ^
     {
         __typeof(self) strongSelf = weakSelf;
