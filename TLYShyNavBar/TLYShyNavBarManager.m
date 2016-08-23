@@ -27,7 +27,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 
 @interface TLYShyNavBarManager () <UIScrollViewDelegate>
 
-@property (nonatomic, strong) id<TLYShyParent> statusBarController;
+@property (nonatomic, strong) TLYShyStatusBarController *statusBarController;
 @property (nonatomic, strong) TLYShyViewController *navBarController;
 @property (nonatomic, strong) TLYShyViewController *extensionController;
 @property (nonatomic, strong) TLYShyScrollViewController *scrollViewController;
@@ -137,6 +137,8 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 
     self.navBarController.view = navbar;
 
+    self.statusBarController.viewController = viewController;
+    
     [self layoutViews];
 }
 
