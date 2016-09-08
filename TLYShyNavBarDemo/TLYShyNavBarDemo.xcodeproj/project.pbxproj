@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		34B750E11D6C92AA00093AC6 /* TLYPopoverSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 34B750E01D6C92AA00093AC6 /* TLYPopoverSegue.m */; };
 		821A4D771BF6CCEC00E675DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 821A4D761BF6CCEC00E675DB /* LaunchScreen.storyboard */; };
 		821A4D7B1BF6D01600E675DB /* TLYTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 821A4D7A1BF6D01600E675DB /* TLYTableViewController.m */; };
 		821A4D7F1BF6D70100E675DB /* TLYShyStatusBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 821A4D7E1BF6D70100E675DB /* TLYShyStatusBarController.m */; };
@@ -46,6 +47,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		34B750DF1D6C92AA00093AC6 /* TLYPopoverSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYPopoverSegue.h; sourceTree = "<group>"; };
+		34B750E01D6C92AA00093AC6 /* TLYPopoverSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLYPopoverSegue.m; sourceTree = "<group>"; };
 		821A4D761BF6CCEC00E675DB /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		821A4D791BF6D01600E675DB /* TLYTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLYTableViewController.h; sourceTree = "<group>"; };
 		821A4D7A1BF6D01600E675DB /* TLYTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLYTableViewController.m; sourceTree = "<group>"; };
@@ -189,6 +192,8 @@
 				828F572E1949C37B009EB8DD /* TLYAppDelegate.h */,
 				828F572F1949C37B009EB8DD /* TLYAppDelegate.m */,
 				828F57311949C37B009EB8DD /* Main.storyboard */,
+				34B750DF1D6C92AA00093AC6 /* TLYPopoverSegue.h */,
+				34B750E01D6C92AA00093AC6 /* TLYPopoverSegue.m */,
 				82A893841BC6F939004C37E3 /* TLYMenuTableViewController.h */,
 				82A893851BC6F939004C37E3 /* TLYMenuTableViewController.m */,
 				828F57341949C37B009EB8DD /* TLYViewController.h */,
@@ -361,6 +366,7 @@
 				821A4D7B1BF6D01600E675DB /* TLYTableViewController.m in Sources */,
 				8268FA13194DBA58004EC0E4 /* TLYShyNavBarManager.m in Sources */,
 				82C882091955FDA60046C49D /* UIViewController+BetterLayoutGuides.m in Sources */,
+				34B750E11D6C92AA00093AC6 /* TLYPopoverSegue.m in Sources */,
 				821A4D7F1BF6D70100E675DB /* TLYShyStatusBarController.m in Sources */,
 				828F57301949C37B009EB8DD /* TLYAppDelegate.m in Sources */,
 				829FEE001957DF620017E186 /* NSObject+TLYSwizzlingHelpers.m in Sources */,
@@ -500,6 +506,7 @@
 				INFOPLIST_FILE = "TLYShyNavBarDemo/TLYShyNavBarDemo-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.telly.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -514,6 +521,7 @@
 				INFOPLIST_FILE = "TLYShyNavBarDemo/TLYShyNavBarDemo-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.telly.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
