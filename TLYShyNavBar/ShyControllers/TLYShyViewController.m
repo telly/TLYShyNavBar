@@ -7,6 +7,7 @@
 //
 
 #import "TLYShyViewController.h"
+#import "TLYShyStatusBarController.h"
 
 
 @implementation TLYShyViewController (AsParent)
@@ -21,7 +22,11 @@
 
 - (CGFloat)calculateTotalHeightRecursively
 {
-    return CGRectGetHeight(self.view.bounds) + [self.parent calculateTotalHeightRecursively];
+    float overlap = [self.parent maxYRelativeToView:self.view];
+    if ([self.parent isMemberOfClass:[TLYShyStatusBarController class]] && overlap - self.view.frame.origin.y > 0) {
+        overlap += overlap - self.view.frame.origin.y;
+    }
+    return CGRectGetHeight(self.view.bounds) - overlap + [self.parent calculateTotalHeightRecursively];
 }
 
 @end
