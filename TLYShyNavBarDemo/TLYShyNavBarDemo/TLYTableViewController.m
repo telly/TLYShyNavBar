@@ -10,7 +10,8 @@
 
 @interface TLYTableViewController () <UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, assign) IBInspectable BOOL shortScrollView;
+@property (nonatomic, assign) IBInspectable int numberOfSections;
+@property (nonatomic, assign) IBInspectable int numberOfRowsPerSection;
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 
@@ -37,12 +38,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.shortScrollView ? 1 : 6;
+    return self.numberOfSections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return self.numberOfRowsPerSection;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
