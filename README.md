@@ -21,7 +21,7 @@ This component helps you mimic the navigation bar auto scrolling that you see in
 + **[Design Goals](#design-goals)**: The cherished aspects of this component.
 + **[A Deeper Look](#a-deeper-look)**: You're invensted in this now and want to make the most out of it.
 + **[How it Works](#how-it-works)**: The deep stuff...
-+ **[FAQ](#remarks)**: Read this before losing all hope.
++ **[FAQ](#faq)**: Read this before losing all hope.
 + **[Contributing](#contributing)**: Together, making iOS better.
 + **[Author](#author)**: Watashi-da!
 + **[Similar Projects](#similar-projects)**: Similar projects that influenced the project in some way.
