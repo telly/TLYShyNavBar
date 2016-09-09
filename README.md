@@ -21,7 +21,7 @@ This component helps you mimic the navigation bar auto scrolling that you see in
 + **[Design Goals](#design-goals)**: The cherished aspects of this component.
 + **[A Deeper Look](#a-deeper-look)**: You're invensted in this now and want to make the most out of it.
 + **[How it Works](#how-it-works)**: The deep stuff...
-+ **[Remarks](#remarks)**: Read this before losing all hope.
++ **[FAQ](#remarks)**: Read this before losing all hope.
 + **[Contributing](#contributing)**: Together, making iOS better.
 + **[Author](#author)**: Watashi-da!
 + **[Similar Projects](#similar-projects)**: Similar projects that influenced the project in some way.
@@ -189,7 +189,13 @@ We also add a parent relationship for a single purpose: Make the child follow it
 
 *Note:* Even though there might be an illusion that the views are expanding and contracting, it's really just a translation (scrolling) of the views. There might be an advantage to actually resizing the bounds, so the extension view doesn't appear behind the navigation bar, for example, so that approach might be explored in the future.
 
-## Remarks
+## FAQ
+
+#### Opaque Navbar Shows Black Bar When Scrolled Up
+
+You have to check the «Extend Edges» Under Opaque Bars in the View Controller configuration. Credit for this solution goes to @tiois.
+
+#### I get an exception saying: "Please make sure the viewController is already attached to a navigation controller"
 
 There are downsides in making this component as easy to use as it is. If you have read the how it works section carefully, you'd realize that trying to configure the the `shyNavBarManager` before it is included in the `UINavigationController` hierarchy, will break the component, since within the component, we cannot find the navigation bar, and an assert is triggered:
 
