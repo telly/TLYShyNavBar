@@ -107,6 +107,11 @@
                                                  selector:@selector(applicationDidBecomeActive:)
                                                      name:UIApplicationDidBecomeActiveNotification
                                                    object:nil];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(applicationDidChangeStatusBarFrame:)
+                                                     name:UIApplicationDidChangeStatusBarFrameNotification
+                                                   object:nil];
     }
     return self;
 }
@@ -544,6 +549,11 @@
     if (self.scrollView.window) {
         [self.navBarController expand];
     }
+}
+
+- (void)applicationDidChangeStatusBarFrame:(NSNotification *)notification
+{
+    [self.navBarController expand];
 }
 
 @end
