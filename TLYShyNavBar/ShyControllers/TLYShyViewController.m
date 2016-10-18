@@ -61,7 +61,7 @@
 
 - (CGFloat)contractionAmountValue
 {
-    return self.sticky ? 0.f : CGRectGetHeight(self.view.bounds);
+    return (self.sticky ? 0.f : CGRectGetHeight(self.view.bounds)) - self.stickyOffset;
 }
 
 - (CGPoint)contractedCenterValue
@@ -83,7 +83,7 @@
 
 - (void)_onAlphaUpdate:(CGFloat)alpha
 {
-    if (self.sticky)
+    if (self.sticky || self.stickyOffset > FLT_EPSILON)
     {
         self.view.alpha = 1.f;
         [self _updateSubviewsAlpha:1.f];
@@ -169,7 +169,7 @@
         CGFloat newYCenter = MAX(MIN(self.expandedCenterValue.y, newYOffset), self.contractedCenterValue.y);
         
         [self _updateCenter:CGPointMake(self.expandedCenterValue.x, newYCenter)];
-        
+
         CGFloat newAlpha = 1.f - (self.expandedCenterValue.y - self.view.center.y) / self.contractionAmountValue;
         newAlpha = MIN(MAX(FLT_EPSILON, newAlpha), 1.f);
         
@@ -178,7 +178,7 @@
         residual = newYOffset - newYCenter;
         
         // QUICK FIX: Only the extensionView is hidden
-        if (!self.subShyController)
+        if (!self.subShyController && self.stickyOffset <= FLT_EPSILON)
         {
             self.view.hidden = residual < 0;
         }

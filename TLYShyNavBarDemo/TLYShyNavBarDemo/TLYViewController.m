@@ -13,6 +13,7 @@
 @property (nonatomic, assign) IBInspectable BOOL disableExtensionView;
 @property (nonatomic, assign) IBInspectable BOOL stickyNavigationBar;
 @property (nonatomic, assign) IBInspectable BOOL stickyExtensionView;
+@property (nonatomic, assign) IBInspectable CGFloat   stickyOffset;
 @property (nonatomic, assign) IBInspectable NSInteger fadeBehavior;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -32,6 +33,7 @@
         self.disableExtensionView = NO;
         self.stickyNavigationBar = NO;
         self.stickyExtensionView = NO;
+        self.stickyOffset = 0.f;
         self.fadeBehavior = TLYShyNavBarFadeSubviews;
         
         self.title = @"WTFox Say";
@@ -70,6 +72,8 @@
     [self.shyNavBarManager setStickyExtensionView:self.stickyExtensionView];
     /* Navigation bar fade behavior */
     [self.shyNavBarManager setFadeBehavior:self.fadeBehavior];
+    /* Show sticky offset */
+    [self.shyNavBarManager setStickyOffset:self.stickyOffset];
 }
 
 - (void)viewDidLayoutSubviews

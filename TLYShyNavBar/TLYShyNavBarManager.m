@@ -225,6 +225,16 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     return self.extensionController.sticky;
 }
 
+- (CGFloat)stickyOffset
+{
+    return self.extensionController.stickyOffset;
+}
+
+- (void)setStickyOffset:(CGFloat)stickyOffset
+{
+    self.extensionController.stickyOffset = stickyOffset;
+}
+
 - (void)setStickyExtensionView:(BOOL)stickyExtensionView
 {
     self.extensionController.sticky = stickyExtensionView;
