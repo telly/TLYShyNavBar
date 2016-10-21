@@ -43,7 +43,6 @@
 @property (nonatomic, assign) BOOL fullyContracted;
 @property (nonatomic, assign) BOOL fullyExpanded;
 
-@property (nonatomic, assign) BOOL scrolling;
 @property (nonatomic, assign) BOOL contracting;
 @property (nonatomic, assign) BOOL previousContractionState;
 
@@ -68,7 +67,6 @@
         self.startedExpanding = NO;
         self.fullyContracted = NO;
         self.fullyExpanded = YES;
-        self.scrolling = NO;
         self.contracting = NO;
         self.previousContractionState = YES;
         self.scaleBehavior = YES;
@@ -329,8 +327,6 @@
 
 - (void)_handleScrolling
 {
-    self.scrolling = YES;
-    
     if (![self _shouldHandleScrolling])
     {
         return;
@@ -416,8 +412,6 @@
 
 - (void)_handleScrollingEnded
 {
-    self.scrolling = NO;
-    
     if (!self.isViewControllerVisible)
     {
         return;
@@ -490,10 +484,9 @@
 
         self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
         
-        if ((self.scrollView.contentOffset.y == 0 ||
-             self.scrollView.contentOffset.y == -self.navBarController.calculateTotalHeightRecursively ||
-             self.scrollView.contentOffset.y == -self.extensionController.calculateTotalHeightRecursively)
-            && !self.scrolling)
+        if (self.scrollView.contentOffset.y == 0 ||
+            self.scrollView.contentOffset.y == -self.navBarController.calculateTotalHeightRecursively ||
+            self.scrollView.contentOffset.y == -self.extensionController.calculateTotalHeightRecursively)
         {
             self.scrollView.contentOffset = CGPointMake(self.scrollView.contentOffset.x, -self.scrollView.contentInset.top);
         }
