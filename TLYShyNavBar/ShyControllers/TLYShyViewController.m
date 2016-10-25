@@ -7,6 +7,7 @@
 //
 
 #import "TLYShyViewController.h"
+#import "TLYShyStatusBarController.h"
 
 
 @implementation TLYShyViewController (AsParent)
@@ -21,12 +22,11 @@
 
 - (CGFloat)calculateTotalHeightRecursively
 {
-    return (self.expanded ? CGRectGetHeight(self.view.bounds) : 0) + [self.parent calculateTotalHeightRecursively];
-}
-
-- (CGFloat)calculateBottomRecursively
-{
-    return (self.sticky || self.expanded) && self.view.subviews.count > 0 ? self.view.frame.origin.y + self.view.frame.size.height : [self.parent calculateBottomRecursively];
+    float overlap = [self.parent maxYRelativeToView:self.view];
+    if ([self.parent isMemberOfClass:[TLYShyStatusBarController class]] && overlap - self.view.frame.origin.y > 0) {
+        overlap += overlap - self.view.frame.origin.y;
+    }
+    return CGRectGetHeight(self.view.bounds) - overlap + [self.parent calculateTotalHeightRecursively];
 }
 
 @end
@@ -38,6 +38,9 @@
 @property (nonatomic, assign) CGFloat contractionAmountValue;
 
 @property (nonatomic, assign) CGPoint contractedCenterValue;
+
+@property (nonatomic, assign) BOOL contracted;
+@property (nonatomic, assign) BOOL expanded;
 
 @end
 
@@ -77,12 +80,6 @@
 }
 
 #pragma mark - Private methods
-
-- (void)_onProgressUpdate:(CGFloat)progress
-{
-    [self _onAlphaUpdate:progress];
-    [self _onScaleUpdate:progress];
-}
 
 - (void)_onAlphaUpdate:(CGFloat)alpha
 {
@@ -128,26 +125,6 @@
     }
 }
 
-- (void)_onScaleUpdate:(CGFloat)scale
-{
-    if (self.sticky) {
-        [self _updateSubviewsScale:1.f];
-        return;
-    }
-    
-    [self _updateSubviewsScale:self.scaleBehaviour ? scale : 1.f];
-}
-
-- (void)_updateSubviewsScale:(CGFloat)scale
-{
-    if ([self.view isKindOfClass:[UINavigationBar class]]) {
-        UINavigationBar *navigationBar = (UINavigationBar *)self.view;
-        for (UIView* view in navigationBar.topItem.titleView.subviews) {
-            view.transform = scale < 1 ? CGAffineTransformMakeScale(scale, scale) : CGAffineTransformIdentity;
-        }
-    }
-}
-
 - (void)_updateCenter:(CGPoint)newCenter
 {
     CGPoint currentCenter = self.view.center;
@@ -166,15 +143,6 @@
     if (fadeBehavior == TLYShyNavBarFadeDisabled)
     {
         [self _onAlphaUpdate:1.f];
-    }
-}
-
-- (void)setScaleBehaviour:(BOOL)scaleBehaviour
-{
-    _scaleBehaviour = scaleBehaviour;
-    
-    if (!scaleBehaviour) {
-        [self _onScaleUpdate:1.f];
     }
 }
 
@@ -202,10 +170,10 @@
         
         [self _updateCenter:CGPointMake(self.expandedCenterValue.x, newYCenter)];
         
-        CGFloat newAlpha = 1.f - (self.expandedCenterValue.y - self.view.center.y) / (self.contractionAmountValue - [UIApplication sharedApplication].statusBarFrame.size.height);
+        CGFloat newAlpha = 1.f - (self.expandedCenterValue.y - self.view.center.y) / self.contractionAmountValue;
         newAlpha = MIN(MAX(FLT_EPSILON, newAlpha), 1.f);
-
-        [self _onProgressUpdate:newAlpha];
+        
+        [self _onAlphaUpdate:newAlpha];
         
         residual = newYOffset - newYCenter;
         
@@ -268,14 +236,12 @@
 {
     self.view.hidden = NO;
     
-    [self _onProgressUpdate:1.f];
+    [self _onAlphaUpdate:1.f];
     
     CGFloat amountToMove = self.expandedCenterValue.y - self.view.center.y;
 
     [self _updateCenter:self.expandedCenterValue];
     [self.subShyController expand];
-    
-    [self.delegate shyViewControllerDidExpand:self];
     
     return amountToMove;
 }
@@ -284,12 +250,10 @@
 {
     CGFloat amountToMove = self.contractedCenterValue.y - self.view.center.y;
 
-    [self _onProgressUpdate:FLT_EPSILON];
+    [self _onAlphaUpdate:FLT_EPSILON];
 
     [self _updateCenter:self.contractedCenterValue];
     [self.subShyController contract];
-    
-    [self.delegate shyViewControllerDidContract:self];
     
     return amountToMove;
 }
