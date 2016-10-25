@@ -20,7 +20,7 @@ static inline CGFloat AACStatusBarHeight(UIViewController *viewController)
     }
     
     // Modal views do not overlap the status bar, so no allowance need be made for it
-    if (viewController.presentingViewController != nil)
+    if (viewController.presentingViewController.presentedViewController == viewController)
     {
         return 0.f;
     }
@@ -65,11 +65,6 @@ static inline CGFloat AACStatusBarHeight(UIViewController *viewController)
 }
 
 - (CGFloat)calculateTotalHeightRecursively
-{
-    return [self _statusBarHeight];
-}
-
-- (CGFloat)calculateBottomRecursively
 {
     return [self _statusBarHeight];
 }

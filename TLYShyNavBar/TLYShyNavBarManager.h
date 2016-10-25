@@ -62,11 +62,7 @@
 @property (nonatomic) CGFloat expansionResistance;      // default 200
 @property (nonatomic) CGFloat contractionResistance;    // default 0
 
-/* The combined height of all the nav bar including the extension view and status bar
- */
-@property (nonatomic, readonly) CGFloat height;
-
-/* Check the state of the control
+/* Check the state of the control.
  */
 @property (nonatomic, readonly) BOOL contracting;
 
@@ -78,16 +74,11 @@
 /* Choose if the navbar's subviews scale as the navbar contracts/expands.
  * Defaults to NO
  */
-@property (nonatomic) BOOL scaleBehavior;
+@property (nonatomic) BOOL scale;
 
 /* Use this to set if the controller have any kind of custom refresh control
  */
 @property (nonatomic) BOOL hasCustomRefreshControl;
-
-/* Set this to true if you want this control to automatically adjust the scroll view insets
- * Defaults to NO
- */
-@property (nonatomic) BOOL automaticallyAdjustsScrollViewInsets;
 
 /* Set NO to disable shyNavBar behavior temporarily.
  * Defaults to NO

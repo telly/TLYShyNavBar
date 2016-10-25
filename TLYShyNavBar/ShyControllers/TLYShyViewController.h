@@ -19,8 +19,6 @@ typedef CGPoint(^TLYShyViewControllerExpandedCenterBlock)(UIView *view);
 typedef CGFloat(^TLYShyViewControllerContractionAmountBlock)(UIView *view);
 
 
-@protocol TLYShyViewControllerDelegate;
-
 /*  CLASS DESCRIPTION:
  *  ==================
  *      A shy view is a view that contracts when a scrolling event is
@@ -40,16 +38,17 @@ typedef CGFloat(^TLYShyViewControllerContractionAmountBlock)(UIView *view);
 @property (nonatomic, weak) UIView *view;
 
 @property (nonatomic) TLYShyNavBarFade fadeBehavior;
-@property (nonatomic) BOOL scaleBehaviour;
 
 @property (nonatomic, readonly) BOOL contracted;
 @property (nonatomic, readonly) BOOL expanded;
 
+/* Scale means the navbar's subviews will scale as the navbar contracts/expands.
+ */
+@property (nonatomic) BOOL scale;
+
 /* Sticky means it will always stay in expanded state
  */
 @property (nonatomic) BOOL sticky;
-
-@property (nonatomic, weak) id<TLYShyViewControllerDelegate> delegate;
 
 - (void)offsetCenterBy:(CGPoint)deltaPoint;
 - (CGFloat)updateYOffset:(CGFloat)deltaY;
@@ -59,16 +58,6 @@ typedef CGFloat(^TLYShyViewControllerContractionAmountBlock)(UIView *view);
 
 - (CGFloat)expand;
 - (CGFloat)contract;
-
-@end
-
-
-@protocol TLYShyViewControllerDelegate <NSObject>
-
-@optional
-
-- (void)shyViewControllerDidContract:(TLYShyViewController *) shyViewController;
-- (void)shyViewControllerDidExpand:(TLYShyViewController *) shyViewController;
 
 @end
 
