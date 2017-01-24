@@ -187,14 +187,9 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
                                                self.scrollView.contentInset.right);
         
         [self.scrollView tly_setInsets:insets];
-
-        self.previousYOffset = NAN;
     }
-    else
-    {
-        [self cleanup];
-        [self layoutViews];
-    }
+    
+    self.previousYOffset = NAN;
     
     [_scrollView addObserver:self forKeyPath:@"contentSize" options:0 context:kTLYShyNavBarManagerKVOContext];
 }
