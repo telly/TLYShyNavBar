@@ -416,7 +416,8 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 
 - (void)layoutViews
 {
-    if (fabs([self.scrollViewController updateLayoutIfNeeded]) > FLT_EPSILON)
+    if (fabs([self.scrollViewController updateLayoutIfNeeded]) > FLT_EPSILON
+            && self.scrollView.contentOffset.y != self.previousYOffset)
     {
         [self.navBarController expand];
         [self.extensionViewContainer.superview bringSubviewToFront:self.extensionViewContainer];
