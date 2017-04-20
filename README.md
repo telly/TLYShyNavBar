@@ -19,7 +19,7 @@ This component helps you mimic the navigation bar auto scrolling that you see in
 + **[Features](#features)**: See what this component has to offer!
 + **[Quick Start](#quick-start)**: TL;DR people, you'll love this.
 + **[Design Goals](#design-goals)**: The cherished aspects of this component.
-+ **[A Deeper Look](#a-deeper-look)**: You're invensted in this now and want to make the most out of it.
++ **[A Deeper Look](#a-deeper-look)**: You're invested in this now and want to make the most out of it.
 + **[How it Works](#how-it-works)**: The deep stuff...
 + **[FAQ](#faq)**: Read this before losing all hope.
 + **[Contributing](#contributing)**: Together, making iOS better.
@@ -38,7 +38,7 @@ This component helps you mimic the navigation bar auto scrolling that you see in
 | `UICollectionView` is more than welcome | ![](resources/collectionView.gif) |
 | In-call status bar? No problem! | ![](resources/in-app-call.gif) |
 | Sticky extension view (Thanks @yukaliao !) | ![](resources/sticky-extension.gif) |
-| Sticky navigation bar (Thanks [@TiagoVeloso](https://github.com/TiagoVeloso)!)  | ![](resources/sticky-navbar.gif) |
+| Sticky navigation bar (Thanks [@TiagoVeloso](https://github.com/beloso)!)  | ![](resources/sticky-navbar.gif) |
 | Fade the entire navbar (Thanks [__@longsview__](https://github.com/longsview)!) | ![](resources/fade-navbar.gif) |
 
 You can test some of these features in the Objective-C demo:
