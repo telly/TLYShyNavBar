@@ -31,13 +31,6 @@ static inline CGFloat AACStatusBarHeight(UIViewController *viewController)
     UIView *view = viewController.view;
     CGRect frame = [view.superview convertRect:view.frame toView:view.window];
     
-    BOOL viewOverlapsStatusBar = frame.origin.y < statusBarHeight;
-    
-    if (!viewOverlapsStatusBar)
-    {
-        return 0.f;
-    }
-    
     return statusBarHeight;
 }
 
