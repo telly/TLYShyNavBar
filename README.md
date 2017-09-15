@@ -2,15 +2,11 @@
 <p align="center">
   <img src="http://imgur.com/UVxJLxu.png">
 </p>
-__v1.0, Finally! With better code design, and fully featured!__
------
 
-<h1 align="center">
-  TLYShyNavBar banner :calendar:
-<h6 align="center">
+<p align="center">
   __v1.0, Finally! With better code design, and fully featured!__
-</h6>
-</h1>
+  -----
+</p>
 
 <p align="center">
   <img alt="Pod Version" src="https://img.shields.io/cocoapods/v/TLYShyNavBar.svg" />
