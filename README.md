@@ -3,9 +3,9 @@
   <img src="http://imgur.com/UVxJLxu.png">
 </p>
 
-<h6 align="center">
+<h1 align="center">
   v1.0, Finally! With better code design, and fully featured!
-</h6>
+</h1>
 
 <p align="center">
   <img alt="Pod Version" src="https://img.shields.io/cocoapods/v/TLYShyNavBar.svg" />
