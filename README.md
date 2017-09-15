@@ -3,9 +3,11 @@
 __v1.0, Finally! With better code design, and fully featured!__
 -----
 
-![Pod Version](https://img.shields.io/cocoapods/v/TLYShyNavBar.svg)
-![Pod License](https://img.shields.io/badge/license-MIT-blue.svg)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+<p align="center">
+  <img alt="Pod Version" src="https://img.shields.io/cocoapods/v/TLYShyNavBar.svg" />
+  <img alt="Pod License" src="https://img.shields.io/badge/license-MIT-blue.svg" />
+  <img alt="Carthage compatible" src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage" />
+</p>
 
 This component helps you mimic the navigation bar auto scrolling that you see in the Facebook, Instagram, 9gag (which uses this!) and other apps. Not only that, but with the ability to add an additional extension that scrolls along as well! It is designed for **ease of use**, and is battle tested in our own [Telly app](https://itunes.apple.com/us/app/telly/id524552885?mt=8)<sup>[1]</sup>!
 
@@ -14,7 +16,7 @@ This component helps you mimic the navigation bar auto scrolling that you see in
 <sub>[1]: AppStore version doesn't have the latest, though. Coming soon. :grin:</sub><br />
 <sub>[*]: Content are shown for demo purpose only of how this component is used in the Telly app. We hold the right to show those contents as part of our contract with Sony Pictures.</sub>
 
-## Outline 
+## Outline
 
 + **[Features](#features)**: See what this component has to offer!
 + **[Quick Start](#quick-start)**: TL;DR people, you'll love this.
@@ -59,7 +61,7 @@ You can test some of these features in the Objective-C demo:
   + Using Submodules:<br />
     Download the project/git submodules, and drag the `TLYShyNavBar` folder to your project. <br />
     Import the header `#import "TLYShyNavBarManager.h"`
- 
+
 2. Write one line of code to get started!!
 
 ```objc
@@ -67,7 +69,7 @@ You can test some of these features in the Objective-C demo:
 self.shyNavBarManager.scrollView = self.scrollView;
 ```
 
-**IMPORTANT NOTES!!** 
+**IMPORTANT NOTES!!**
 
 1. Don't use with `UITableViewController`. Add a `UITableView` as a subview of `UIViewController` instead.
 2. If you are assigning a delegate to your scrollView, do that **before** assigning the scrollView to the `TLYShyNavBarManager`! To learn more, [see below](#how-it-works).
@@ -123,7 +125,7 @@ When you starting scrolling up (going down the view) or scrolling down (going up
 You can control that using the following properties on the `shyNavBarManager`:
 
 ```objc
-/* Control the resistance when scrolling up/down before the navbar 
+/* Control the resistance when scrolling up/down before the navbar
  * expands/contracts again.
  */
 @property (nonatomic) CGFloat expansionResistance;      // default 200
@@ -181,7 +183,7 @@ The way the offsets are applied to the navigation bar and extension view is thro
   - We pass the contraction amount to the next node, and it returns a residual amount.
 
 + If we are expanding:
-  - We process the offset in the first node, and pass the residual to the next node. 
+  - We process the offset in the first node, and pass the residual to the next node.
 
 It is a simple concept. Say we dragged down by 100 px while the navbar was contracted. The navigation bar would take 44 px of that to expand, and then pass the residual 56 px to the next node (extension view) to calculate its offset. The same goes for contracting, but it starts from the last node, all the way up to the navigation bar.
 
