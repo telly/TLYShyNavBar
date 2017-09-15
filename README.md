@@ -1,13 +1,11 @@
 
 <p align="center">
   <img src="http://imgur.com/UVxJLxu.png">
+  <h6>
+    v1.0, Finally! With better code design, and fully featured!
+  </h6>
 </p>
-
-<p align="center">
-  __v1.0, Finally! With better code design, and fully featured!__
-  -----
-</p>
-
+-----
 <p align="center">
   <img alt="Pod Version" src="https://img.shields.io/cocoapods/v/TLYShyNavBar.svg" />
   <img alt="Pod License" src="https://img.shields.io/badge/license-MIT-blue.svg" />
