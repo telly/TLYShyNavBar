@@ -93,7 +93,7 @@ Pod::Spec.new do |s|
   #
 
   s.source_files  = "TLYShyNavBar/**/*"
-  s.exclude_files = ""
+  s.exclude_files = "TLYShyNavBar/Info.plist"
 
   s.public_header_files = "TLYShyNavBar/*.h"
 
