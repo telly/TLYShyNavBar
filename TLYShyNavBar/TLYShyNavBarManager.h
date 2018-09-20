@@ -26,6 +26,8 @@
  */
 @interface TLYShyNavBarManager : NSObject
 
+@property (nonatomic) BOOL disableLayoutViews;
+
 /* The view controller that is part of the navigation stack
  * IMPORTANT: Must have access to navigationController
  */
