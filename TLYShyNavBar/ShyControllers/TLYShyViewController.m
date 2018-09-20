@@ -197,7 +197,7 @@
     return [self snap:contract completion:nil];
 }
 
-- (CGFloat)snap:(BOOL)contract completion:(void (^)())completion
+- (CGFloat)snap:(BOOL)contract completion:(void (^)(BOOL contracting))completion
 {
     /* "The Facebook" UX dictates that:
      *
@@ -211,21 +211,24 @@
      */
     
     __block CGFloat deltaY;
+    __block BOOL contracting = YES;
     [UIView animateWithDuration:0.2 animations:^
     {
         if ((contract && self.subShyController.contracted) || (!contract && !self.expanded))
         {
             deltaY = [self contract];
+            contracting = YES;
         }
         else
         {
             deltaY = [self.subShyController expand];
+            contracting = NO;
         }
     }
                      completion:^(BOOL finished)
     {
         if (completion && finished) {
-            completion();
+            completion(contracting);
         }
     }];
     
