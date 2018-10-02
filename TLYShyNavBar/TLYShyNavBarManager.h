@@ -46,7 +46,7 @@
 @property (nonatomic, readonly) CGRect extensionViewBounds;
 
 /* Make the navigation bar stick to the top without collapsing
- * Deatuls to NO
+ * Defaults to NO
  */
 @property (nonatomic) BOOL stickyNavigationBar;
 
@@ -62,10 +62,19 @@
 @property (nonatomic) CGFloat expansionResistance;      // default 200
 @property (nonatomic) CGFloat contractionResistance;    // default 0
 
+/* Check the state of the control.
+ */
+@property (nonatomic, readonly) BOOL contracting;
+
 /* Choose how the navbar fades as it contracts/expands.
  * Defaults to FadeSubviews
  */
 @property (nonatomic) TLYShyNavBarFade fadeBehavior;
+
+/* Choose if the navbar's subviews scale as the navbar contracts/expands.
+ * Defaults to NO
+ */
+@property (nonatomic) BOOL scale;
 
 /* Use this to set if the controller have any kind of custom refresh control
  */
@@ -91,9 +100,13 @@
 
 @optional
 
-- (void)shyNavBarManagerDidBecomeFullyContracted:(TLYShyNavBarManager *) shyNavBarManager;
+- (void)shyNavBarManagerDidStartContracting:(TLYShyNavBarManager *) shyNavBarManager;
 - (void)shyNavBarManagerDidFinishContracting:(TLYShyNavBarManager *) shyNavBarManager;
+- (void)shyNavBarManagerDidBecomeFullyContracted:(TLYShyNavBarManager *) shyNavBarManager;
+
+- (void)shyNavBarManagerDidStartExpanding:(TLYShyNavBarManager *) shyNavBarManager;
 - (void)shyNavBarManagerDidFinishExpanding:(TLYShyNavBarManager *) shyNavBarManager;
+- (void)shyNavBarManagerDidBecomeFullyExpanded:(TLYShyNavBarManager *) shyNavBarManager;
 
 @end
 

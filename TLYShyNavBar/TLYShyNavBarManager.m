@@ -39,10 +39,16 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 @property (nonatomic, assign) CGFloat previousYOffset;
 @property (nonatomic, assign) CGFloat resistanceConsumed;
 
+@property (nonatomic, assign) BOOL startedContracting;
+@property (nonatomic, assign) BOOL startedExpanding;
+@property (nonatomic, assign) BOOL fullyContracted;
+@property (nonatomic, assign) BOOL fullyExpanded;
+
 @property (nonatomic, assign) BOOL contracting;
 @property (nonatomic, assign) BOOL previousContractionState;
 
 @property (nonatomic, readonly) BOOL isViewControllerVisible;
+@property (nonatomic, readonly) BOOL isPageViewController;
 
 @end
 
@@ -58,6 +64,10 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         self.delegateProxy = [[TLYDelegateProxy alloc] initWithMiddleMan:self];
 
         /* Initialize defaults */
+        self.startedContracting = NO;
+        self.startedExpanding = NO;
+        self.fullyContracted = NO;
+        self.fullyExpanded = YES;
         self.contracting = NO;
         self.previousContractionState = YES;
 
@@ -65,6 +75,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         self.contractionResistance = 0.f;
 
         self.fadeBehavior = TLYShyNavBarFadeSubviews;
+        self.scale = NO;
         self.previousYOffset = NAN;
 
         /* Initialize shy controllers */
@@ -80,7 +91,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         self.extensionController.view = self.extensionViewContainer;
 
         /* hierarchy setup */
-        /* StatusBar <-- navbar <-->> extension <--> scrollView
+        /* StatusBar <--> navbar <--> extension <--> scrollView
          */
         self.navBarController.parent = self.statusBarController;
         self.navBarController.child = self.extensionController;
@@ -167,10 +178,19 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         self.delegateProxy.originalDelegate = _scrollView.delegate;
         _scrollView.delegate = (id)self.delegateProxy;
     }
-
-    [self cleanup];
-    [self layoutViews];
-
+    
+    if (self.isPageViewController)
+    {
+        UIEdgeInsets insets = UIEdgeInsetsMake(self.extensionController.calculateTotalHeightRecursively,
+                                               self.scrollView.contentInset.left,
+                                               self.scrollView.contentInset.bottom,
+                                               self.scrollView.contentInset.right);
+        
+        [self.scrollView tly_setInsets:insets];
+    }
+    
+    self.previousYOffset = NAN;
+    
     [_scrollView addObserver:self forKeyPath:@"contentSize" options:0 context:kTLYShyNavBarManagerKVOContext];
 }
 
@@ -182,6 +202,11 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 - (BOOL)isViewControllerVisible
 {
     return self.viewController.isViewLoaded && self.viewController.view.window;
+}
+
+- (BOOL)isPageViewController
+{
+    return [self.viewController isKindOfClass:[UIPageViewController class]];
 }
 
 - (void)setDisable:(BOOL)disable
@@ -228,6 +253,66 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 - (void)setStickyExtensionView:(BOOL)stickyExtensionView
 {
     self.extensionController.sticky = stickyExtensionView;
+}
+
+- (void)setStartedContracting:(BOOL)startedContracting
+{
+    if (_startedContracting == startedContracting)
+    {
+        return;
+    }
+    
+    _startedContracting = startedContracting;
+    
+    if (startedContracting && [self.delegate respondsToSelector:@selector(shyNavBarManagerDidStartContracting:)])
+    {
+        [self.delegate shyNavBarManagerDidStartContracting:self];
+    }
+}
+
+- (void)setStartedExpanding:(BOOL)startedExpanding
+{
+    if (_startedExpanding == startedExpanding)
+    {
+        return;
+    }
+    
+    _startedExpanding = startedExpanding;
+    
+    if (startedExpanding && [self.delegate respondsToSelector:@selector(shyNavBarManagerDidStartExpanding:)])
+    {
+        [self.delegate shyNavBarManagerDidStartExpanding:self];
+    }
+}
+
+- (void)setFullyContracted:(BOOL)fullyContracted
+{
+    if (_fullyContracted == fullyContracted)
+    {
+        return;
+    }
+    
+    _fullyContracted = fullyContracted;
+    
+    if (fullyContracted && [self.delegate respondsToSelector:@selector(shyNavBarManagerDidBecomeFullyContracted:)])
+    {
+        [self.delegate shyNavBarManagerDidBecomeFullyContracted:self];
+    }
+}
+
+- (void)setFullyExpanded:(BOOL)fullyExpanded
+{
+    if (_fullyExpanded == fullyExpanded)
+    {
+        return;
+    }
+    
+    _fullyExpanded = fullyExpanded;
+    
+    if (fullyExpanded && [self.delegate respondsToSelector:@selector(shyNavBarManagerDidBecomeFullyExpanded:)])
+    {
+        [self.delegate shyNavBarManagerDidBecomeFullyExpanded:self];
+    }
 }
 
 
@@ -312,6 +397,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 
         // 6 - Update the navigation bar shyViewController
         self.navBarController.fadeBehavior = self.fadeBehavior;
+        self.navBarController.scale = self.scale;
 
         // 7 - Inform the delegate if needed
         CGFloat maxNavY = CGRectGetMaxY(self.navBarController.view.frame);
@@ -322,11 +408,11 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         } else {
             visibleTop = MAX(maxNavY, maxExtensionY);
         }
-        if (visibleTop == self.statusBarController.calculateTotalHeightRecursively) {
-            if ([self.delegate respondsToSelector:@selector(shyNavBarManagerDidBecomeFullyContracted:)]) {
-                [self.delegate shyNavBarManagerDidBecomeFullyContracted:self];
-            }
-        }
+        
+        self.startedContracting = deltaY < 0;
+        self.startedExpanding = deltaY > 0;
+        self.fullyContracted = visibleTop == self.statusBarController.calculateTotalHeightRecursively;
+        self.fullyExpanded = visibleTop == self.extensionController.calculateTotalHeightRecursively;
 
         [self.navBarController updateYOffset:deltaY];
     }
@@ -371,7 +457,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 {
     if (context == kTLYShyNavBarManagerKVOContext)
     {
-        if (self.isViewControllerVisible && ![self _scrollViewIsSuffecientlyLong])
+        if (!self.isPageViewController && self.isViewControllerVisible && ![self _scrollViewIsSuffecientlyLong])
         {
             [self.navBarController expand];
         }
@@ -407,11 +493,6 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         [self layoutViews];
         self.disable = wasDisabled;
     }
-}
-
-- (void)prepareForDisplay
-{
-    [self cleanup];
 }
 
 - (void)layoutViews
@@ -493,13 +574,17 @@ static char shyNavBarManagerKey;
 
 - (void)tly_swizzledViewWillAppear:(BOOL)animated
 {
-    [[self _internalShyNavBarManager] prepareForDisplay];
+    [[self _internalShyNavBarManager] cleanup];
     [self tly_swizzledViewWillAppear:animated];
 }
 
 - (void)tly_swizzledViewDidLayoutSubviews
 {
-    [[self _internalShyNavBarManager] layoutViews];
+    if (![self _internalShyNavBarManager].isPageViewController)
+    {
+        [[self _internalShyNavBarManager] layoutViews];
+    }
+    
     [self tly_swizzledViewDidLayoutSubviews];
 }
 
