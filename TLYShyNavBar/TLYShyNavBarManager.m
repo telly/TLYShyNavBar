@@ -58,6 +58,7 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         self.delegateProxy = [[TLYDelegateProxy alloc] initWithMiddleMan:self];
 
         /* Initialize defaults */
+        self.snap = YES;
         self.contracting = NO;
         self.previousContractionState = YES;
 
@@ -359,7 +360,9 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     };
 
     self.resistanceConsumed = 0;
-    [self.navBarController snap:self.contracting completion:completion];
+    if (_snap) {
+        [self.navBarController snap:self.contracting completion:completion];
+    }
 }
 
 #pragma mark - KVO

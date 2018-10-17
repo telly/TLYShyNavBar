@@ -76,6 +76,11 @@
  */
 @property (nonatomic) BOOL disable;
 
+/* Set NO to disable shyNavBar snap behavior
+ * Defaults to YES
+ */
+@property (nonatomic) BOOL snap;
+
 /* Use this to be notified about contraction and expansion events.
  */
 @property (nonatomic, weak) id<TLYShyNavBarManagerDelegate> delegate;
