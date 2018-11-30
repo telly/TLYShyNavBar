@@ -56,6 +56,11 @@
  */
 @property (nonatomic) BOOL stickyExtensionView;
 
+/* Additional sticky offset for extension view,
+ * usable to make only part of extension view visible in folded state.
+ */
+@property (nonatomic) CGFloat stickyOffset;
+
 /* Control the resistance when scrolling up/down before the navbar
  * expands/contracts again.
  */

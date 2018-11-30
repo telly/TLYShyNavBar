@@ -55,6 +55,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="vR6-NW-SQ1"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="stickyOffset">
+                            <real key="value" value="10"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="imageView" destination="RWp-Z1-nNI" id="6fW-pD-yc1"/>
                         <outlet property="scrollView" destination="d0u-JZ-WMw" id="BVu-7c-4oX"/>

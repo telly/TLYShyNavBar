@@ -39,6 +39,11 @@ typedef CGFloat(^TLYShyViewControllerContractionAmountBlock)(UIView *view);
 
 @property (nonatomic) TLYShyNavBarFade fadeBehavior;
 
+/* Additional sticky offset for extension view,
+ * usable to make only part of extension view visible in folded state.
+ */
+@property (nonatomic) CGFloat stickyOffset;
+
 /* Sticky means it will always stay in expanded state
  */
 @property (nonatomic) BOOL sticky;
